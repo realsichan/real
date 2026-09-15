@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const { WebSocketServer } = require('ws');
 
 const PORT = Number(process.env.PORT || 3000);
-const PUBLIC = path.join(__dirname, 'public');
+const PUBLIC = __dirname;
 const rooms = new Map();
 const MAX_PLAYERS = 8;
 
