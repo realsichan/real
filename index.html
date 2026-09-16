@@ -17,7 +17,7 @@
 table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}table th{position:sticky;top:0;background:#1b2438}#lastResultToast{z-index:30}</style>
 </head>
 <body>
-<div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱 프로토타입</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn" id="onlineBtn">온라인 멀티플레이</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button></div></div></div>
+<div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱 프로토타입</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
 <div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
 <div id="mapListScreen" class="screen hidden"><div class="panel"><h2 id="mapListTitle">맵 선택</h2><div class="cards" id="mapCards"></div><div class="menuBtns"><button class="btn" id="mapNext">차 선택</button><button class="btn secondary" id="mapListBack">난이도 선택으로</button></div></div></div>
 <div id="onlineScreen" class="screen hidden"><div class="panel"><h2>온라인 멀티플레이</h2><p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p><input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700"><div class="menuBtns"><button class="btn" id="createRoomBtn">방 만들기</button><button class="btn secondary" id="joinRoomBtn">방 참가</button><button class="btn secondary" id="onlineBack">메인 화면</button></div><div id="joinCodeBox" class="hidden" style="margin-top:16px"><input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase"><div style="margin-top:10px"><button class="btn" id="joinConfirmBtn">이 방 참가</button></div></div><div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div></div></div>
@@ -117,7 +117,7 @@ function renderRecordBoard(){
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
 function requestNickname(){let n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.','플레이어');if(n===null)n='플레이어';return n}
 
-let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0;
+let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, remoteCars=new Map(), lastNetSend=0;
 function wsUrl(){return (location.protocol==='https:'?'wss://':'ws://')+location.host}
 function setOnlineStatus(t){const e=$('onlineStatus');if(e)e.textContent=t||''}
 function setLobbyStatus(t){const e=$('lobbyStatus');if(e)e.textContent=t||''}
@@ -142,12 +142,23 @@ function connectWS(){
   else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players||[]});setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}
   else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0);show('carScreen');setLobbyStatus('방장이 레이스를 시작했습니다. 차를 선택하세요.')}
   else if(m.type==='error'){setOnlineStatus(m.message||'오류가 발생했습니다.');setLobbyStatus(m.message||'오류가 발생했습니다.')}
-  else if(m.type==='snapshot'){
-    // 멀티플레이 위치 동기화는 다음 단계에서 이 게임의 월드에 연결한다.
-    window.__onlineSnapshot=m.players||[];
-  }
+  else if(m.type==='snapshot'){ window.__onlineSnapshot=m.players||[]; updateRemoteCars(m.players||[]); }
  };
 }
+function clearRemoteCars(){ for(const mesh of remoteCars.values()) world.remove(mesh); remoteCars.clear(); }
+function updateRemoteCars(list){
+  if(!racing || !player) return;
+  const seen=new Set();
+  for(const p of list){
+    if(p.id===onlinePlayerId) continue;
+    seen.add(p.id);
+    let mesh=remoteCars.get(p.id);
+    if(!mesh){ mesh=makeKart(Number(p.color)||0xffffff); mesh.position.y=.08; world.add(mesh); remoteCars.set(p.id,mesh); }
+    mesh.position.x=Number(p.x)||0; mesh.position.y=Number(p.y)||.08; mesh.position.z=Number(p.z)||0; mesh.rotation.y=Number(p.rot)||0;
+  }
+  for(const [id,mesh] of remoteCars){ if(!seen.has(id)){world.remove(mesh);remoteCars.delete(id);} }
+}
+
 function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 function joinRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';const code=($('roomCodeInput').value||'').trim().toUpperCase();if(code.length<5){setOnlineStatus('방 코드를 5자리로 입력하세요.');return}connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'joinRoom',name,code,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 
@@ -186,7 +197,7 @@ $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringif
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.9));const sun=new THREE.DirectionalLight(0xffffff,2.5);sun.position.set(40,90,35);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.bias=-0.00015;sun.shadow.normalBias=0.28;sun.shadow.radius=4;scene.add(sun);
 const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;
-const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(!finished&&racing||paused||countdownTimer>0){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
+const keys={};let spacePressed=false;let boostRequest=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat){spacePressed=true;boostRequest=true;}if(e.code==='Escape'){if((!finished&&racing)||paused||countdownTimer>0){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
  const g=new THREE.Group();g.userData.radius=1.45;
@@ -314,8 +325,8 @@ function buildMap(){
   }
  }
  player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);world.add(player);
- speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
- $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
+ speed=0;boost=0;boosting=0;spacePressed=false;boostRequest=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
+ $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('lap').textContent='1';const lapEl=document.getElementById('lap');if(lapEl && lapEl.nextSibling){} $('timer').textContent='00:00.00';drawMinimap();
 }
 function nearestProgress(pos){let best=0,bestD=Infinity;for(let i=0;i<trackPoints.length;i++){const p=trackPoints[i],d=(p.x-pos.x)**2+(p.z-pos.z)**2;if(d<bestD){bestD=d;best=i/(trackPoints.length-1)}}return {t:best,d:Math.sqrt(bestD)}}
 function resolveTrackBoundary(){
@@ -350,9 +361,9 @@ function drawMinimap(){
  ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.arc(cx,cy,2.5,0,Math.PI*2);ctx.fill();
 }
 function hideRaceUI(){$('hud').classList.add('hidden');$('minimap').classList.add('hidden')}
-function setPauseUI(on){paused=on;const ov=$('pauseOverlay');if(!ov)return;if(on){ov.classList.remove('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false;}else{ov.classList.add('hidden');}}
+function setPauseUI(on){paused=on;const ov=$('pauseOverlay');if(!ov)return;if(on){ov.classList.remove('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false; spacePressed=false; boostRequest=false;}else{ov.classList.add('hidden');}}
 function togglePause(){if(!racing&& !paused) return;setPauseUI(!paused);}
-function leaveRaceTo(screenId){paused=false;racing=false;finished=false;countdownTimer=0;setPauseUI(false);hideRaceUI();$('countdown').classList.add('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false;if(player){world.remove(player);player=null;}while(world.children.length)world.remove(world.children[0]);show(screenId);}
+function leaveRaceTo(screenId){paused=false;racing=false;finished=false;countdownTimer=0;setPauseUI(false);hideRaceUI();$('countdown').classList.add('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false; spacePressed=false; boostRequest=false;if(player){world.remove(player);player=null;}while(world.children.length)world.remove(world.children[0]);show(screenId);}
 $('resumeBtn').onclick=()=>setPauseUI(false);
 $('pauseMapBtn').onclick=()=>leaveRaceTo('mapScreen');
 $('pauseMenuBtn').onclick=()=>leaveRaceTo('menu');
@@ -371,13 +382,11 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
   if(drifting){driftTime+=dt;boost=Math.min(100,boost+62*dt);lateralVelocity=THREE.MathUtils.lerp(lateralVelocity,-steer*speed*.42*(1.25-c.grip),Math.min(1,dt*5));}
   else{driftTime=Math.max(0,driftTime-dt*2);boost=Math.min(100,boost+3.2*dt);lateralVelocity*=Math.pow(.18,dt)}
-  if(spacePressed){
-    const canBoost = boost>=99.5;
-    spacePressed=false;
-    if(canBoost){
-      boosting=1.45;
-      boost=0;
-    }
+  if(spacePressed){ spacePressed=false; }
+  if(boostRequest && boost>=99.5 && boosting<=0){
+    boostRequest=false;
+    boosting=1.45;
+    boost=0;
   }
   if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt)}
   speed=THREE.MathUtils.clamp(speed,-c.max*.45,c.max+(boosting>0?22:0));
@@ -387,7 +396,8 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   resolveTrackBoundary();
   resolveObstacleCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'%';$('boostInner').style.width=boost+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
+  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap+' / '+(maps[selectedMap].laps||2);$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'%';$('boostInner').style.width=boost+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
+  if(ws?.readyState===1 && performance.now()-lastNetSend>50){lastNetSend=performance.now();ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed})); updateRemoteCars(window.__onlineSnapshot||[]);}
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);camera.position.lerp(behind,.105);camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)));drawMinimap();
  }else if(player){const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);camera.position.lerp(behind,.08);camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)))}
  renderer.render(scene,camera)
