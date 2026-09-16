@@ -152,7 +152,7 @@ function connectWS(){
   else if(m.type==='error'){setOnlineStatus(m.message||'오류가 발생했습니다.');setLobbyStatus(m.message||'오류가 발생했습니다.')}
   else if(m.type==='snapshot'){
     // 멀티플레이 위치 동기화는 다음 단계에서 이 게임의 월드에 연결한다.
-    window.__onlineSnapshot=m.players||[]; window.dispatchEvent(new CustomEvent('onlineSnapshot',{detail:window.__onlineSnapshot}));
+    window.__onlineSnapshot=m.players||[]; updateRemotePlayers(window.__onlineSnapshot); window.dispatchEvent(new CustomEvent('onlineSnapshot',{detail:window.__onlineSnapshot}));
   }
  };
 }
@@ -195,7 +195,7 @@ $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringif
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
-const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;
+const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let remotePlayers=new Map();let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(!finished&&racing||paused||countdownTimer>0){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
@@ -212,7 +212,32 @@ function makeKart(color){
  const hub=mat(0xb8c0ca,.3);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.4,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
  return g;
 }
-function clearWorld(){while(world.children.length)world.remove(world.children[0]);walls=[];obstacles=[]}
+function clearWorld(){while(world.children.length)world.remove(world.children[0]);walls=[];obstacles=[];remotePlayers.clear()}
+function clearRemotePlayers(){for(const rp of remotePlayers.values()) world.remove(rp.mesh);remotePlayers.clear()}
+function ensureRemotePlayer(id,color){if(!id||id===onlinePlayerId)return null;let rp=remotePlayers.get(id);if(!rp){rp={mesh:makeKart(color||0xffffff)};rp.mesh.scale.setScalar(.96);world.add(rp.mesh);remotePlayers.set(id,rp)}return rp}
+function updateRemotePlayers(list){
+ const seen=new Set();
+ for(const st of (list||[])){if(!st.id||st.id===onlinePlayerId)continue;seen.add(st.id);const rp=ensureRemotePlayer(st.id,st.color);if(!rp)continue;rp.mesh.position.set(Number(st.x)||0,Number(st.y)||.08,Number(st.z)||0);rp.mesh.rotation.y=Number(st.rot)||0;}
+ for(const [id,rp] of remotePlayers){if(!seen.has(id)){world.remove(rp.mesh);remotePlayers.delete(id)}}
+}
+function resolveKartCollisions(){
+ if(!player)return;
+ const minD=2.55;
+ for(const rp of remotePlayers.values()){
+  const dx=player.position.x-rp.mesh.position.x,dz=player.position.z-rp.mesh.position.z;
+  const d2=dx*dx+dz*dz;
+  if(d2<minD*minD){
+   const d=Math.max(Math.sqrt(d2),.001),nx=dx/d,nz=dz/d;
+   const push=(minD-d)*.22;
+   player.position.x+=nx*push; player.position.z+=nz*push;
+   // 카트끼리 충돌은 벽보다 약하게 튕기고 속도만 조금 줄인다.
+   speed*=.86; lateralVelocity*=.72;
+   const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
+   const normal=new THREE.Vector3(nx,0,nz); const into=f.dot(normal);
+   if(into<0){const reflected=f.clone().addScaledVector(normal,-0.45*into).normalize();player.rotation.y=Math.atan2(reflected.x,reflected.z)}
+  }
+ }
+}
 
 function addObstacleCollider(x,z,radius){ obstacles.push({x,z,radius}); }
 function resolveObstacleCollisions(){
@@ -280,14 +305,14 @@ function makeGuardRail(offset,color){
    const len=dir.length();
    if(len<.05) continue;
    // 양 끝을 아주 조금 줄여 급커브에서 세그먼트가 겹치지 않게 한다.
-   const cut=Math.min(.10,len*.18);
+   const cut=Math.min(.16,len*.24);
    const unit=dir.clone().normalize();
    const aa=a.clone().addScaledVector(unit,cut);
    const bb=b.clone().addScaledVector(unit,-cut);
    const d=bb.clone().sub(aa);
    const l=d.length();
    if(l<.08) continue;
-   const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,l,8),railMat);
+   const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.16,.16,l,8),railMat);
    mesh.position.copy(aa).add(bb).multiplyScalar(.5);
    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
    mesh.castShadow=false; mesh.receiveShadow=false;
@@ -369,7 +394,7 @@ function leaveRaceTo(screenId){paused=false;racing=false;finished=false;countdow
 $('resumeBtn').onclick=()=>setPauseUI(false);
 $('pauseMapBtn').onclick=()=>leaveRaceTo('mapScreen');
 $('pauseMenuBtn').onclick=()=>leaveRaceTo('menu');
-function startRaceNow(fromOnline=false){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;setPauseUI(false); if(fromOnline){onlineReady=false;}}
+function startRaceNow(fromOnline=false){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));clearRemotePlayers();buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;setPauseUI(false); if(fromOnline){onlineReady=false;}}
 $('raceBtn').onclick=()=>startRaceNow(false);
 $('retryBtn').onclick=()=>{$('resultScreen').classList.add('hidden');buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;setPauseUI(false)};
 $('resultMenu').onclick=()=>{racing=false;hideRaceUI();show('menu')};
@@ -400,6 +425,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
   resolveTrackBoundary();
   resolveObstacleCollisions();
+  resolveKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
   $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'%';$('boostInner').style.width=boost+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);camera.position.lerp(behind,.105);camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)));drawMinimap();
