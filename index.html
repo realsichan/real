@@ -99,9 +99,12 @@ async function addRecord(nickname,time){
  records.sort((a,b)=>a.time-b.time);saveRecordsLocal(records.slice(0,500));return records.slice(0,500);
 }
 async function renderRecordBoard(){
+ const ordered=orderedMapEntries();
  const tabs=$('recordMapTabs');
- tabs.innerHTML=maps.map((m,i)=>`<button class="btn ${i===selectedRecordMap?'':'secondary'}" style="padding:10px 14px;font-size:14px" data-rmap="${i}">${m.name} · ${'★'.repeat(m.stars)}</button>`).join('');
+ const groups=[1,2,3,4,5].map(stars=>({stars,items:ordered.filter(({m})=>m.stars===stars)})).filter(g=>g.items.length);
+ tabs.innerHTML=groups.map(g=>`<div style="width:100%;font-weight:900;text-align:left;margin-top:6px;color:#ffd84d">${g.stars}성</div>${g.items.map(({m,i})=>`<button class="btn ${i===selectedRecordMap?'':'secondary'}" style="padding:10px 14px;font-size:14px" data-rmap="${i}">${m.name} · ${'★'.repeat(m.stars)}</button>`).join('')}`).join('');
  tabs.querySelectorAll('[data-rmap]').forEach(b=>b.onclick=()=>{selectedRecordMap=+b.dataset.rmap;renderRecordBoard()});
+ if(!Number.isInteger(selectedRecordMap) || !maps[selectedRecordMap]) selectedRecordMap=ordered[0]?.i||0;
  const mapName=maps[selectedRecordMap].name;
  const all=await loadRecords();
  const records=all.filter(r=>r.map===mapName).sort((a,b)=>a.time-b.time);
@@ -140,7 +143,7 @@ function renderLobby(data){
  $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
  renderOnlineCarCards(); updateOnlineReadyButton();
  $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
- if(isHost){$('hostMapSelect').innerHTML=maps.map((m,i)=>`<option value="${i}">${i+1}. ${m.name} · ${'★'.repeat(m.stars)} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
+ if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
 }
 function connectWS(){
  if(ws&&ws.readyState<=1)return;
@@ -166,19 +169,22 @@ function joinRoom(){const name=($('onlineName').value||'플레이어').trim().sl
 
 const $=id=>document.getElementById(id);
 function show(id){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));$(id).classList.remove('hidden')}
+function orderedMapEntries(){
+ return maps.map((m,i)=>({m,i})).sort((a,b)=>a.m.stars-b.m.stars || a.i-b.i);
+}
 function renderDifficultyCards(){
  const groups=[
-  {stars:1,title:'1성 맵 선택',desc:'넓고 완만한 초급 코스 2개',icon:'⭐'},
-  {stars:2,title:'2성 맵 선택',desc:'S자와 급커브가 섞인 중급 코스 2개',icon:'⭐⭐'},
-  {stars:3,title:'3성 맵 선택',desc:'헤어핀과 연속 코너의 상급 코스 2개',icon:'⭐⭐⭐'},
-  {stars:4,title:'4성 맵 선택',desc:'좁은 S자와 연속 헤어핀의 최상급 코스 1개',icon:'⭐⭐⭐⭐'},
-  {stars:5,title:'5성 맵 선택',desc:'극한 난이도의 카오스 캐니언 1개',icon:'⭐⭐⭐⭐⭐'}
+  {stars:1,title:'1성 맵 선택'},
+  {stars:2,title:'2성 맵 선택'},
+  {stars:3,title:'3성 맵 선택'},
+  {stars:4,title:'4성 맵 선택'},
+  {stars:5,title:'5성 맵 선택'}
  ];
- $('difficultyCards').innerHTML=groups.map(g=>{const color=g.stars===1?'#3a8d57':g.stars===2?'#3568a8':g.stars===3?'#9b5b2f':'#6e2b89';return `<div class="card difficultyCard" data-stars="${g.stars}"><div class="preview" style="background:${color}">${g.icon}</div><h3>${g.title}</h3><p>${g.desc}</p></div>`}).join('');
- document.querySelectorAll('#difficultyCards .card').forEach(c=>c.onclick=()=>{selectedDifficulty=+c.dataset.stars;renderMapCards(selectedDifficulty);$('mapListTitle').textContent=`${selectedDifficulty}성 맵 선택`;show('mapListScreen')});
+ $('difficultyCards').innerHTML=groups.map(g=>`<button class="btn secondary difficultyCard" data-stars="${g.stars}" style="min-height:78px;font-size:24px;font-weight:900">${g.title}</button>`).join('');
+ document.querySelectorAll('#difficultyCards [data-stars]').forEach(c=>c.onclick=()=>{selectedDifficulty=+c.dataset.stars;renderMapCards(selectedDifficulty);$('mapListTitle').textContent=`${selectedDifficulty}성 맵 선택`;show('mapListScreen')});
 }
 function renderMapCards(stars=selectedDifficulty){
- const filtered=maps.map((m,i)=>({m,i})).filter(x=>x.m.stars===stars);
+ const filtered=orderedMapEntries().filter(x=>x.m.stars===stars);
   const mini=(m)=>{const pts=m.points;const xs=pts.map(p=>p[0]),zs=pts.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minZ=Math.min(...zs),maxZ=Math.max(...zs);const sc=Math.min(72/Math.max(1,maxX-minX),52/Math.max(1,maxZ-minZ)),dx=(100-(maxX-minX)*sc)/2,dy=(76-(maxZ-minZ)*sc)/2;const d=pts.map((p,k)=>`${k?'L':'M'} ${(p[0]-minX)*sc+dx} ${(maxZ-p[1])*sc+dy}`).join(' ');return `<svg viewBox="0 0 100 76" style="width:100%;height:100%"><path d="${d}" fill="none" stroke="#12171d" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#bfc4ca" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#fff" stroke-width="1.2" opacity=".85"/></svg>`};
   $('mapCards').innerHTML=filtered.map(({m,i})=>`<div class="card ${i===selectedMap?'selected':''}" data-i="${i}" style="cursor:pointer"><div class="preview mapPreview" style="background:#${m.sky.toString(16).padStart(6,'0')}">${mini(m)}</div><h3>${m.name}</h3><div class="stars">${'★'.repeat(m.stars)}${'☆'.repeat(Math.max(0,5-m.stars))}</div><p>${m.desc} · ${m.laps||2} LAP</p></div>`).join('');
  document.querySelectorAll('#mapCards .card').forEach(card=>card.onclick=()=>{selectedMap=Number(card.dataset.i);renderMapCards(stars);});
@@ -362,6 +368,21 @@ function drawMinimap(){
  ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();trackPoints.forEach((p,i)=>{const [x,y]=xy(p);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.closePath();ctx.strokeStyle='#090b10';ctx.lineWidth=trackWidth*scale+14;ctx.stroke();ctx.strokeStyle='#73777c';ctx.lineWidth=trackWidth*scale;ctx.stroke();ctx.strokeStyle='#d9d9d9';ctx.lineWidth=2;ctx.stroke();ctx.restore();
  // 주행 방향을 더 직관적으로 보이도록 앞쪽 경로를 강조
  ctx.save();ctx.translate(cx,cy);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,-22);ctx.lineTo(0,-48);ctx.stroke();ctx.restore();
+ // 다른 플레이어: 실제 서버 색상을 사용하되, 내 아이콘과 겹치지 않게 표시
+ const snapshot=window.__onlineSnapshot||[];
+ snapshot.forEach((p,idx)=>{
+   if(!p||p.id===onlinePlayerId||typeof p.x!=='number'||typeof p.z!=='number') return;
+   const [x,y]=xy({x:p.x,z:p.z});
+   if(x<-16||x>c.width+16||y<-16||y>c.height+16) return;
+   const fallback=['#39a0ff','#65e35b','#ff9f43','#c56cff','#21d4fd','#ff5da2','#f7d154'];
+   const raw=Number(p.color);
+   const color=Number.isFinite(raw)&&raw>0 ? '#'+(raw>>>0).toString(16).padStart(6,'0') : fallback[idx%fallback.length];
+   const ang=(p.rot||0)-player.rotation.y;
+   ctx.save();ctx.translate(x,y);ctx.rotate(-ang);
+   ctx.fillStyle=color;ctx.strokeStyle='#fff';ctx.lineWidth=1.6;
+   ctx.beginPath();ctx.moveTo(0,-7);ctx.lineTo(5,5);ctx.lineTo(0,2.5);ctx.lineTo(-5,5);ctx.closePath();ctx.fill();ctx.stroke();
+   ctx.restore();
+ });
  // 중앙 플레이어 아이콘: 앞쪽(위)을 향하는 화살표
  ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#ff3d4d';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(8,8);ctx.lineTo(0,5);ctx.lineTo(-8,8);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
  // 미니맵 중앙 표시
