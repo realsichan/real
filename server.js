@@ -6,57 +6,36 @@ const { WebSocketServer } = require('ws');
 
 const PORT = Number(process.env.PORT || 3000);
 const PUBLIC = __dirname;
-
 const rooms = new Map();
 const MAX_PLAYERS = 8;
-
 const ADMIN_PASSWORD = 'hanchan0705';
-
 let records = [];
 
-// -------------------------
-// 기록 게시판
-// -------------------------
+function sortRecords(){ records.sort((a,b)=>a.time-b.time || a.date-b.date); }
 
-function sortRecords() {
-  records.sort((a, b) => {
-    return a.time - b.time || a.date - b.date;
-  });
-}
-
-function mergeRecord(input) {
-  const nickname =
-    String(input.nickname || '플레이어')
-      .trim()
-      .slice(0, 12) || '플레이어';
-
-  const map = String(input.map || '').slice(0, 80);
+function mergeRecord(input){
+  const nickname = String(input.nickname || '플레이어').trim().slice(0,12) || '플레이어';
+  const map = String(input.map || '').slice(0,80);
   const time = Number(input.time);
 
-  if (!map || !Number.isFinite(time) || time <= 0) {
-    return;
-  }
+  if(!map || !Number.isFinite(time) || time <= 0) return;
 
   const next = {
     nickname,
     map,
     time,
-    stars: Number(input.stars) || 0,
-    car: String(input.car || '-').slice(0, 40),
-    date: Number(input.date) || Date.now()
+    stars:Number(input.stars)||0,
+    car:String(input.car||'-').slice(0,40),
+    date:Number(input.date)||Date.now()
   };
 
-  // 같은 맵 + 같은 닉네임이면 최고 기록 하나만 유지
   const idx = records.findIndex(
-    r =>
-      r.map === map &&
-      r.nickname.toLowerCase() === nickname.toLowerCase()
+    r => r.map === map &&
+    r.nickname.toLowerCase() === nickname.toLowerCase()
   );
 
-  if (idx >= 0) {
-    if (time < records[idx].time) {
-      records[idx] = next;
-    }
+  if(idx >= 0){
+    if(time < records[idx].time) records[idx] = next;
   } else {
     records.push(next);
   }
@@ -64,436 +43,342 @@ function mergeRecord(input) {
   sortRecords();
 }
 
-// -------------------------
-// 공통
-// -------------------------
-
 const uid = () => crypto.randomBytes(8).toString('hex');
 
-function roomCode() {
+function roomCode(){
   let code;
 
   do {
-    code = crypto
-      .randomBytes(4)
+    code = crypto.randomBytes(4)
       .toString('base64')
-      .replace(/[^A-Z0-9]/gi, '')
-      .slice(0, 5)
+      .replace(/[^A-Z0-9]/gi,'')
+      .slice(0,5)
       .toUpperCase();
-  } while (!code || rooms.has(code));
+  } while(!code || rooms.has(code));
 
   return code;
 }
 
-function send(ws, msg) {
-  if (ws && ws.readyState === ws.OPEN) {
+function send(ws,msg){
+  if(ws && ws.readyState===ws.OPEN){
     ws.send(JSON.stringify(msg));
   }
 }
 
-function publicPlayers(room) {
-  return [...room.players.values()].map(p => ({
-    id: p.id,
-    name: p.name,
-    host: p.id === room.hostId,
-    carId: p.carId,
-    ready: !!p.ready
+function publicPlayers(room){
+  return [...room.players.values()].map(p=>({
+    id:p.id,
+    name:p.name,
+    host:p.id===room.hostId,
+    carId:p.carId,
+    ready:!!p.ready
   }));
 }
 
-function broadcast(room, msg) {
-  for (const p of room.players.values()) {
-    send(p.ws, msg);
+function broadcast(room,msg){
+  for(const p of room.players.values()){
+    send(p.ws,msg);
   }
 }
 
-function syncPlayers(room) {
-  broadcast(room, {
-    type: 'players',
-    players: publicPlayers(room),
-    code: room.code,
-    hostId: room.hostId,
-    mapId: room.mapId
+function syncPlayers(room){
+  broadcast(room,{
+    type:'players',
+    players:publicPlayers(room),
+    code:room.code,
+    hostId:room.hostId,
+    mapId:room.mapId
   });
 }
 
-function leave(ws) {
-  const id = ws.playerId;
-  const code = ws.roomCode;
+function leave(ws){
+  const id=ws.playerId;
+  const code=ws.roomCode;
 
-  if (!id || !code) return;
+  if(!id || !code) return;
 
-  const room = rooms.get(code);
+  const room=rooms.get(code);
 
-  if (!room) return;
+  if(!room) return;
 
   room.players.delete(id);
 
-  ws.playerId = null;
-  ws.roomCode = null;
+  ws.playerId=null;
+  ws.roomCode=null;
 
-  // 방장이 나갔으면 다음 사람을 방장으로 지정
-  if (room.hostId === id) {
-    room.hostId =
-      room.players.keys().next().value || null;
+  if(room.hostId===id){
+    room.hostId=room.players.keys().next().value || null;
   }
 
-  // 아무도 없으면 방 삭제
-  if (room.players.size === 0) {
-    rooms.delete(code);
+  if(room.players.size===0){
+    room.hostId=null;
+    room.started=false;
+    room.firstFinisherId=null;
+    room.finishDeadline=0;
+    room.finishRanks=[];
     return;
-  }
-
-  // 레이스 도중 방장이 나간 경우 일단 레이스 종료 상태로 되돌림
-  if (room.started) {
-    room.started = false;
   }
 
   syncPlayers(room);
 }
 
-// -------------------------
-// HTTP 서버
-// -------------------------
+function readJson(req){
+  return new Promise((resolve,reject)=>{
+    let body='';
 
-function readJson(req) {
-  return new Promise((resolve, reject) => {
-    let body = '';
-
-    req.on('data', chunk => {
+    req.on('data',chunk=>{
       body += chunk;
 
-      if (body.length > 100000) {
+      if(body.length > 100000){
         req.destroy();
       }
     });
 
-    req.on('end', () => {
-      try {
+    req.on('end',()=>{
+      try{
         resolve(body ? JSON.parse(body) : {});
-      } catch (error) {
-        reject(error);
+      }catch(e){
+        reject(e);
       }
     });
 
-    req.on('error', reject);
+    req.on('error',reject);
   });
 }
 
-const server = http.createServer(async (req, res) => {
+const server=http.createServer(async (req,res)=>{
 
-  // 상태 확인
-  if (req.url === '/health') {
-    res.writeHead(200, {
-      'content-type': 'application/json; charset=utf-8'
+  if(req.url==='/api/records' && req.method==='GET'){
+    res.writeHead(200,{
+      'content-type':'application/json; charset=utf-8',
+      'cache-control':'no-store'
     });
 
-    return res.end(
-      JSON.stringify({
-        ok: true,
-        rooms: rooms.size
-      })
-    );
+    return res.end(JSON.stringify(records.slice(0,500)));
   }
 
-  // -----------------------
-  // 기록 조회
-  // -----------------------
-
-  if (
-    req.url === '/api/records' &&
-    req.method === 'GET'
-  ) {
-    res.writeHead(200, {
-      'content-type': 'application/json; charset=utf-8',
-      'cache-control': 'no-store'
-    });
-
-    return res.end(
-      JSON.stringify(records.slice(0, 500))
-    );
-  }
-
-  // -----------------------
-  // 기록 등록
-  // -----------------------
-
-  if (
-    req.url === '/api/records' &&
-    req.method === 'POST'
-  ) {
-    try {
-      const data = await readJson(req);
+  if(req.url==='/api/records' && req.method==='POST'){
+    try{
+      const data=await readJson(req);
 
       mergeRecord(data);
 
-      res.writeHead(200, {
-        'content-type': 'application/json; charset=utf-8',
-        'cache-control': 'no-store'
+      res.writeHead(200,{
+        'content-type':'application/json; charset=utf-8',
+        'cache-control':'no-store'
       });
 
-      return res.end(
-        JSON.stringify(records.slice(0, 500))
-      );
+      return res.end(JSON.stringify(records.slice(0,500)));
 
-    } catch (error) {
+    }catch(e){
       res.writeHead(400);
       return res.end('Bad request');
     }
   }
 
-  // -----------------------
-  // 기록 삭제
-  // -----------------------
+  if(req.url==='/api/records' && req.method==='DELETE'){
+    try{
+      const data=await readJson(req);
 
-  if (
-    req.url === '/api/records' &&
-    req.method === 'DELETE'
-  ) {
-    try {
-      const data = await readJson(req);
-
-      if (data.password !== ADMIN_PASSWORD) {
+      if(data.password !== ADMIN_PASSWORD){
         res.writeHead(403);
         return res.end('Forbidden');
       }
 
-      // 전체 기록 초기화
-      if (data.reset) {
-        records = [];
-      }
-
-      // 특정 맵 + 닉네임 기록 삭제
-      else {
-        const map = String(data.map || '');
-
-        const nickname = String(
-          data.nickname || ''
-        )
+      if(data.reset){
+        records=[];
+      }else{
+        const map=String(data.map||'');
+        const nickname=String(data.nickname||'')
           .trim()
           .toLowerCase();
 
-        records = records.filter(r => {
-          return !(
-            r.map === map &&
-            r.nickname.toLowerCase() === nickname
-          );
-        });
+        records=records.filter(
+          r=>!(r.map===map && r.nickname.toLowerCase()===nickname)
+        );
       }
 
       sortRecords();
 
-      res.writeHead(200, {
-        'content-type': 'application/json; charset=utf-8',
-        'cache-control': 'no-store'
+      res.writeHead(200,{
+        'content-type':'application/json; charset=utf-8',
+        'cache-control':'no-store'
       });
 
-      return res.end(
-        JSON.stringify(records.slice(0, 500))
-      );
+      return res.end(JSON.stringify(records.slice(0,500)));
 
-    } catch (error) {
+    }catch(e){
       res.writeHead(400);
       return res.end('Bad request');
     }
   }
 
-  // -----------------------
-  // 정적 파일
-  // -----------------------
+  if(req.url==='/health'){
+    res.writeHead(200,{
+      'content-type':'application/json'
+    });
 
-  let reqPath = (req.url || '/').split('?')[0];
-
-  if (reqPath === '/') {
-    reqPath = '/index.html';
+    return res.end(JSON.stringify({
+      ok:true,
+      rooms:rooms.size
+    }));
   }
 
-  const safe = path
-    .normalize(reqPath)
+  let reqPath=(req.url||'/').split('?')[0];
+
+  if(reqPath==='/'){
+    reqPath='/index.html';
+  }
+
+  const safe=path.normalize(reqPath)
     .replace(/^([.][.][\\/])+/, '');
 
-  const file = path.join(PUBLIC, safe);
+  const file=path.join(PUBLIC,safe);
 
-  if (!file.startsWith(PUBLIC)) {
-    res.writeHead(403);
-    return res.end('Forbidden');
+  if(!file.startsWith(PUBLIC)){
+    return res.writeHead(403).end('Forbidden');
   }
 
-  fs.readFile(file, (err, data) => {
-    if (err) {
+  fs.readFile(file,(err,data)=>{
+    if(err){
       res.writeHead(404);
       return res.end('Not found');
     }
 
-    const ext = path.extname(file);
+    const ext=path.extname(file);
 
-    let type = 'application/octet-stream';
+    const type=
+      ext==='.html'
+        ? 'text/html; charset=utf-8'
+        : ext==='.js'
+        ? 'text/javascript; charset=utf-8'
+        : 'application/octet-stream';
 
-    if (ext === '.html') {
-      type = 'text/html; charset=utf-8';
-    }
-
-    if (ext === '.js') {
-      type = 'text/javascript; charset=utf-8';
-    }
-
-    if (ext === '.css') {
-      type = 'text/css; charset=utf-8';
-    }
-
-    res.writeHead(200, {
-      'content-type': type
+    res.writeHead(200,{
+      'content-type':type
     });
 
     res.end(data);
   });
 });
 
-// -------------------------
-// WebSocket
-// -------------------------
-
-const wss = new WebSocketServer({
+const wss=new WebSocketServer({
   server
 });
 
-wss.on('connection', ws => {
-  const id = uid();
+wss.on('connection',(ws)=>{
 
-  ws.playerId = id;
-  ws.roomCode = null;
+  const id=uid();
 
-  send(ws, {
-    type: 'hello',
+  ws.playerId=id;
+
+  send(ws,{
+    type:'hello',
     id
   });
 
-  ws.on('message', buf => {
+  ws.on('message',(buf)=>{
+
     let m;
 
-    try {
-      m = JSON.parse(buf.toString());
-    } catch {
+    try{
+      m=JSON.parse(buf.toString());
+    }catch{
       return;
     }
 
-    // -----------------------
-    // 방 만들기
-    // -----------------------
+    if(m.type==='createRoom'){
 
-    if (m.type === 'createRoom') {
       leave(ws);
 
-      const code = roomCode();
+      const code=roomCode();
 
-      const player = {
+      const player={
         id,
         ws,
-        name: String(
-          m.name || '플레이어'
-        ).slice(0, 12),
-
-        carId:
-          Number.isFinite(Number(m.carId))
-            ? Number(m.carId)
-            : 0,
-
-        ready: false,
-
-        state: {}
+        name:String(m.name||'플레이어').slice(0,12),
+        carId:Number(m.carId||0),
+        ready:false,
+        finished:false,
+        state:{}
       };
 
-      const room = {
+      const room={
         code,
-        hostId: id,
-
-        mapId:
-          Number.isFinite(Number(m.mapId))
-            ? Number(m.mapId)
-            : 0,
-
-        started: false,
-
-        players: new Map([
-          [id, player]
-        ])
+        hostId:id,
+        mapId:Number(m.mapId||0),
+        started:false,
+        firstFinisherId:null,
+        finishDeadline:0,
+        finishRanks:[],
+        players:new Map([[id,player]])
       };
 
-      rooms.set(code, room);
+      rooms.set(code,room);
 
-      ws.roomCode = code;
+      ws.roomCode=code;
 
-      send(ws, {
-        type: 'room',
+      send(ws,{
+        type:'room',
         code,
-        hostId: id,
-        mapId: room.mapId,
-        players: publicPlayers(room)
+        hostId:id,
+        mapId:room.mapId,
+        players:publicPlayers(room)
       });
 
       return;
     }
 
-    // -----------------------
-    // 방 참가
-    // -----------------------
+    if(m.type==='joinRoom'){
 
-    if (m.type === 'joinRoom') {
-      const code = String(
-        m.code || ''
-      ).toUpperCase();
+      const code=String(m.code||'').toUpperCase();
+      const room=rooms.get(code);
 
-      const room = rooms.get(code);
-
-      if (!room) {
-        return send(ws, {
-          type: 'error',
-          message: '방을 찾을 수 없습니다.'
+      if(!room){
+        return send(ws,{
+          type:'error',
+          message:'방을 찾을 수 없습니다.'
         });
       }
 
-      if (room.started) {
-        return send(ws, {
-          type: 'error',
-          message: '이미 시작된 방입니다.'
+      if(room.started){
+        return send(ws,{
+          type:'error',
+          message:'이미 시작된 방입니다.'
         });
       }
 
-      if (room.players.size >= MAX_PLAYERS) {
-        return send(ws, {
-          type: 'error',
-          message: '방이 가득 찼습니다.'
+      if(room.players.size>=MAX_PLAYERS){
+        return send(ws,{
+          type:'error',
+          message:'방이 가득 찼습니다.'
         });
       }
 
       leave(ws);
 
-      room.players.set(id, {
+      room.players.set(id,{
         id,
         ws,
-
-        name: String(
-          m.name || '플레이어'
-        ).slice(0, 12),
-
-        carId:
-          Number.isFinite(Number(m.carId))
-            ? Number(m.carId)
-            : 0,
-
-        ready: false,
-
-        state: {}
+        name:String(m.name||'플레이어').slice(0,12),
+        carId:Number(m.carId||0),
+        ready:false,
+        finished:false,
+        state:{}
       });
 
-      ws.roomCode = code;
+      if(!room.hostId){
+        room.hostId=id;
+      }
 
-      send(ws, {
-        type: 'room',
+      ws.roomCode=code;
+
+      send(ws,{
+        type:'room',
         code,
-        hostId: room.hostId,
-        mapId: room.mapId,
-        players: publicPlayers(room)
+        hostId:room.hostId,
+        mapId:room.mapId,
+        players:publicPlayers(room)
       });
 
       syncPlayers(room);
@@ -501,47 +386,37 @@ wss.on('connection', ws => {
       return;
     }
 
-    // 방이 없는 상태에서 아래 메시지는 무시
-    const room = rooms.get(ws.roomCode);
+    const room=rooms.get(ws.roomCode);
 
-    if (!room) return;
+    if(!room) return;
 
-    const me = room.players.get(id);
+    const me=room.players.get(id);
 
-    if (!me) return;
+    if(!me) return;
 
-    // -----------------------
-    // 차 선택
-    // -----------------------
+    if(m.type==='carSelect'){
 
-    if (m.type === 'carSelect') {
-      if (room.started) return;
+      if(room.started) return;
 
-      const carId = Number(m.carId);
+      me.carId=Number.isFinite(Number(m.carId))
+        ? Number(m.carId)
+        : 0;
 
-      if (Number.isFinite(carId)) {
-        me.carId = carId;
-      }
-
-      // 차를 다시 고르면 준비 취소
-      me.ready = false;
+      me.ready=false;
 
       syncPlayers(room);
 
       return;
     }
 
-    // -----------------------
-    // 준비
-    // -----------------------
+    if(m.type==='ready'){
 
-    if (m.type === 'ready') {
-      if (room.started) return;
+      if(room.started) return;
 
-      me.ready = !!m.ready;
+      me.ready=!!m.ready;
 
-      if (Number.isFinite(Number(m.carId))) {
-        me.carId = Number(m.carId);
+      if(Number.isFinite(Number(m.carId))){
+        me.carId=Number(m.carId);
       }
 
       syncPlayers(room);
@@ -549,149 +424,259 @@ wss.on('connection', ws => {
       return;
     }
 
-    // -----------------------
-    // 방장 맵 선택
-    // -----------------------
+    if(m.type==='mapSelect'){
 
-    if (m.type === 'mapSelect') {
-      if (room.started) return;
-
-      if (room.hostId !== id) {
+      if(room.started || room.hostId!==id){
         return;
       }
 
-      const mapId = Number(m.mapId);
+      room.mapId=Number(m.mapId||0);
 
-      if (Number.isFinite(mapId)) {
-        room.mapId = mapId;
+      for(const p of room.players.values()){
+        p.ready=false;
       }
 
-      // 맵이 바뀌면 준비 상태 초기화
-      for (const p of room.players.values()) {
-        p.ready = false;
-      }
-
-      broadcast(room, {
-        type: 'mapSelected',
-        mapId: room.mapId,
-        players: publicPlayers(room)
+      broadcast(room,{
+        type:'mapSelected',
+        mapId:room.mapId,
+        players:publicPlayers(room)
       });
 
       return;
     }
 
-    // -----------------------
-    // 레이스 시작
-    // -----------------------
+    if(m.type==='startRace'){
 
-    if (m.type === 'startRace') {
+      if(room.hostId!==id){
 
-      if (room.hostId !== id) {
-        return send(ws, {
-          type: 'error',
-          message:
-            '방장만 레이스를 시작할 수 있습니다.'
+        return send(ws,{
+          type:'error',
+          message:'방장만 레이스를 시작할 수 있습니다.'
         });
+
       }
 
-      const allReady =
-        room.players.size > 0 &&
-        [...room.players.values()]
-          .every(p => p.ready);
+      const allReady=
+        room.players.size>0 &&
+        [...room.players.values()].every(p=>p.ready);
 
-      if (!allReady) {
-        return send(ws, {
-          type: 'error',
-          message:
-            '모든 플레이어가 준비해야 합니다.'
+      if(!allReady){
+
+        return send(ws,{
+          type:'error',
+          message:'모든 플레이어가 준비해야 합니다.'
         });
+
       }
 
-      if (Number.isFinite(Number(m.mapId))) {
-        room.mapId = Number(m.mapId);
+      room.mapId=Number.isFinite(Number(m.mapId))
+        ? Number(m.mapId)
+        : room.mapId;
+
+      room.started=true;
+
+      room.firstFinisherId=null;
+      room.finishDeadline=0;
+      room.finishRanks=[];
+
+      for(const p of room.players.values()){
+        p.ready=false;
+        p.finished=false;
+        p.state={};
       }
 
-      room.started = true;
-
-      // 레이스 시작 후 준비 상태 초기화
-      for (const p of room.players.values()) {
-        p.ready = false;
-      }
-
-      broadcast(room, {
-        type: 'raceStart',
-        mapId: room.mapId
+      broadcast(room,{
+        type:'raceStart',
+        mapId:room.mapId
       });
 
       return;
     }
 
-    // -----------------------
-    // 실시간 카트 상태
-    // -----------------------
+    if(m.type==='finishRace'){
 
-    if (m.type === 'state') {
-      me.state = {
-        x: Number(m.x) || 0,
-        y: Number(m.y) || 0,
-        z: Number(m.z) || 0,
+      if(!room.started || me.finished){
+        return;
+      }
 
-        rot:
-          Number(m.rot) || 0,
+      me.finished=true;
 
-        color:
-          Number(m.color) || 0xffffff,
+      const rank=room.finishRanks.length+1;
 
-        lap:
-          Number(m.lap) || 1,
+      room.finishRanks.push({
+        id,
+        time:Number(m.time)||0,
+        rank
+      });
 
-        speed:
-          Number(m.speed) || 0
+      if(!room.firstFinisherId){
+
+        room.firstFinisherId=id;
+        room.finishDeadline=Date.now()+10000;
+
+        broadcast(room,{
+          type:'firstFinish',
+          id,
+          remaining:10000
+        });
+
+      }else{
+
+        send(ws,{
+          type:'raceFinished',
+          rank
+        });
+
+      }
+
+      if(room.finishRanks.length>=room.players.size){
+
+        room.started=false;
+
+        const rankings=buildRankings(room);
+
+        broadcast(room,{
+          type:'raceEnd',
+          reason:'allFinished',
+          rankings
+        });
+      }
+
+      return;
+    }
+
+    if(m.type==='state'){
+
+      me.state={
+        x:Number(m.x)||0,
+        y:Number(m.y)||0,
+        z:Number(m.z)||0,
+        rot:Number(m.rot)||0,
+        color:Number(m.color)||0xffffff,
+        lap:Number(m.lap)||1,
+        speed:Number(m.speed)||0
       };
 
       return;
     }
   });
 
-  ws.on('close', () => {
-    leave(ws);
-  });
-
-  ws.on('error', () => {
-    leave(ws);
-  });
+  ws.on('close',()=>leave(ws));
+  ws.on('error',()=>leave(ws));
 });
 
-// -------------------------
-// 실시간 상태 전송
-// 약 15 FPS
-// -------------------------
+function buildRankings(room){
 
-setInterval(() => {
-  for (const room of rooms.values()) {
+  const finished=
+    [...room.finishRanks]
+      .sort((a,b)=>a.rank-b.rank)
+      .map(r=>{
 
-    if (!room.started) continue;
+        const p=room.players.get(r.id);
 
-    const players = [
-      ...room.players.values()
-    ].map(p => ({
-      id: p.id,
-      ...p.state
-    }));
+        return {
+          rank:r.rank,
+          id:r.id,
+          name:p?.name||'플레이어',
+          time:r.time,
+          car:carsName(p?.carId),
+          finished:true
+        };
+      });
 
-    broadcast(room, {
-      type: 'snapshot',
+  const finishedIds=new Set(
+    finished.map(r=>r.id)
+  );
+
+  const dnf=
+    [...room.players.values()]
+      .filter(p=>!finishedIds.has(p.id))
+      .map((p,i)=>({
+
+        rank:finished.length+i+1,
+        id:p.id,
+        name:p.name||'플레이어',
+        time:0,
+        car:carsName(p.carId),
+        finished:false
+
+      }));
+
+  return finished.concat(dnf);
+}
+
+function carsName(carId){
+
+  const names=[
+    '레드 볼트',
+    '블루 스톰',
+    '퍼플 드리프터',
+    '그린 스프린터',
+    '충돌형 카트'
+  ];
+
+  return names[Number(carId)]||'-';
+}
+
+setInterval(()=>{
+
+  for(const room of rooms.values()){
+
+    if(
+      room.started &&
+      room.finishDeadline &&
+      Date.now()>=room.finishDeadline
+    ){
+
+      room.started=false;
+
+      const rankings=buildRankings(room);
+
+      for(const p of room.players.values()){
+
+        if(!p.finished){
+
+          send(p.ws,{
+            type:'raceTimeout'
+          });
+
+        }
+
+      }
+
+      broadcast(room,{
+        type:'raceEnd',
+        reason:'timeout',
+        rankings
+      });
+
+      continue;
+    }
+
+    if(!room.started) continue;
+
+    const players=
+      [...room.players.values()]
+        .map(p=>({
+          id:p.id,
+          name:p.name,
+          ...p.state,
+          carId:p.carId,
+          finished:!!p.finished
+        }));
+
+    broadcast(room,{
+      type:'snapshot',
       players
     });
   }
-}, 66);
 
-// -------------------------
-// 서버 시작
-// -------------------------
+},66);
 
-server.listen(PORT, () => {
+server.listen(PORT,()=>{
+
   console.log(
     `MINI KART server listening on ${PORT}`
   );
+
 });
