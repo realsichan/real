@@ -338,6 +338,29 @@ function renderMapCards(stars=selectedDifficulty){
 
 window.renderDifficultyCardsPublic=renderDifficultyCards;
 window.renderMapCardsPublic=(stars)=>{selectedDifficulty=Number(stars)||1;renderMapCards(selectedDifficulty);};
+async function renderRecordBoard(){
+ const ordered=orderedMapEntries();
+ const tabs=$('recordMapTabs');
+ const groups=[1,2,3,4,5].map(stars=>({stars,items:ordered.filter(({m})=>m.stars===stars)})).filter(g=>g.items.length);
+ tabs.innerHTML=groups.map(g=>`<div style="width:100%;font-weight:900;text-align:left;margin-top:6px;color:#ffd84d">${g.stars}성</div>${g.items.map(({m,i})=>`<button class="btn ${i===selectedRecordMap?'':'secondary'}" style="padding:10px 14px;font-size:14px" data-rmap="${i}">${m.name} · ${'★'.repeat(m.stars)}</button>`).join('')}`).join('');
+ tabs.querySelectorAll('[data-rmap]').forEach(b=>b.onclick=()=>{selectedRecordMap=+b.dataset.rmap;renderRecordBoard()});
+ if(!Number.isInteger(selectedRecordMap) || !maps[selectedRecordMap]) selectedRecordMap=ordered[0]?.i||0;
+ const mapName=maps[selectedRecordMap].name;
+ const all=await loadRecords();
+ const records=all.filter(r=>r.map===mapName).sort((a,b)=>a.time-b.time);
+ const admin=!!window.__adminMode;
+ const rows=records.length?records.slice(0,100).map((r,i)=>{
+   return `<tr><td><b>${i+1}</b></td><td>${escapeHtml(r.nickname)}</td><td><b>${fmtTime(r.time)}</b></td><td>${escapeHtml(r.car||'-')}</td><td>${new Date(r.date).toLocaleDateString('ko-KR')}</td>${admin?`<td><button class="mini danger" data-delete-name="${escapeHtml(r.nickname)}">삭제</button></td>`:''}</tr>`;
+ }).join(''):`<tr><td colspan="${admin?6:5}" style="padding:28px;opacity:.65">이 맵에는 아직 기록이 없습니다.</td></tr>`;
+ $('recordTableWrap').innerHTML=`<div style="overflow:auto;max-height:55vh"><table style="width:100%;border-collapse:collapse;min-width:${admin?650:560}px"><thead><tr><th>순위</th><th>닉네임</th><th>기록</th><th>차</th><th>등록일</th>${admin?'<th>관리</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`;
+ document.querySelectorAll('[data-delete-name]').forEach(btn=>btn.onclick=async()=>{
+   if(!window.__adminMode)return;
+   const nickname=btn.dataset.deleteName;
+   if(!confirm(`'${nickname}'의 ${mapName} 기록을 삭제할까요?`))return;
+   try{const r=await fetch('/api/records',{method:'DELETE',headers:{'content-type':'application/json'},body:JSON.stringify({map:mapName,nickname,password:ADMIN_PASSWORD})});if(!r.ok)throw new Error('delete');const x=await r.json();saveRecordsLocal(x);await renderRecordBoard();}catch(e){alert('기록 삭제에 실패했습니다. 서버 연결을 확인하세요.');}
+ });
+}
+
 window.renderRecordBoardPublic=renderRecordBoard;
 window.showAdminControlsPublic=showAdminControls;
 function gauge(label,value,max=100){const pct=Math.max(0,Math.min(100,value/max*100));return `<div class="statRow"><div class="statLabel"><span>${label}</span></div><div class="statBar"><div class="statFill" style="width:${pct}%"></div></div></div>`}
