@@ -160,7 +160,7 @@ async function renderRecordBoard(){
 }
 
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
-function requestNickname(){let n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.','플레이어');if(n===null)n='플레이어';return n}
+function requestNickname(){const n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.','플레이어');if(n===null)return null;const clean=n.trim().slice(0,12);return clean||'플레이어'}
 
 let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
 let remoteKarts=new Map();
@@ -629,11 +629,11 @@ function updateRaceCamera(dt,fast=false){
   while(dy>Math.PI)dy-=Math.PI*2;
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*13.2,6.8,-Math.cos(cameraSmoothYaw)*13.2).add(player.position);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*17.0,7.2,-Math.cos(cameraSmoothYaw)*17.0).add(player.position);
   cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
   const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
-  const look=player.position.clone().addScaledVector(lookForward,3.4).add(new THREE.Vector3(0,.72,0));
+  const look=player.position.clone().addScaledVector(lookForward,1.6).add(new THREE.Vector3(0,.68,0));
   cameraLookTarget.lerp(look,lookAlpha);
   camera.lookAt(cameraLookTarget);
 }
@@ -664,14 +664,16 @@ async function finish(){
   }
 
   const nick=requestNickname();
-  await addRecord(nick,finalTime);
   hideRaceUI();
   $('lastResultToast')?.remove();
+
+  const saved = nick !== null;
+  if(saved) await addRecord(nick,finalTime);
 
   const toast=document.createElement('div');
   toast.id='lastResultToast';
   toast.className='screen';
-  toast.innerHTML=`<div class="panel"><h2>완주!</h2><div class="result">${escapeHtml(nick)}님의 기록<br><b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록 게시판에 등록되었습니다.</span></div><div class="menuBtns"><button class="btn" id="toastBoard">기록 게시판 보기</button><button class="btn secondary" id="toastMenu">메인 화면</button></div></div>`;
+  toast.innerHTML=`<div class="panel"><h2>완주!</h2><div class="result">${saved?`${escapeHtml(nick)}님의 기록<br><b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록 게시판에 등록되었습니다.</span>`:`<b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록을 등록하지 않았습니다.</span>`}</div><div class="menuBtns"><button class="btn" id="toastBoard">기록 게시판 보기</button><button class="btn secondary" id="toastMenu">메인 화면</button></div></div>`;
   document.body.appendChild(toast);
 
   document.getElementById('toastBoard').onclick=()=>{
