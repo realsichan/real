@@ -278,6 +278,9 @@ $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringif
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
 const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
+const MIN_COLLISION_SPEED_KMH=20;
+const MIN_COLLISION_SPEED=MIN_COLLISION_SPEED_KMH/2.45;
+function effectiveCollisionSpeed(v){return Math.max(Math.abs(Number(v)||0),MIN_COLLISION_SPEED);}
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
@@ -320,7 +323,11 @@ function resolveObstacleCollisions(){
         let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
         player.rotation.y=currentAngle+delta*(0.10+0.35*impact);
         const collisionPower=(cars[selectedCar].collision||40)/100;
-        speed*=THREE.MathUtils.lerp(0.93-0.03*collisionPower,0.67+0.08*collisionPower,impact);
+        // 아주 느린 충돌도 최소 20km/h 충돌로 계산해 벽/장애물에 끼지 않게 한다.
+        const collisionSpeed=effectiveCollisionSpeed(speed);
+        const speedSign=speed<0?-1:1;
+        const collisionDamp=THREE.MathUtils.lerp(0.93-0.03*collisionPower,0.67+0.08*collisionPower,impact);
+        speed=speedSign*collisionSpeed*collisionDamp;
         lateralVelocity*=THREE.MathUtils.lerp(0.74,0.46,impact);
       } else { speed*=0.90; lateralVelocity*=0.70; }
     }
@@ -412,7 +419,7 @@ function buildMap(){
    addObstacleCollider(x,z,3.3);
   }
  }
- player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,6.3,player.position.z);world.add(player);
+ player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
  speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
  $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
 }
@@ -434,7 +441,11 @@ function resolveTrackBoundary(){
     const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
     let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
     player.rotation.y=currentAngle+delta*(0.18+0.82*impact);
-    speed*=THREE.MathUtils.lerp(0.88,0.52,impact);
+    // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
+    const collisionSpeed=effectiveCollisionSpeed(speed);
+    const speedSign=speed<0?-1:1;
+    const collisionDamp=THREE.MathUtils.lerp(0.88,0.52,impact);
+    speed=speedSign*collisionSpeed*collisionDamp;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
@@ -558,7 +569,12 @@ function resolveRemoteKartCollisions(){
       player.position.x+=nx*push*(.45+.18*myPower);
       player.position.z+=nz*push*(.45+.18*myPower);
       speed*=THREE.MathUtils.clamp(.995-.06*(1-myPower),.90,.99);
-      lateralVelocity+=nx*4.8*pushPower;
+      // 저속으로 비비는 상황도 최소 충돌량을 보장해 상대 카트와 겹쳐 끼지 않게 한다.
+      const otherSpeed=Math.abs(Number(g.userData.netTarget?.speed)||0);
+      const collisionSpeed=Math.max(effectiveCollisionSpeed(speed),effectiveCollisionSpeed(otherSpeed));
+      const minKick=MIN_COLLISION_SPEED*.70;
+      const kick=Math.max(collisionSpeed*.24,minKick)*pushPower;
+      lateralVelocity+=nx*kick;
       g.position.x-=nx*push*(.35+.10*pushPower);
       g.position.z-=nz*push*(.35+.10*pushPower);
     }
@@ -629,11 +645,11 @@ function updateRaceCamera(dt,fast=false){
   while(dy>Math.PI)dy-=Math.PI*2;
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*20.5,7.8,-Math.cos(cameraSmoothYaw)*20.5).add(player.position);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*26.5,9.2,-Math.cos(cameraSmoothYaw)*26.5).add(player.position);
   cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
   const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
-  const look=player.position.clone().addScaledVector(lookForward,3.0).add(new THREE.Vector3(0,.62,0));
+  const look=player.position.clone().addScaledVector(lookForward,4.0).add(new THREE.Vector3(0,.60,0));
   cameraLookTarget.lerp(look,lookAlpha);
   camera.lookAt(cameraLookTarget);
 }
