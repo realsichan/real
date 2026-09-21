@@ -11,108 +11,477 @@
 .title{font-size:58px;font-weight:900;letter-spacing:-4px;margin:0 0 8px;text-shadow:0 8px 20px #000}.sub{opacity:.75;margin-bottom:30px}.menuBtns{display:flex;flex-direction:column;gap:12px;max-width:350px;margin:auto}.btn{padding:15px 20px;border-radius:15px;background:#ff3d4d;color:#fff;font-size:18px;font-weight:800;box-shadow:0 8px 20px rgba(0,0,0,.25)}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#34415f}.btn.green{background:#18a957}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:20px 0 26px}.card{padding:15px;border-radius:18px;background:#202a43;border:2px solid transparent;text-align:left}.card.selected{border-color:#ff4757;background:#2a3552}.card h3{margin:0 0 8px;font-size:22px}#carCards{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;width:100%}#carCards .card{display:block!important;min-height:260px}.card p{margin:6px 0;opacity:.8}.preview{height:96px;border-radius:12px;margin-bottom:13px;display:flex;align-items:center;justify-content:center;font-size:48px}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.stars{letter-spacing:3px;font-size:20px;color:#ffd84d;text-shadow:0 1px 0 rgba(0,0,0,.35)}.mapMeta{font-size:13px;opacity:.7;line-height:1.55}.carPreview{height:96px;display:flex;align-items:center;justify-content:center}.miniCar{width:105px;height:50px;border-radius:15px;position:relative;box-shadow:inset 0 -9px 0 rgba(0,0,0,.18),inset 0 3px 0 rgba(255,255,255,.28)}.miniCar:before,.miniCar:after{content:'';position:absolute;width:23px;height:23px;background:#111;border-radius:50%;bottom:-8px}.miniCar:before{left:7px}.miniCar:after{right:7px}.stats{margin-top:12px}.statRow{margin-top:9px}.statLabel{display:flex;justify-content:space-between;font-size:12px;font-weight:800;opacity:.9;margin-bottom:4px}.statBar{height:9px;background:#111a2b;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}.statFill{height:100%;border-radius:8px;background:linear-gradient(90deg,#38bdf8,#60a5fa,#a78bfa)}
 #hud{position:fixed;left:14px;top:14px;z-index:10;color:#fff;background:rgba(0,0,0,.56);padding:10px 14px;border-radius:14px;line-height:1.55;font-weight:800;min-width:205px;pointer-events:none}.boostBox{margin-top:7px}.boostOuter{height:11px;background:#202020;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.18)}.boostInner{height:100%;width:0%;background:#22d3ee;transition:width .06s}.ready{color:#ffe600}#minimap{position:fixed;right:14px;top:14px;z-index:11;width:205px;height:154px;border-radius:16px;background:rgba(10,15,25,.82);border:2px solid rgba(255,255,255,.22);box-shadow:0 8px 25px rgba(0,0,0,.28)}
-#countdown{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:96px;font-weight:900;text-shadow:0 8px 30px #000;pointer-events:none}.pauseOverlay{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);color:#fff}.pausePanel{width:min(430px,88vw);padding:30px;border-radius:24px;background:rgba(15,22,40,.96);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center}.pauseTitle{font-size:42px;font-weight:900;margin-bottom:10px}.pauseSub{opacity:.72;margin-bottom:24px}.pauseBtns{display:flex;flex-direction:column;gap:10px}.hidden{display:none!important}.difficultyCard{min-height:305px;padding:0 0 22px!important;overflow:hidden;text-align:left;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;background:#202a43!important}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.difficultyVisual{height:145px;display:flex;align-items:center;justify-content:center;margin:0;border-radius:0 0 16px 16px;font-size:58px}.difficultyVisual .stars{font-size:62px;letter-spacing:7px;color:#ffd42a;text-shadow:0 3px 0 rgba(180,120,0,.28),0 0 10px rgba(255,211,55,.18);white-space:nowrap}.difficultyName{padding:22px 18px 0;font-size:25px;font-weight:900;text-align:left}.result{font-size:20px;margin:15px 0 25px}
+#countdown{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:96px;font-weight:900;text-shadow:0 8px 30px #000;pointer-events:none}.pauseOverlay{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);color:#fff}.pausePanel{width:min(430px,88vw);padding:30px;border-radius:24px;background:rgba(15,22,40,.96);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center}.pauseTitle{font-size:42px;font-weight:900;margin-bottom:10px}.pauseSub{opacity:.72;margin-bottom:24px}.pauseBtns{display:flex;flex-direction:column;gap:10px}.hidden{display:none!important}.difficultyCard{min-height:305px;padding:0 0 22px!important;overflow:hidden;text-align:left;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;background:#202a43!important}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.difficultyVisual{height:145px;display:flex;align-items:center;justify-content:center;margin:0;border-radius:0 0 16px 16px;font-size:58px}.difficultyVisual .stars{font-size:62px;letter-spacing:7px;color:#ffd42a;text-shadow:0 3px 0 rgba(180,120,0,.28),0 0 10px rgba(255,211,55,.18);white-space:nowrap}.difficultyName{padding:22px 18px 0;font-size:25px;font-weight:900}.result{font-size:20px;margin:15px 0 25px}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.title{font-size:42px}.cards{grid-template-columns:1fr}.panel{padding:24px}.cards .card{display:none}.cards .card.selected{display:block}#minimap{width:170px;height:128px;right:10px;top:10px}}
-table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}table th{position:sticky;top:0;background:#1b2438}#lastResultToast{z-index:30}</style>
+table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}table th{position:sticky;top:0;background:#1b2438}#lastResultToast{z-index:30}
+</style>
 </head>
 <body>
-<div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱 프로토타입</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
-<div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
-<div id="mapListScreen" class="screen hidden"><div class="panel"><h2 id="mapListTitle">맵 선택</h2><div class="cards" id="mapCards"></div><div class="menuBtns"><button class="btn" id="mapNext">차 선택</button><button class="btn secondary" id="mapListBack">난이도 선택으로</button></div></div></div>
-<div id="onlineScreen" class="screen hidden"><div class="panel"><h2>온라인 멀티플레이</h2><p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p><input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700"><div class="menuBtns"><button class="btn" id="createRoomBtn">방 만들기</button><button class="btn secondary" id="joinRoomBtn">방 참가</button><button class="btn secondary" id="onlineBack">메인 화면</button></div><div id="joinCodeBox" class="hidden" style="margin-top:16px"><input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase"><div style="margin-top:10px"><button class="btn" id="joinConfirmBtn">이 방 참가</button></div></div><div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div></div></div>
-<div id="lobbyScreen" class="screen hidden"><div class="panel"><h2>대기실</h2><div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div><div id="hostMapControls" class="hidden" style="margin:12px 0 18px"><div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div><select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select></div><div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div><div style="font-weight:800;margin:12px 0 8px">차 선택</div><div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div><div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div><div class="menuBtns"><button class="btn" id="onlineReadyBtn">준비 완료</button><button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button><button class="btn secondary" id="leaveRoomBtn">방 나가기</button></div><div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div></div></div>
-<div id="carScreen" class="screen hidden"><div class="panel"><h2>차 선택</h2><div class="cards" id="carCards"></div><div class="menuBtns"><button class="btn green" id="raceBtn">레이스 시작</button><button class="btn secondary" id="carBack">맵 선택으로</button></div></div></div>
-<div id="howScreen" class="screen hidden"><div class="panel"><h2>조작 방법</h2><p><b>W</b> 전진 &nbsp; <b>S</b> 후진</p><p><b>A</b> 좌회전 &nbsp; <b>D</b> 우회전</p><p><b>Shift</b> : 드리프트 &nbsp; <b>Space</b> : 부스트 (게이지 100%)</p><button class="btn secondary" id="howBack">돌아가기</button></div></div>
-<div id="recordScreen" class="screen hidden"><div class="panel"><h2>기록 게시판</h2><p class="sub" style="margin-bottom:14px">맵별로 따로 순위가 집계됩니다.</p><div id="recordMapTabs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 18px"></div><div id="recordTableWrap"></div><div class="menuBtns"><button class="btn secondary" id="recordBack">메인으로</button><button class="btn secondary" id="adminBtn">관리자</button><button class="btn danger hidden" id="clearRecordsBtn">전체 기록 초기화</button></div><div id="adminState" class="sub hidden" style="margin-top:10px">관리자 모드: 기록 삭제 가능</div></div></div>
-<div id="resultScreen" class="screen hidden"><div class="panel"><h2>레이스 종료!</h2><div class="result" id="resultText"></div><div class="menuBtns"><button class="btn" id="retryBtn">다시 하기</button><button class="btn secondary" id="resultMenu">메인 메뉴</button></div></div></div>
-<div id="hud" class="hidden">속도: <span id="speed">0</span> km/h<br>랩: <span id="lap">1</span> / 2<br>시간: <span id="timer">00:00.00</span><br><span id="mapName"></span><div class="boostBox">BOOST <span id="boostPct">0%</span><div class="boostOuter"><div id="boostInner" class="boostInner"></div></div></div></div>
-<canvas id="minimap" class="hidden" width="440" height="330"></canvas><div id="countdown" class="hidden"></div><div id="pauseOverlay" class="pauseOverlay hidden"><div class="pausePanel"><div class="pauseTitle">일시 정지</div><div class="pauseSub">ESC를 다시 누르면 게임이 계속됩니다.</div><div class="pauseBtns"><button class="btn green" id="resumeBtn">계속하기</button><button class="btn" id="pauseRestartBtn">현재 맵 다시 시작</button><button class="btn secondary" id="pauseMapBtn">맵 선택으로</button><button class="btn secondary" id="pauseMenuBtn">메인 화면으로</button></div></div></div>
+
+<div id="menu" class="screen">
+  <div class="panel">
+    <h1 class="title">MINI KART 3D</h1>
+    <div class="sub">3D 카트 레이싱 프로토타입</div>
+    <div class="menuBtns">
+      <button class="btn" id="startBtn">게임 시작</button>
+      <button class="btn secondary" id="howBtn">조작 방법</button>
+      <button class="btn secondary" id="recordBtn">기록 게시판</button>
+      <button class="btn green" id="onlineBtn">온라인 멀티플레이</button>
+    </div>
+  </div>
+</div>
+
+<div id="mapScreen" class="screen hidden">
+  <div class="panel">
+    <h2>난이도 선택</h2>
+    <div class="cards" id="difficultyCards"></div>
+    <div class="menuBtns">
+      <button class="btn secondary" id="mapBack">뒤로</button>
+    </div>
+  </div>
+</div>
+
+<div id="mapListScreen" class="screen hidden">
+  <div class="panel">
+    <h2 id="mapListTitle">맵 선택</h2>
+    <div class="cards" id="mapCards"></div>
+    <div class="menuBtns">
+      <button class="btn" id="mapNext">차 선택</button>
+      <button class="btn secondary" id="mapListBack">난이도 선택으로</button>
+    </div>
+  </div>
+</div>
+
+<div id="onlineScreen" class="screen hidden">
+  <div class="panel">
+    <h2>온라인 멀티플레이</h2>
+    <p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p>
+    <input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700">
+    <div class="menuBtns">
+      <button class="btn" id="createRoomBtn">방 만들기</button>
+      <button class="btn secondary" id="joinRoomBtn">방 참가</button>
+      <button class="btn secondary" id="onlineBack">메인 화면</button>
+    </div>
+    <div id="joinCodeBox" class="hidden" style="margin-top:16px">
+      <input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase">
+      <div style="margin-top:10px">
+        <button class="btn" id="joinConfirmBtn">이 방 참가</button>
+      </div>
+    </div>
+    <div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div>
+  </div>
+</div>
+
+<div id="lobbyScreen" class="screen hidden">
+  <div class="panel">
+    <h2>대기실</h2>
+    <div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div>
+
+    <div id="hostMapControls" class="hidden" style="margin:12px 0 18px">
+      <div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div>
+      <select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select>
+    </div>
+
+    <div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div>
+
+    <div style="font-weight:800;margin:12px 0 8px">차 선택</div>
+    <div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div>
+
+    <div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div>
+
+    <div class="menuBtns">
+      <button class="btn" id="onlineReadyBtn">준비 완료</button>
+      <button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button>
+      <button class="btn secondary" id="leaveRoomBtn">방 나가기</button>
+    </div>
+
+    <div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div>
+  </div>
+</div>
+
+<div id="carScreen" class="screen hidden">
+  <div class="panel">
+    <h2>차 선택</h2>
+    <div class="cards" id="carCards"></div>
+    <div class="menuBtns">
+      <button class="btn green" id="raceBtn">레이스 시작</button>
+      <button class="btn secondary" id="carBack">맵 선택으로</button>
+    </div>
+  </div>
+</div>
+
+<div id="howScreen" class="screen hidden">
+  <div class="panel">
+    <h2>조작 방법</h2>
+    <p><b>W</b> 전진 &nbsp; <b>S</b> 후진</p>
+    <p><b>A</b> 좌회전 &nbsp; <b>D</b> 우회전</p>
+    <p><b>Shift</b> : 드리프트 &nbsp; <b>Space</b> : 부스트 (게이지 100%)</p>
+    <button class="btn secondary" id="howBack">돌아가기</button>
+  </div>
+</div>
+
+<div id="recordScreen" class="screen hidden">
+  <div class="panel">
+    <h2>기록 게시판</h2>
+    <p class="sub" style="margin-bottom:14px">맵별로 따로 순위가 집계됩니다.</p>
+    <div id="recordMapTabs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 18px"></div>
+    <div id="recordTableWrap"></div>
+    <div class="menuBtns">
+      <button class="btn secondary" id="recordBack">메인으로</button>
+      <button class="btn secondary" id="adminBtn">관리자</button>
+      <button class="btn danger hidden" id="clearRecordsBtn">전체 기록 초기화</button>
+    </div>
+    <div id="adminState" class="sub hidden" style="margin-top:10px">관리자 모드: 기록 삭제 가능</div>
+  </div>
+</div>
+
+<div id="resultScreen" class="screen hidden">
+  <div class="panel">
+    <h2>레이스 종료!</h2>
+    <div class="result" id="resultText"></div>
+    <div class="menuBtns">
+      <button class="btn" id="retryBtn">다시 하기</button>
+      <button class="btn secondary" id="resultMenu">메인 메뉴</button>
+    </div>
+  </div>
+</div>
+
+<div id="hud" class="hidden">
+  속도: <span id="speed">0</span> km/h<br>
+  랩: <span id="lap">1</span> / 2<br>
+  시간: <span id="timer">00:00.00</span><br>
+  <span id="mapName"></span>
+  <div class="boostBox">
+    BOOST <span id="boostPct">0%</span>
+    <div class="boostOuter">
+      <div id="boostInner" class="boostInner"></div>
+    </div>
+  </div>
+</div>
+
+<canvas id="minimap" class="hidden" width="440" height="330"></canvas>
+<div id="countdown" class="hidden"></div>
+
+<div id="pauseOverlay" class="pauseOverlay hidden">
+  <div class="pausePanel">
+    <div class="pauseTitle">일시 정지</div>
+    <div class="pauseSub">ESC를 다시 누르면 게임이 계속됩니다.</div>
+    <div class="pauseBtns">
+      <button class="btn green" id="resumeBtn">계속하기</button>
+      <button class="btn" id="pauseRestartBtn">현재 맵 다시 시작</button>
+      <button class="btn secondary" id="pauseMapBtn">맵 선택으로</button>
+      <button class="btn secondary" id="pauseMenuBtn">메인 화면으로</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// 메뉴/선택 화면은 3D 엔진과 독립적으로 먼저 동작하도록 구성
 (function(){
   const q=id=>document.getElementById(id);
-  const show=id=>{document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden')); const el=q(id); if(el) el.classList.remove('hidden');};
+
+  const show=id=>{
+    document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));
+    const el=q(id);
+    if(el)el.classList.remove('hidden');
+  };
+
   const names=[
-    ['그린 밸리',1,0,2],['시골 드라이브',1,1,2],['시티 크로스',2,2,2],['네온 블록',2,3,2],
-    ['데저트 익스트림',3,4,2],['화산 링',3,5,2],['얼음 협곡',4,6,2],['카오스 캐니언',5,7,2],
-    ['그린 숏서킷',1,8,1],['네온 숏루프',2,9,1],['사막 쇼트헤어핀',3,10,1],['빙하 쇼트코스',4,11,1],['카오스 쇼트락',5,12,1]
+    ['그린 밸리',1,0,2],
+    ['시골 드라이브',1,1,2],
+    ['시티 크로스',4,2,2],
+    ['네온 블록',4,3,2],
+    ['데저트 익스트림',3,4,2],
+    ['화산 링',3,5,2],
+    ['얼음 협곡',2,6,2],
+    ['카오스 캐니언',5,7,2],
+    ['그린 숏서킷',1,8,1],
+    ['네온 숏루프',4,9,1],
+    ['사막 쇼트헤어핀',3,10,1],
+    ['빙하 쇼트코스',2,11,1],
+    ['카오스 쇼트락',5,12,1]
   ];
+
   function renderDifficultyFallback(){
-    const box=q('difficultyCards'); if(!box)return;
+    const box=q('difficultyCards');
+    if(!box)return;
+
     box.innerHTML=[1,2,3,4,5].map(stars=>{
-      const filled='★'.repeat(stars), empty='☆'.repeat(5-stars);
-      return `<button class="btn secondary difficultyCard" data-fallback-stars="${stars}" style="min-height:160px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;align-items:stretch;gap:0;background:#202a43"><div class="difficultyVisual" style="height:110px;display:flex;align-items:center;justify-content:center;background:${['#3d995e','#3c70b6','#a9682d','#7d2f94','#7d2f94'][stars-1]}"><span class="stars" style="font-size:52px;letter-spacing:5px;color:#ffd42a;white-space:nowrap">${filled}${empty}</span></div><div class="difficultyName" style="padding:17px;font-size:23px;font-weight:900">${stars}성 맵 선택</div></button>`;
+      const filled='★'.repeat(stars);
+      const empty='☆'.repeat(5-stars);
+
+      return `<button class="btn secondary difficultyCard" data-fallback-stars="${stars}" style="min-height:160px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;align-items:stretch;gap:0;background:#202a43">
+        <div class="difficultyVisual" style="height:110px;display:flex;align-items:center;justify-content:center;background:${['#3d995e','#3c70b6','#a9682d','#7d2f94','#7d2f94'][stars-1]}">
+          <span class="stars" style="font-size:52px;letter-spacing:5px;color:#ffd42a;white-space:nowrap">${filled}${empty}</span>
+        </div>
+        <div class="difficultyName" style="padding:17px;font-size:23px;font-weight:900">${stars}성 맵 선택</div>
+      </button>`;
     }).join('');
-    box.querySelectorAll('[data-fallback-stars]').forEach(b=>b.onclick=()=>{
-      const stars=Number(b.dataset.fallbackStars);
-      window.__selectedDifficulty=stars;
-      renderMapFallback(stars);
-      show('mapListScreen');
-      if(window.renderMapCardsPublic) window.renderMapCardsPublic(stars);
+
+    box.querySelectorAll('[data-fallback-stars]').forEach(b=>{
+      b.onclick=()=>{
+        const stars=Number(b.dataset.fallbackStars);
+        window.__selectedDifficulty=stars;
+        renderMapFallback(stars);
+        show('mapListScreen');
+
+        if(window.renderMapCardsPublic){
+          window.renderMapCardsPublic(stars);
+        }
+      };
     });
   }
+
   function renderMapFallback(stars){
-    const box=q('mapCards'); if(!box)return;
+    const box=q('mapCards');
+    if(!box)return;
+
     const items=names.filter(x=>x[1]===stars);
-    box.innerHTML=items.map(([name,st,i,laps])=>`<div class="card" data-fallback-map="${i}" style="cursor:pointer"><div class="preview mapPreview" style="background:#18233a"><span style="font-size:30px">🛣️</span></div><h3>${name}</h3><div class="stars">${'★'.repeat(st)}${'☆'.repeat(5-st)}</div><p>${laps} LAP</p></div>`).join('');
-    box.querySelectorAll('[data-fallback-map]').forEach(card=>card.onclick=()=>{
-      const i=Number(card.dataset.fallbackMap);
-      window.__selectedMapIndex=i;
-      box.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
-      card.classList.add('selected');
-      if(window.setSelectedMap) window.setSelectedMap(i);
+
+    box.innerHTML=items.map(([name,st,i,laps])=>
+      `<div class="card" data-fallback-map="${i}" style="cursor:pointer">
+        <div class="preview mapPreview" style="background:#18233a">
+          <span style="font-size:30px">🛣️</span>
+        </div>
+        <h3>${name}</h3>
+        <div class="stars">${'★'.repeat(st)}${'☆'.repeat(5-st)}</div>
+        <p>${laps} LAP</p>
+      </div>`
+    ).join('');
+
+    box.querySelectorAll('[data-fallback-map]').forEach(card=>{
+      card.onclick=()=>{
+        const i=Number(card.dataset.fallbackMap);
+        window.__selectedMapIndex=i;
+
+        box.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+        card.classList.add('selected');
+
+        if(window.setSelectedMap){
+          window.setSelectedMap(i);
+        }
+      };
     });
   }
-  q('startBtn')?.addEventListener('click',()=>{renderDifficultyFallback();show('mapScreen');});
+
+  q('startBtn')?.addEventListener('click',()=>{
+    renderDifficultyFallback();
+    show('mapScreen');
+  });
+
   q('howBtn')?.addEventListener('click',()=>show('howScreen'));
   q('howBack')?.addEventListener('click',()=>show('menu'));
   q('mapBack')?.addEventListener('click',()=>show('menu'));
-  q('mapListBack')?.addEventListener('click',()=>{renderDifficultyFallback();show('mapScreen');});
+
+  q('mapListBack')?.addEventListener('click',()=>{
+    renderDifficultyFallback();
+    show('mapScreen');
+  });
+
   q('mapNext')?.addEventListener('click',()=>show('carScreen'));
   q('carBack')?.addEventListener('click',()=>show('mapListScreen'));
   q('onlineBtn')?.addEventListener('click',()=>show('onlineScreen'));
   q('onlineBack')?.addEventListener('click',()=>show('menu'));
-  q('recordBtn')?.addEventListener('click',()=>show('recordScreen'));
+  q('recordBtn')?.addEventListener('click',()=>{
+    show('recordScreen');
+    if(window.renderRecordBoard){
+      window.renderRecordBoard();
+    }
+  });
   q('recordBack')?.addEventListener('click',()=>show('menu'));
-  q('adminBtn')?.addEventListener('click',()=>{const pw=prompt('관리자 비밀번호를 입력하세요.');if(pw==='hanchan0705'){window.__adminMode=true;window.showAdminControls?.();window.renderRecordBoardPublic?.();alert('관리자 모드가 활성화되었습니다.')}else if(pw!==null) alert('비밀번호가 올바르지 않습니다.');});
+
+  q('adminBtn')?.addEventListener('click',()=>{
+    const pw=prompt('관리자 비밀번호를 입력하세요.');
+
+    if(pw==='hanchan0705'){
+      window.__adminMode=true;
+      window.showAdminControls?.();
+      window.renderRecordBoardPublic?.();
+      alert('관리자 모드가 활성화되었습니다.');
+    }else if(pw!==null){
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+  });
+
   q('clearRecordsBtn')?.addEventListener('click',()=>window.clearRecordsPublic?.());
+
   window.renderDifficultyFallback=renderDifficultyFallback;
   window.renderMapFallback=renderMapFallback;
-  document.addEventListener('DOMContentLoaded',()=>renderDifficultyFallback());
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    renderDifficultyFallback();
+  });
 })();
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/three@0.160.0/build/three.min.js'"></script>
+
 <script>
 const maps=[
- {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[0,72],[48,72],[70,48],[72,8],[55,-24],[25,-40],[-5,-52],[-42,-52],[-68,-34],[-74,4],[-60,34],[-30,55]]},
- {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-65,50],[20,70],[65,50],[72,15],[45,-5],[68,-30],[50,-58],[-20,-70],[-68,-50],[-74,-18],[-45,2],[-65,22]]},
- {name:'시티 크로스',stars:2,laps:2,desc:'긴 직선과 S자 코너가 섞인 중급 코스.',sky:0x50698c,ground:0x31383d,road:0x41454b,wall:0xf2c94c,points:[[0,72],[42,72],[64,58],[65,30],[49,15],[25,20],[10,2],[15,-22],[42,-40],[43,-61],[18,-72],[-14,-72],[-42,-61],[-62,-38],[-67,-8],[-50,12],[-27,5],[-20,28],[-34,50],[-17,68]]},
- {name:'네온 블록',stars:2,laps:2,desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',sky:0x17223a,ground:0x293445,road:0x494d59,wall:0x39d9ff,points:[[4,76],[-38,76],[-63,63],[-72,39],[-66,16],[-42,4],[-22,14],[-2,4],[-4,-18],[-26,-26],[-48,-16],[-60,-34],[-43,-56],[-15,-67],[19,-68],[48,-55],[66,-32],[71,-8],[55,8],[31,2],[24,25],[44,41],[27,61],[6,67]]},
- {name:'데저트 익스트림',stars:3,laps:2,desc:'헤어핀과 급커브가 많은 상급 코스.',sky:0xffa06d,ground:0xb98550,road:0x55504b,wall:0x42b8b1,points:[[0,76],[36,76],[62,59],[70,31],[57,8],[31,11],[18,-8],[44,-30],[51,-50],[35,-69],[2,-78],[-29,-68],[-58,-53],[-72,-28],[-69,-3],[-49,15],[-22,10],[-34,34],[-21,57],[-4,70]]},
- {name:'화산 링',stars:3,laps:2,desc:'좁은 노면과 연속 S자 구간의 상급 코스.',sky:0x7f3f35,ground:0x4e3430,road:0x3f4147,wall:0xff6b35,points:[[-70,65],[15,75],[60,55],[72,25],[55,5],[25,-5],[50,-30],[65,-60],[10,-75],[-45,-65],[-70,-40],[-55,-12],[-25,0],[-45,25],[-65,40]]},
- {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[0,84],[-34,84],[-59,70],[-72,48],[-70,26],[-54,11],[-33,14],[-18,0],[-28,-17],[-51,-28],[-56,-49],[-43,-67],[-17,-79],[11,-80],[38,-69],[62,-54],[76,-34],[80,-10],[68,7],[48,12],[35,1],[43,20],[61,28],[65,47],[52,65],[28,76],[7,72]]},
- {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[88,0],[73,20],[80,46],[52,52],[45,78],[19,70],[0,94],[-18,68],[-45,78],[-52,52],[-76,44],[-70,19],[-92,0],[-73,-20],[-76,-44],[-51,-51],[-47,-81],[-19,-70],[0,-90],[19,-71],[46,-80],[49,-49],[76,-44],[71,-19]]},
+  {
+    name:'그린 밸리',
+    stars:1,
+    laps:2,
+    desc:'넓고 완만한 초급 코스.',
+    sky:0x92d9ff,
+    ground:0x58a64f,
+    road:0x50545a,
+    wall:0xe9e9e9,
+    points:[[0,72],[48,72],[70,48],[72,8],[55,-24],[25,-40],[-5,-52],[-42,-52],[-68,-34],[-74,4],[-60,34],[-30,55]]
+  },
+  {
+    name:'시골 드라이브',
+    stars:1,
+    laps:2,
+    desc:'더 넓고 느긋한 초급 연습 코스.',
+    sky:0xb9e9ff,
+    ground:0x65ad52,
+    road:0x555960,
+    wall:0xffffff,
+    points:[[-65,50],[20,70],[65,50],[72,15],[45,-5],[68,-30],[50,-58],[-20,-70],[-68,-50],[-74,-18],[-45,2],[-65,22]]
+  },
+  {
+    name:'시티 크로스',
+    stars:4,
+    laps:2,
+    desc:'긴 직선과 S자 코너가 섞인 중급 코스.',
+    sky:0x50698c,
+    ground:0x31383d,
+    road:0x41454b,
+    wall:0xf2c94c,
+    points:[[0,72],[42,72],[64,58],[65,30],[49,15],[25,20],[10,2],[15,-22],[42,-40],[43,-61],[18,-72],[-14,-72],[-42,-61],[-62,-38],[-67,-8],[-50,12],[-27,5],[-20,28],[-34,50],[-17,68]]
+  },
+  {
+    name:'네온 블록',
+    stars:4,
+    laps:2,
+    desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',
+    sky:0x17223a,
+    ground:0x293445,
+    road:0x494d59,
+    wall:0x39d9ff,
+    points:[[4,76],[-38,76],[-63,63],[-72,39],[-66,16],[-42,4],[-22,14],[-2,4],[-4,-18],[-26,-26],[-48,-16],[-60,-34],[-43,-56],[-15,-67],[19,-68],[48,-55],[66,-32],[71,-8],[55,8],[31,2],[24,25],[44,41],[27,61],[6,67]]
+  },
+  {
+    name:'데저트 익스트림',
+    stars:3,
+    laps:2,
+    desc:'헤어핀과 급커브가 많은 상급 코스.',
+    sky:0xffa06d,
+    ground:0xb98550,
+    road:0x55504b,
+    wall:0x42b8b1,
+    points:[[0,76],[36,76],[62,59],[70,31],[57,8],[31,11],[18,-8],[44,-30],[51,-50],[35,-69],[2,-78],[-29,-68],[-58,-53],[-72,-28],[-69,-3],[-49,15],[-22,10],[-34,34],[-21,57],[-4,70]]
+  },
+  {
+    name:'화산 링',
+    stars:3,
+    laps:2,
+    desc:'좁은 노면과 연속 S자 구간의 상급 코스.',
+    sky:0x7f3f35,
+    ground:0x4e3430,
+    road:0x3f4147,
+    wall:0xff6b35,
+    points:[[-70,65],[15,75],[60,55],[72,25],[55,5],[25,-5],[50,-30],[65,-60],[10,-75],[-45,-65],[-70,-40],[-55,-12],[-25,0],[-45,25],[-65,40]]
+  },
+  {
+    name:'얼음 협곡',
+    stars:2,
+    laps:2,
+    desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',
+    sky:0x9ed8ff,
+    ground:0x5b6f82,
+    road:0x3e454d,
+    wall:0x7fe7ff,
+    points:[[0,84],[-34,84],[-59,70],[-72,48],[-70,26],[-54,11],[-33,14],[-18,0],[-28,-17],[-51,-28],[-56,-49],[-43,-67],[-17,-79],[11,-80],[38,-69],[62,-54],[76,-34],[80,-10],[68,7],[48,12],[35,1],[43,20],[61,28],[65,47],[52,65],[28,76],[7,72]]
+  },
+  {
+    name:'카오스 캐니언',
+    stars:5,
+    laps:2,
+    desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',
+    sky:0x1b1027,
+    ground:0x24182c,
+    road:0x37313d,
+    wall:0xff2d95,
+    points:[[88,0],[73,20],[80,46],[52,52],[45,78],[19,70],[0,94],[-18,68],[-45,78],[-52,52],[-76,44],[-70,19],[-92,0],[-73,-20],[-76,-44],[-51,-51],[-47,-81],[-19,-70],[0,-90],[19,-71],[46,-80],[49,-49],[76,-44],[71,-19]]
+  },
 
-  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[0,96],[72,96],[104,61],[97,11],[65,-22],[14,-34],[-36,-34],[-86,-14],[-104,32],[-75,76],[-32,90]]},
-  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[14,108],[-61,108],[-104,75],[-112,26],[-76,-4],[-32,7],[-7,-24],[-43,-56],[-14,-104],[50,-104],[101,-68],[112,-11],[83,32],[47,18],[61,69]]},
-  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[0,116],[75,116],[110,79],[86,36],[32,40],[54,-4],[104,-40],[75,-86],[14,-108],[-50,-94],[-94,-54],[-76,-7],[-25,18],[-61,61],[-32,95]]},
-  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[0,116],[61,122],[101,83],[94,40],[50,14],[11,32],[-25,7],[-7,-36],[40,-61],[32,-101],[-22,-112],[-76,-82],[-97,-34],[-72,14],[-112,54],[-61,97]]},
-  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[0,128],[61,122],[90,83],[50,50],[94,14],[54,-18],[97,-54],[47,-86],[7,-116],[-47,-96],[-86,-58],[-58,-22],[-104,14],[-61,54],[-97,94],[-32,112]]},
+  {
+    name:'그린 숏서킷',
+    stars:1,
+    laps:1,
+    desc:'짧고 넓은 1랩 입문 코스.',
+    sky:0xa9e7ff,
+    ground:0x5ea957,
+    road:0x555961,
+    wall:0xffffff,
+    points:[[0,96],[72,96],[104,61],[97,11],[65,-22],[14,-34],[-36,-34],[-86,-14],[-104,32],[-75,76],[-32,90]]
+  },
+  {
+    name:'네온 숏루프',
+    stars:4,
+    laps:1,
+    desc:'중간 난이도의 빠른 1랩 코스.',
+    sky:0x18233a,
+    ground:0x29394a,
+    road:0x484d58,
+    wall:0x39d9ff,
+    points:[[14,108],[-61,108],[-104,75],[-112,26],[-76,-4],[-32,7],[-7,-24],[-43,-56],[-14,-104],[50,-104],[101,-68],[112,-11],[83,32],[47,18],[61,69]]
+  },
+  {
+    name:'사막 쇼트헤어핀',
+    stars:3,
+    laps:1,
+    desc:'짧지만 헤어핀이 강한 1랩 코스.',
+    sky:0xffb37e,
+    ground:0xc38a55,
+    road:0x55504b,
+    wall:0x40c4b5,
+    points:[[0,116],[75,116],[110,79],[86,36],[32,40],[54,-4],[104,-40],[75,-86],[14,-108],[-50,-94],[-94,-54],[-76,-7],[-25,18],[-61,61],[-32,95]]
+  },
+  {
+    name:'빙하 쇼트코스',
+    stars:2,
+    laps:1,
+    desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',
+    sky:0xa7e0ff,
+    ground:0x60798d,
+    road:0x414951,
+    wall:0x7fe7ff,
+    points:[[0,116],[61,122],[101,83],[94,40],[50,14],[11,32],[-25,7],[-7,-36],[40,-61],[32,-101],[-22,-112],[-76,-82],[-97,-34],[-72,14],[-112,54],[-61,97]]
+  },
+  {
+    name:'카오스 쇼트락',
+    stars:5,
+    laps:1,
+    desc:'극한의 급회전이 몰아치는 초고난도 1랩.',
+    sky:0x1b1027,
+    ground:0x2a1b31,
+    road:0x39333f,
+    wall:0xff2d95,
+    points:[[0,128],[61,122],[90,83],[50,50],[94,14],[54,-18],[97,-54],[47,-86],[7,-116],[-47,-96],[-86,-58],[-58,-22],[-104,14],[-61,54],[-97,94],[-32,112]]
+  }
 ];
 
 const cars=[
- {name:'레드 볼트',color:0xe53935,max:47,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
- {name:'블루 스톰',color:0x287cff,max:58,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
- {name:'퍼플 드리프터',color:0x9b45ff,max:43,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
- {name:'그린 스프린터',color:0x31c76a,max:50,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
- {name:'블랙 가디언',color:0x20252c,max:44,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
+  {name:'레드 볼트',color:0xe53935,max:47,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
+  {name:'블루 스톰',color:0x287cff,max:58,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
+  {name:'퍼플 드리프터',color:0x9b45ff,max:43,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
+  {name:'그린 스프린터',color:0x31c76a,max:50,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
+  {name:'블랙 가디언',color:0x20252c,max:44,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
 ];
-let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
-let raceStartTime=0,finalTime=0,lastResultTime=null;
-// ========================================
-// 기록 저장 시스템
-// ========================================
+
+let selectedMap=Number(window.__selectedMapIndex)||0,
+    selectedCar=0,
+    selectedDifficulty=Number(window.__selectedDifficulty)||1,
+    selectedRecordMap=0,
+    racing=false,
+    finished=false;
+
+let raceStartTime=0,
+    finalTime=0,
+    lastResultTime=null;
 
 const RECORD_KEY='miniKartRaceBoard';
 const OLD_RECORD_KEYS=['miniKartRaceBoardV2'];
@@ -125,11 +494,18 @@ function fmtTime(sec){
 }
 
 function normalizeRecord(r){
-  if(!r || !r.map) return null;
-  const nickname=String(r.nickname||'플레이어').trim().slice(0,12)||'플레이어';
+  if(!r||!r.map)return null;
+
+  const nickname=
+    String(r.nickname||'플레이어')
+      .trim()
+      .slice(0,12)||'플레이어';
+
   const time=Number(r.time);
-  if(!Number.isFinite(time)||time<=0) return null;
-  return {
+
+  if(!Number.isFinite(time)||time<=0)return null;
+
+  return{
     nickname,
     map:String(r.map||'').slice(0,80),
     time,
@@ -141,17 +517,28 @@ function normalizeRecord(r){
 
 function mergeRecords(...sources){
   const best=new Map();
+
   for(const source of sources){
-    if(!Array.isArray(source)) continue;
+    if(!Array.isArray(source))continue;
+
     for(const raw of source){
       const r=normalizeRecord(raw);
-      if(!r) continue;
-      const key=r.map.toLowerCase()+'||'+r.nickname.toLowerCase();
+      if(!r)continue;
+
+      const key=
+        r.map.toLowerCase()+
+        '||'+
+        r.nickname.toLowerCase();
+
       const old=best.get(key);
-      if(!old||r.time<old.time) best.set(key,r);
+
+      if(!old||r.time<old.time){
+        best.set(key,r);
+      }
     }
   }
-  return [...best.values()]
+
+  return[...best.values()]
     .sort((a,b)=>a.time-b.time||a.date-b.date)
     .slice(0,500);
 }
@@ -159,42 +546,84 @@ function mergeRecords(...sources){
 function loadRecordsLocal(){
   try{
     let all=[];
+
     try{
-      const current=JSON.parse(localStorage.getItem(RECORD_KEY)||'[]');
-      if(Array.isArray(current)) all.push(...current);
+      const current=
+        JSON.parse(
+          localStorage.getItem(RECORD_KEY)||'[]'
+        );
+
+      if(Array.isArray(current)){
+        all.push(...current);
+      }
     }catch{}
+
     for(const oldKey of OLD_RECORD_KEYS){
       try{
-        const old=JSON.parse(localStorage.getItem(oldKey)||'[]');
-        if(Array.isArray(old)) all.push(...old);
+        const old=
+          JSON.parse(
+            localStorage.getItem(oldKey)||'[]'
+          );
+
+        if(Array.isArray(old)){
+          all.push(...old);
+        }
       }catch{}
     }
+
     const merged=mergeRecords(all);
+
     saveRecordsLocal(merged);
+
     return merged;
+
   }catch{
-    return [];
+    return[];
   }
 }
 
 function saveRecordsLocal(records){
   try{
-    localStorage.setItem(RECORD_KEY,JSON.stringify(mergeRecords(records)));
+    localStorage.setItem(
+      RECORD_KEY,
+      JSON.stringify(
+        mergeRecords(records)
+      )
+    );
   }catch{}
 }
 
 async function loadRecords(){
   const localRecords=loadRecordsLocal();
+
   try{
-    const r=await fetch('/api/records',{cache:'no-store'});
-    if(!r.ok) throw new Error('records');
-    const remote=await r.json();
+    const r=
+      await fetch(
+        '/api/records',
+        {cache:'no-store'}
+      );
+
+    if(!r.ok){
+      throw new Error('records');
+    }
+
+    const remote=
+      await r.json();
+
     if(Array.isArray(remote)){
-      const merged=mergeRecords(remote,localRecords);
+      const merged=
+        mergeRecords(
+          remote,
+          localRecords
+        );
+
       saveRecordsLocal(merged);
+
       return merged;
     }
+
   }catch(e){}
+
   return localRecords;
 }
 
@@ -206,15 +635,25 @@ window.clearRecordsPublic=()=>{
 };
 
 function showAdminControls(){
-  const a=$('adminState'),c=$('clearRecordsBtn');
-  if(a) a.classList.remove('hidden');
-  if(c) c.classList.remove('hidden');
+  const a=$('adminState'),
+        c=$('clearRecordsBtn');
+
+  if(a)a.classList.remove('hidden');
+  if(c)c.classList.remove('hidden');
 }
+
 window.showAdminControls=showAdminControls;
 
 async function addRecord(nickname,time){
-  const clean=(nickname||'플레이어').trim().slice(0,12)||'플레이어';
-  const mapName=maps[selectedMap].name;
+
+  const clean=
+    (nickname||'플레이어')
+      .trim()
+      .slice(0,12)||'플레이어';
+
+  const mapName=
+    maps[selectedMap].name;
+
   const next={
     nickname:clean,
     time:Number(time),
@@ -224,778 +663,4021 @@ async function addRecord(nickname,time){
     date:Date.now()
   };
 
-  const localRecords=loadRecordsLocal();
-  const merged=mergeRecords(localRecords,[next]);
+  const localRecords=
+    loadRecordsLocal();
+
+  const merged=
+    mergeRecords(
+      localRecords,
+      [next]
+    );
+
   saveRecordsLocal(merged);
 
   try{
-    const r=await fetch('/api/records',{
-      method:'POST',
-      headers:{'content-type':'application/json'},
-      body:JSON.stringify(next)
-    });
+
+    const r=
+      await fetch(
+        '/api/records',
+        {
+          method:'POST',
+          headers:{
+            'content-type':
+              'application/json'
+          },
+          body:
+            JSON.stringify(next)
+        }
+      );
+
     if(r.ok){
-      const serverRecords=await r.json();
+
+      const serverRecords=
+        await r.json();
+
       if(Array.isArray(serverRecords)){
-        const finalRecords=mergeRecords(merged,serverRecords);
+
+        const finalRecords=
+          mergeRecords(
+            merged,
+            serverRecords
+          );
+
         saveRecordsLocal(finalRecords);
+
         return finalRecords;
       }
     }
+
   }catch(e){}
 
   return merged;
 }
-function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
-function requestNickname(){const n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.','플레이어');if(n===null)return null;const clean=n.trim().slice(0,12);return clean||'플레이어'}
 
-let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
+function escapeHtml(v){
+  return String(v).replace(
+    /[&<>'"]/g,
+    m=>({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      "'":'&#39;',
+      '"':'&quot;'
+    }[m])
+  );
+}
+
+function requestNickname(){
+  const n=
+    prompt(
+      '완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.',
+      '플레이어'
+    );
+
+  if(n===null)return null;
+
+  const clean=
+    n.trim().slice(0,12);
+
+  return clean||'플레이어';
+}
+
+let ws=null,
+    onlineRoomCode='',
+    onlineHostId='',
+    onlinePlayerId='',
+    onlineMapId=0,
+    onlineReady=false,
+    onlineFirstFinishDeadline=0,
+    onlineFinished=false;
+
 let remoteKarts=new Map();
-function wsUrl(){return (location.protocol==='https:'?'wss://':'ws://')+location.host}
-function setOnlineStatus(t){const e=$('onlineStatus');if(e)e.textContent=t||''}
-function setLobbyStatus(t){const e=$('lobbyStatus');if(e)e.textContent=t||''}
-function mapPreviewHtml(m){const mirror=[...maps].indexOf(m)>=0 && [1,3,5,7,9,11].includes([...maps].indexOf(m))?-1:1;const pts=m.points.map(p=>[p[0]*mirror,p[1]]);const xs=pts.map(p=>p[0]),zs=pts.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minZ=Math.min(...zs),maxZ=Math.max(...zs);const sc=Math.min(72/Math.max(1,maxX-minX),52/Math.max(1,maxZ-minZ)),dx=(100-(maxX-minX)*sc)/2,dy=(76-(maxZ-minZ)*sc)/2;const d=pts.map((p,k)=>`${k?'L':'M'} ${(p[0]-minX)*sc+dx} ${(maxZ-p[1])*sc+dy}`).join(' ');return `<div><div style="font-size:20px;font-weight:900;margin-bottom:8px">${escapeHtml(m.name)} · ${'★'.repeat(m.stars)}</div><div style="height:120px;border-radius:12px;background:#${m.sky.toString(16).padStart(6,'0')};display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 100 76" style="width:100%;height:100%"><path d="${d}" fill="none" stroke="#11151b" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#c7ccd1" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p style="margin:10px 0 0;opacity:.8">${escapeHtml(m.desc)} · ${m.laps} LAP</p></div>`}
+
+function wsUrl(){
+  return(
+    location.protocol==='https:'
+      ?'wss://'
+      :'ws://'
+  )+location.host;
+}
+
+function setOnlineStatus(t){
+  const e=$('onlineStatus');
+  if(e)e.textContent=t||'';
+}
+
+function setLobbyStatus(t){
+  const e=$('lobbyStatus');
+  if(e)e.textContent=t||'';
+}
+
+function mapPreviewHtml(m){
+  const mirror=
+    [...maps].indexOf(m)>=0 &&
+    [1,3,5,7,9,11].includes([...maps].indexOf(m))
+      ?-1
+      :1;
+
+  const pts=
+    m.points.map(
+      p=>[p[0]*mirror,p[1]]
+    );
+
+  const xs=pts.map(p=>p[0]),
+        zs=pts.map(p=>p[1]);
+
+  const minX=Math.min(...xs),
+        maxX=Math.max(...xs),
+        minZ=Math.min(...zs),
+        maxZ=Math.max(...zs);
+
+  const sc=
+    Math.min(
+      72/Math.max(1,maxX-minX),
+      52/Math.max(1,maxZ-minZ)
+    );
+
+  const dx=
+    (100-(maxX-minX)*sc)/2;
+
+  const dy=
+    (76-(maxZ-minZ)*sc)/2;
+
+  const d=
+    pts.map(
+      (p,k)=>
+        `${k?'L':'M'} ${(p[0]-minX)*sc+dx} ${(maxZ-p[1])*sc+dy}`
+    ).join(' ');
+
+  return`
+    <div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:8px">
+        ${escapeHtml(m.name)} · ${'★'.repeat(m.stars)}
+      </div>
+
+      <div style="height:120px;border-radius:12px;background:#${m.sky.toString(16).padStart(6,'0')};display:flex;align-items:center;justify-content:center">
+
+        <svg viewBox="0 0 100 76" style="width:100%;height:100%">
+
+          <path
+            d="${d}"
+            fill="none"
+            stroke="#11151b"
+            stroke-width="13"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <path
+            d="${d}"
+            fill="none"
+            stroke="#c7ccd1"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+        </svg>
+
+      </div>
+
+      <p style="margin:10px 0 0;opacity:.8">
+        ${escapeHtml(m.desc)} · ${m.laps} LAP
+      </p>
+
+    </div>
+  `;
+}
+
 function renderOnlineCarCards(){
-  const box=$('onlineCarCards'); if(!box)return;
-  box.innerHTML=cars.map((c,i)=>{
-    const hex=c.color.toString(16).padStart(6,'0');
-    const driftGauge=(1.2-c.grip)/.5*100;
-    return `<div class="card ${i===selectedCar?'selected':''}" data-i="${i}" style="cursor:pointer"><div class="carPreview"><div class="miniCar" style="background:#${hex}"></div></div><h3>${c.name}</h3><p>${c.desc}</p><div class="stats">${gauge('최고속도',c.max/60*100)}${gauge('가속',c.accel/30*100)}${gauge('드리프트',driftGauge)}${gauge('충돌',c.collision)}</div></div>`;
-  }).join('');
-  box.querySelectorAll('.card').forEach(card=>card.onclick=()=>{selectedCar=Number(card.dataset.i);onlineReady=false;renderOnlineCarCards();updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'carSelect',carId:selectedCar}));});
+
+  const box=$('onlineCarCards');
+
+  if(!box)return;
+
+  box.innerHTML=
+    cars.map((c,i)=>{
+
+      const hex=
+        c.color.toString(16).padStart(6,'0');
+
+      const driftGauge=
+        (1.2-c.grip)/.5*100;
+
+      return`
+        <div
+          class="card ${i===selectedCar?'selected':''}"
+          data-i="${i}"
+          style="cursor:pointer"
+        >
+
+          <div class="carPreview">
+            <div
+              class="miniCar"
+              style="background:#${hex}"
+            ></div>
+          </div>
+
+          <h3>${c.name}</h3>
+
+          <p>${c.desc}</p>
+
+          <div class="stats">
+
+            ${gauge('최고속도',c.max/60*100)}
+
+            ${gauge('가속',c.accel/30*100)}
+
+            ${gauge('드리프트',driftGauge)}
+
+            ${gauge('충돌',c.collision)}
+
+          </div>
+
+        </div>
+      `;
+
+    }).join('');
+
+  box
+    .querySelectorAll('.card')
+    .forEach(card=>{
+
+      card.onclick=()=>{
+
+        selectedCar=
+          Number(card.dataset.i);
+
+        onlineReady=false;
+
+        renderOnlineCarCards();
+
+        updateOnlineReadyButton();
+
+        if(ws?.readyState===1){
+
+          ws.send(
+            JSON.stringify({
+              type:'carSelect',
+              carId:selectedCar
+            })
+          );
+
+        }
+
+      };
+
+    });
 }
 
-function updateOnlineReadyButton(){const b=$('onlineReadyBtn'); if(b)b.textContent=onlineReady?'준비 취소':'준비 완료';}
+function updateOnlineReadyButton(){
+  const b=$('onlineReadyBtn');
+
+  if(b){
+    b.textContent=
+      onlineReady
+        ?'준비 취소'
+        :'준비 완료';
+  }
+}
+
 function renderLobby(data){
- onlineRoomCode=data.code||onlineRoomCode; onlineHostId=data.hostId||onlineHostId; onlineMapId=Number(data.mapId||0); $('roomCodeLabel').textContent=onlineRoomCode||'-';
- const list=data.players||[]; $('roomPlayers').innerHTML=list.map((p,i)=>`<div style="padding:10px 12px;margin:6px 0;border-radius:10px;background:#273451"><b>${i+1}. ${escapeHtml(p.name)}</b>${p.host?' <span style="color:#ffe600">방장</span>':''} · ${escapeHtml(cars[Number(p.carId)]?.name||'차 미선택')} ${p.ready?' <span style="color:#65e35b;font-weight:800">준비 완료</span>':' <span style="opacity:.65">대기 중</span>'}</div>`).join('');
- const me=list.find(p=>p.id===onlinePlayerId); const isHost=me?me.host:(onlineHostId===onlinePlayerId); const allReady=list.length>0 && list.every(p=>p.ready);
- $('hostMapControls').classList.toggle('hidden',!isHost); $('onlineStartRaceBtn').classList.toggle('hidden',!(isHost && allReady));
- $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
- renderOnlineCarCards(); updateOnlineReadyButton();
- $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
- if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
+
+  onlineRoomCode=
+    data.code||onlineRoomCode;
+
+  onlineHostId=
+    data.hostId||onlineHostId;
+
+  onlineMapId=
+    Number(data.mapId||0);
+
+  $('roomCodeLabel').textContent=
+    onlineRoomCode||'-';
+
+  const list=
+    data.players||[];
+
+  $('roomPlayers').innerHTML=
+    list.map((p,i)=>
+      `<div style="padding:10px 12px;margin:6px 0;border-radius:10px;background:#273451">
+
+        <b>
+          ${i+1}. ${escapeHtml(p.name)}
+        </b>
+
+        ${p.host
+          ?' <span style="color:#ffe600">방장</span>'
+          :''
+        }
+
+        · ${escapeHtml(
+          cars[Number(p.carId)]?.name||'차 미선택'
+        )}
+
+        ${p.ready
+          ?' <span style="color:#65e35b;font-weight:800">준비 완료</span>'
+          :' <span style="opacity:.65">대기 중</span>'
+        }
+
+      </div>`
+    ).join('');
+
+  const me=
+    list.find(
+      p=>p.id===onlinePlayerId
+    );
+
+  const isHost=
+    me
+      ?me.host
+      :(onlineHostId===onlinePlayerId);
+
+  const allReady=
+    list.length>0 &&
+    list.every(
+      p=>p.ready
+    );
+
+  $('hostMapControls')
+    .classList.toggle(
+      'hidden',
+      !isHost
+    );
+
+  $('onlineStartRaceBtn')
+    .classList.toggle(
+      'hidden',
+      !(isHost&&allReady)
+    );
+
+  $('roomMapPreview').innerHTML=
+    mapPreviewHtml(
+      maps[onlineMapId]||maps[0]
+    );
+
+  renderOnlineCarCards();
+  updateOnlineReadyButton();
+
+  $('lobbyStatus').textContent=
+    isHost
+      ?(
+        allReady
+          ?'모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.'
+          :`${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`
+      )
+      :`선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
+
+  if(isHost){
+
+    const ordered=
+      orderedMapEntries();
+
+    $('hostMapSelect').innerHTML=
+      ordered.map(
+        ({m,i})=>
+          `<option value="${i}">
+            ${m.stars}성 · ${m.name} · ${m.laps} LAP
+          </option>`
+      ).join('');
+
+    $('hostMapSelect').value=
+      String(onlineMapId);
+  }
 }
+
 function connectWS(){
- if(ws&&ws.readyState<=1)return;
- ws=new WebSocket(wsUrl());
- ws.onopen=()=>setOnlineStatus('서버에 연결됨');
- ws.onerror=()=>setOnlineStatus('서버 연결에 실패했습니다. Render 서버 상태를 확인하세요.');
- ws.onclose=()=>{setOnlineStatus('연결이 종료되었습니다.');ws=null};
- ws.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch{return}
-  if(m.type==='hello'){onlinePlayerId=m.id}
-  else if(m.type==='room'){onlineRoomCode=m.code;onlineHostId=m.hostId;onlineMapId=Number(m.mapId||0);$('onlineScreen').classList.add('hidden');show('lobbyScreen');renderLobby(m)}
-  else if(m.type==='players'){renderLobby({...m,code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players})}
-  else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players||[]});setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}
-  else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0); if(typeof startRaceNow==='function') startRaceNow(true);}
-  else if(m.type==='error'){setOnlineStatus(m.message||'오류가 발생했습니다.');setLobbyStatus(m.message||'오류가 발생했습니다.')}
-  else if(m.type==='snapshot'){
-    window.__onlineSnapshot=m.players||[];
-    updateRemoteKarts(window.__onlineSnapshot);
-    window.dispatchEvent(new CustomEvent('onlineSnapshot',{detail:window.__onlineSnapshot}));
-  }
-  else if(m.type==='firstFinish'){
-    onlineFirstFinishDeadline=performance.now()+Number(m.remaining||10000);
-    showOnlineDeadline(m.remaining||10000);
-  }
-  else if(m.type==='raceTimeout'){
-    onlineFinished=true;
-  }
-  else if(m.type==='raceFinished'){
-    onlineFinished=true;
-  }
-  else if(m.type==='raceEnd'){
-    onlineFinished=true; racing=false; finished=true; hideRaceUI(); showOnlineRaceEnded(m.rankings||[]);
-  }
- };
-}
-function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
-function joinRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';const code=($('roomCodeInput').value||'').trim().toUpperCase();if(code.length<5){setOnlineStatus('방 코드를 5자리로 입력하세요.');return}connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'joinRoom',name,code,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 
-const $=id=>document.getElementById(id);
-function show(id){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));$(id).classList.remove('hidden')}
+  if(ws&&ws.readyState<=1)return;
+
+  ws=
+    new WebSocket(
+      wsUrl()
+    );
+
+  ws.onopen=()=>{
+    setOnlineStatus(
+      '서버에 연결됨'
+    );
+  };
+
+  ws.onerror=()=>{
+    setOnlineStatus(
+      '서버 연결에 실패했습니다. Render 서버 상태를 확인하세요.'
+    );
+  };
+
+  ws.onclose=()=>{
+    setOnlineStatus(
+      '연결이 종료되었습니다.'
+    );
+
+    ws=null;
+  };
+
+  ws.onmessage=e=>{
+
+    let m;
+
+    try{
+      m=JSON.parse(e.data);
+    }catch{
+      return;
+    }
+
+    if(m.type==='hello'){
+
+      onlinePlayerId=m.id;
+
+    }
+
+    else if(m.type==='room'){
+
+      onlineRoomCode=m.code;
+      onlineHostId=m.hostId;
+      onlineMapId=
+        Number(m.mapId||0);
+
+      $('onlineScreen')
+        .classList.add('hidden');
+
+      show('lobbyScreen');
+
+      renderLobby(m);
+
+    }
+
+    else if(m.type==='players'){
+
+      renderLobby({
+        ...m,
+        code:onlineRoomCode,
+        hostId:onlineHostId,
+        mapId:onlineMapId,
+        players:m.players
+      });
+
+    }
+
+    else if(m.type==='mapSelected'){
+
+      onlineMapId=
+        Number(m.mapId||0);
+
+      renderLobby({
+        code:onlineRoomCode,
+        hostId:onlineHostId,
+        mapId:onlineMapId,
+        players:m.players||[]
+      });
+
+      setLobbyStatus(
+        `${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`
+      );
+
+    }
+
+    else if(m.type==='raceStart'){
+
+      selectedMap=
+        Number(m.mapId||0);
+
+      if(typeof startRaceNow==='function'){
+        startRaceNow(true);
+      }
+
+    }
+
+    else if(m.type==='error'){
+
+      setOnlineStatus(
+        m.message||'오류가 발생했습니다.'
+      );
+
+      setLobbyStatus(
+        m.message||'오류가 발생했습니다.'
+      );
+
+    }
+
+    else if(m.type==='snapshot'){
+
+      window.__onlineSnapshot=
+        m.players||[];
+
+      updateRemoteKarts(
+        window.__onlineSnapshot
+      );
+
+      window.dispatchEvent(
+        new CustomEvent(
+          'onlineSnapshot',
+          {
+            detail:window.__onlineSnapshot
+          }
+        )
+      );
+
+    }
+
+    else if(m.type==='firstFinish'){
+
+      onlineFirstFinishDeadline=
+        performance.now()+
+        Number(m.remaining||10000);
+
+      showOnlineDeadline(
+        m.remaining||10000
+      );
+
+    }
+
+    else if(m.type==='raceTimeout'){
+
+      onlineFinished=true;
+
+    }
+
+    else if(m.type==='raceFinished'){
+
+      onlineFinished=true;
+
+    }
+
+    else if(m.type==='raceEnd'){
+
+      onlineFinished=true;
+      racing=false;
+      finished=true;
+
+      hideRaceUI();
+
+      showOnlineRaceEnded(
+        m.rankings||[]
+      );
+
+    }
+  };
+}
+
+function createRoom(){
+
+  const name=
+    ($('onlineName').value||'플레이어')
+      .trim()
+      .slice(0,12)||'플레이어';
+
+  connectWS();
+
+  const sendIt=()=>{
+
+    if(ws?.readyState===1){
+
+      ws.send(
+        JSON.stringify({
+          type:'createRoom',
+          name,
+          mapId:selectedMap,
+          carId:selectedCar
+        })
+      );
+
+    }else{
+      setTimeout(
+        sendIt,
+        100
+      );
+    }
+
+  };
+
+  sendIt();
+}
+
+function joinRoom(){
+
+  const name=
+    ($('onlineName').value||'플레이어')
+      .trim()
+      .slice(0,12)||'플레이어';
+
+  const code=
+    ($('roomCodeInput').value||'')
+      .trim()
+      .toUpperCase();
+
+  if(code.length<5){
+
+    setOnlineStatus(
+      '방 코드를 5자리로 입력하세요.'
+    );
+
+    return;
+  }
+
+  connectWS();
+
+  const sendIt=()=>{
+
+    if(ws?.readyState===1){
+
+      ws.send(
+        JSON.stringify({
+          type:'joinRoom',
+          name,
+          code,
+          carId:selectedCar
+        })
+      );
+
+    }else{
+
+      setTimeout(
+        sendIt,
+        100
+      );
+
+    }
+  };
+
+  sendIt();
+}
+
+const $=id=>
+  document.getElementById(id);
+
+function show(id){
+
+  document
+    .querySelectorAll('.screen')
+    .forEach(
+      e=>e.classList.add('hidden')
+    );
+
+  $(id).classList.remove(
+    'hidden'
+  );
+}
+
 function orderedMapEntries(){
- return maps.map((m,i)=>({m,i})).sort((a,b)=>a.m.stars-b.m.stars || a.i-b.i);
+
+  return maps
+    .map((m,i)=>({m,i}))
+    .sort(
+      (a,b)=>
+        a.m.stars-b.m.stars
+        ||a.i-b.i
+    );
 }
+
 function renderDifficultyCards(){
- const groups=[
-  {stars:1,title:'1성 맵 선택'},
-  {stars:2,title:'2성 맵 선택'},
-  {stars:3,title:'3성 맵 선택'},
-  {stars:4,title:'4성 맵 선택'},
-  {stars:5,title:'5성 맵 선택'}
- ];
- const panelColors={1:'#3a9357',2:'#3d72b4',3:'#a7622b',4:'#7b3091',5:'#7b3091'};$('difficultyCards').innerHTML=groups.map(g=>{const stars='★'.repeat(g.stars); return `<button class="btn secondary difficultyCard" data-stars="${g.stars}"><div class="difficultyVisual" style="background:${panelColors[g.stars]}"><div class="stars">${stars}</div></div><div class="difficultyName">${g.title}</div></button>`}).join('');
- document.querySelectorAll('#difficultyCards [data-stars]').forEach(c=>c.onclick=()=>{selectedDifficulty=+c.dataset.stars;renderMapCards(selectedDifficulty);$('mapListTitle').textContent=`${selectedDifficulty}성 맵 선택`;show('mapListScreen')});
-}
-window.setSelectedMap=(i)=>{selectedMap=Number(i)||0;};
-function renderMapCards(stars=selectedDifficulty){
- const filtered=orderedMapEntries().filter(x=>x.m.stars===stars);
-  const mini=(m)=>{const mirror=[...maps].indexOf(m)>=0 && [1,3,5,7,9,11].includes([...maps].indexOf(m))?-1:1;const pts=m.points.map(p=>[p[0]*mirror,p[1]]);const xs=pts.map(p=>p[0]),zs=pts.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minZ=Math.min(...zs),maxZ=Math.max(...zs);const sc=Math.min(72/Math.max(1,maxX-minX),52/Math.max(1,maxZ-minZ)),dx=(100-(maxX-minX)*sc)/2,dy=(76-(maxZ-minZ)*sc)/2;const d=pts.map((p,k)=>`${k?'L':'M'} ${(p[0]-minX)*sc+dx} ${(maxZ-p[1])*sc+dy}`).join(' ');return `<svg viewBox="0 0 100 76" style="width:100%;height:100%"><path d="${d}" fill="none" stroke="#12171d" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#bfc4ca" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#fff" stroke-width="1.2" opacity=".85"/></svg>`};
-  $('mapCards').innerHTML=filtered.map(({m,i})=>`<div class="card ${i===selectedMap?'selected':''}" data-i="${i}" style="cursor:pointer"><div class="preview mapPreview" style="background:#${m.sky.toString(16).padStart(6,'0')}">${mini(m)}</div><h3>${m.name}</h3><div class="stars">${'★'.repeat(m.stars)}${'☆'.repeat(Math.max(0,5-m.stars))}</div><p>${m.laps||2} LAP</p></div>`).join('');
- document.querySelectorAll('#mapCards .card').forEach(card=>card.onclick=()=>{selectedMap=Number(card.dataset.i);renderMapCards(selectedDifficulty);});
+
+  const groups=[
+    {stars:1,title:'1성 맵 선택'},
+    {stars:2,title:'2성 맵 선택'},
+    {stars:3,title:'3성 맵 선택'},
+    {stars:4,title:'4성 맵 선택'},
+    {stars:5,title:'5성 맵 선택'}
+  ];
+
+  const panelColors={
+    1:'#3a9357',
+    2:'#3d72b4',
+    3:'#a7622b',
+    4:'#7b3091',
+    5:'#7b3091'
+  };
+
+  $('difficultyCards').innerHTML=
+    groups.map(
+      g=>{
+
+        const stars=
+          '★'.repeat(g.stars);
+
+        return`
+          <button
+            class="btn secondary difficultyCard"
+            data-stars="${g.stars}"
+          >
+
+            <div
+              class="difficultyVisual"
+              style="background:${panelColors[g.stars]}"
+            >
+
+              <div class="stars">
+                ${stars}
+              </div>
+
+            </div>
+
+            <div class="difficultyName">
+              ${g.title}
+            </div>
+
+          </button>
+        `;
+      }
+    ).join('');
+
+  document
+    .querySelectorAll(
+      '#difficultyCards [data-stars]'
+    )
+    .forEach(c=>{
+
+      c.onclick=()=>{
+
+        selectedDifficulty=
+          Number(c.dataset.stars);
+
+        renderMapCards(
+          selectedDifficulty
+        );
+
+        $('mapListTitle').textContent=
+          `${selectedDifficulty}성 맵 선택`;
+
+        show('mapListScreen');
+
+      };
+    });
 }
 
-window.renderDifficultyCardsPublic=renderDifficultyCards;
-window.renderMapCardsPublic=(stars)=>{selectedDifficulty=Number(stars)||1;renderMapCards(selectedDifficulty);};
-async function renderRecordBoard(){
- const ordered=orderedMapEntries();
- const tabs=$('recordMapTabs');
- const groups=[1,2,3,4,5].map(stars=>({stars,items:ordered.filter(({m})=>m.stars===stars)})).filter(g=>g.items.length);
- tabs.innerHTML=groups.map(g=>`<div style="width:100%;font-weight:900;text-align:left;margin-top:6px;color:#ffd84d">${g.stars}성</div>${g.items.map(({m,i})=>`<button class="btn ${i===selectedRecordMap?'':'secondary'}" style="padding:10px 14px;font-size:14px" data-rmap="${i}">${m.name} · ${'★'.repeat(m.stars)}</button>`).join('')}`).join('');
- tabs.querySelectorAll('[data-rmap]').forEach(b=>b.onclick=()=>{selectedRecordMap=+b.dataset.rmap;renderRecordBoard()});
- if(!Number.isInteger(selectedRecordMap) || !maps[selectedRecordMap]) selectedRecordMap=ordered[0]?.i||0;
- const mapName=maps[selectedRecordMap].name;
- const all=await loadRecords();
- const records=all.filter(r=>r.map===mapName).sort((a,b)=>a.time-b.time);
- const admin=!!window.__adminMode;
- const rows=records.length?records.slice(0,100).map((r,i)=>{
-   return `<tr><td><b>${i+1}</b></td><td>${escapeHtml(r.nickname)}</td><td><b>${fmtTime(r.time)}</b></td><td>${escapeHtml(r.car||'-')}</td><td>${new Date(r.date).toLocaleDateString('ko-KR')}</td>${admin?`<td><button class="mini danger" data-delete-name="${escapeHtml(r.nickname)}">삭제</button></td>`:''}</tr>`;
- }).join(''):`<tr><td colspan="${admin?6:5}" style="padding:28px;opacity:.65">이 맵에는 아직 기록이 없습니다.</td></tr>`;
- $('recordTableWrap').innerHTML=`<div style="overflow:auto;max-height:55vh"><table style="width:100%;border-collapse:collapse;min-width:${admin?650:560}px"><thead><tr><th>순위</th><th>닉네임</th><th>기록</th><th>차</th><th>등록일</th>${admin?'<th>관리</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`;
- document.querySelectorAll('[data-delete-name]').forEach(btn=>btn.onclick=async()=>{
-   if(!window.__adminMode)return;
-   const nickname=btn.dataset.deleteName;
-   if(!confirm(`'${nickname}'의 ${mapName} 기록을 삭제할까요?`))return;
-   try{const r=await fetch('/api/records',{method:'DELETE',headers:{'content-type':'application/json'},body:JSON.stringify({map:mapName,nickname,password:ADMIN_PASSWORD})});if(!r.ok)throw new Error('delete');const x=await r.json();saveRecordsLocal(x);await renderRecordBoard();}catch(e){alert('기록 삭제에 실패했습니다. 서버 연결을 확인하세요.');}
- });
+window.setSelectedMap=(i)=>{
+  selectedMap=
+    Number(i)||0;
+};
+
+function renderMapCards(
+  stars=selectedDifficulty
+){
+
+  const filtered=
+    orderedMapEntries()
+      .filter(
+        x=>x.m.stars===stars
+      );
+
+  const mini=(m)=>{
+
+    const mirror=
+      [...maps].indexOf(m)>=0 &&
+      [1,3,5,7,9,11].includes(
+        [...maps].indexOf(m)
+      )
+        ?-1
+        :1;
+
+    const pts=
+      m.points.map(
+        p=>[
+          p[0]*mirror,
+          p[1]
+        ]
+      );
+
+    const xs=
+      pts.map(p=>p[0]);
+
+    const zs=
+      pts.map(p=>p[1]);
+
+    const minX=
+      Math.min(...xs);
+
+    const maxX=
+      Math.max(...xs);
+
+    const minZ=
+      Math.min(...zs);
+
+    const maxZ=
+      Math.max(...zs);
+
+    const sc=
+      Math.min(
+        72/Math.max(
+          1,
+          maxX-minX
+        ),
+        52/Math.max(
+          1,
+          maxZ-minZ
+        )
+      );
+
+    const dx=
+      (100-(maxX-minX)*sc)/2;
+
+    const dy=
+      (76-(maxZ-minZ)*sc)/2;
+
+    const d=
+      pts.map(
+        (p,k)=>
+          `${k?'L':'M'} ${(p[0]-minX)*sc+dx} ${(maxZ-p[1])*sc+dy}`
+      ).join(' ');
+
+    return`
+      <svg
+        viewBox="0 0 100 76"
+        style="width:100%;height:100%"
+      >
+
+        <path
+          d="${d}"
+          fill="none"
+          stroke="#12171d"
+          stroke-width="12"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="${d}"
+          fill="none"
+          stroke="#bfc4ca"
+          stroke-width="8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="${d}"
+          fill="none"
+          stroke="#fff"
+          stroke-width="1.2"
+          opacity=".85"
+        />
+
+      </svg>
+    `;
+  };
+
+  $('mapCards').innerHTML=
+    filtered
+      .map(({m,i})=>
+        `<div
+          class="card ${i===selectedMap?'selected':''}"
+          data-i="${i}"
+          style="cursor:pointer"
+        >
+
+          <div
+            class="preview mapPreview"
+            style="background:#${m.sky.toString(16).padStart(6,'0')}"
+          >
+            ${mini(m)}
+          </div>
+
+          <h3>${m.name}</h3>
+
+          <div class="stars">
+            ${'★'.repeat(m.stars)}
+            ${'☆'.repeat(Math.max(0,5-m.stars))}
+          </div>
+
+          <p>${m.laps||2} LAP</p>
+
+        </div>`
+      )
+      .join('');
+
+  document
+    .querySelectorAll(
+      '#mapCards .card'
+    )
+    .forEach(
+      card=>
+        card.onclick=()=>{
+
+          selectedMap=
+            Number(card.dataset.i);
+
+          renderMapCards(
+            selectedDifficulty
+          );
+
+        }
+    );
 }
 
-window.renderRecordBoardPublic=renderRecordBoard;
-window.showAdminControlsPublic=showAdminControls;
-function gauge(label,value,max=100){const pct=Math.max(0,Math.min(100,value/max*100));return `<div class="statRow"><div class="statLabel"><span>${label}</span></div><div class="statBar"><div class="statFill" style="width:${pct}%"></div></div></div>`}
+window.renderDifficultyCardsPublic=
+  renderDifficultyCards;
+
+window.renderMapCardsPublic=
+  stars=>{
+
+    selectedDifficulty=
+      Number(stars)||1;
+
+    renderMapCards(
+      selectedDifficulty
+    );
+
+  };
+
+window.renderRecordBoardPublic=
+  renderRecordBoard;
+
+window.showAdminControlsPublic=
+  showAdminControls;
+
+function gauge(
+  label,
+  value,
+  max=100
+){
+
+  const pct=
+    Math.max(
+      0,
+      Math.min(
+        100,
+        value/max*100
+      )
+    );
+
+  return`
+    <div class="statRow">
+
+      <div class="statLabel">
+        <span>${label}</span>
+      </div>
+
+      <div class="statBar">
+        <div
+          class="statFill"
+          style="width:${pct}%"
+        ></div>
+      </div>
+
+    </div>
+  `;
+}
+
 function renderCarCards(){
-  const box=$('carCards');
-  if(!box) return;
 
-  // 차 선택 화면이 어떤 화면 크기에서도 반드시 보이도록 강제로 렌더링
-  box.style.display='grid';
-  box.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';
-  box.style.gap='13px';
-  box.style.width='100%';
+  const box=
+    $('carCards');
+
+  if(!box)return;
+
+  box.style.display=
+    'grid';
+
+  box.style.gridTemplateColumns=
+    'repeat(2,minmax(0,1fr))';
+
+  box.style.gap=
+    '13px';
+
+  box.style.width=
+    '100%';
 
   box.innerHTML='';
 
-  cars.forEach((c,i)=>{
-    const hex=Number(c.color).toString(16).padStart(6,'0');
-    const speedGauge=Math.max(0,Math.min(100,c.max/60*100));
-    const accelGauge=Math.max(0,Math.min(100,c.accel/30*100));
-    const driftGauge=Math.max(0,Math.min(100,(1.2-c.grip)/.5*100));
-    const collisionGauge=Math.max(0,Math.min(100,Number(c.collision)||0));
+  cars.forEach(
+    (c,i)=>{
 
-    const card=document.createElement('div');
-    card.className='card'+(i===selectedCar?' selected':'');
-    card.dataset.i=String(i);
-    card.style.display='block';
-    card.style.cursor='pointer';
-    card.innerHTML=`
-      <div class="carPreview">
-        <div class="miniCar" style="background:#${hex}"></div>
-      </div>
-      <h3>${escapeHtml(c.name)}</h3>
-      <p>${escapeHtml(c.desc)}</p>
-      <div class="stats">
-        ${gauge('최고속도',speedGauge)}
-        ${gauge('가속',accelGauge)}
-        ${gauge('드리프트',driftGauge)}
-        ${gauge('충돌',collisionGauge)}
-      </div>
-    `;
+      const hex=
+        Number(c.color)
+          .toString(16)
+          .padStart(6,'0');
 
-    card.onclick=()=>{
-      selectedCar=i;
-      renderCarCards();
-    };
+      const speedGauge=
+        Math.max(
+          0,
+          Math.min(
+            100,
+            c.max/60*100
+          )
+        );
 
-    box.appendChild(card);
-  });
+      const accelGauge=
+        Math.max(
+          0,
+          Math.min(
+            100,
+            c.accel/30*100
+          )
+        );
+
+      const driftGauge=
+        Math.max(
+          0,
+          Math.min(
+            100,
+            (1.2-c.grip)/.5*100
+          )
+        );
+
+      const collisionGauge=
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Number(c.collision)||0
+          )
+        );
+
+      const card=
+        document.createElement(
+          'div'
+        );
+
+      card.className=
+        'card'+
+        (
+          i===selectedCar
+            ?' selected'
+            :''
+        );
+
+      card.dataset.i=
+        String(i);
+
+      card.style.display=
+        'block';
+
+      card.style.cursor=
+        'pointer';
+
+      card.innerHTML=`
+        <div class="carPreview">
+
+          <div
+            class="miniCar"
+            style="background:#${hex}"
+          ></div>
+
+        </div>
+
+        <h3>${escapeHtml(c.name)}</h3>
+
+        <p>${escapeHtml(c.desc)}</p>
+
+        <div class="stats">
+
+          ${gauge(
+            '최고속도',
+            speedGauge
+          )}
+
+          ${gauge(
+            '가속',
+            accelGauge
+          )}
+
+          ${gauge(
+            '드리프트',
+            driftGauge
+          )}
+
+          ${gauge(
+            '충돌',
+            collisionGauge
+          )}
+
+        </div>
+      `;
+
+      card.onclick=()=>{
+
+        selectedCar=i;
+
+        renderCarCards();
+
+      };
+
+      box.appendChild(
+        card
+      );
+
+    }
+  );
 }
 
 renderDifficultyCards();
 renderCarCards();
 
-// 차 선택 버튼을 눌렀을 때 반드시 다시 그린다.
+$('startBtn').onclick=()=>{
+  renderDifficultyCards();
+  show('mapScreen');
+};
+
+$('onlineBtn').onclick=()=>{
+  show('onlineScreen');
+  setOnlineStatus('');
+  $('joinCodeBox')
+    .classList.add('hidden');
+  connectWS();
+};
+
+$('onlineBack').onclick=
+  ()=>show('menu');
+
+$('createRoomBtn').onclick=
+  createRoom;
+
+$('joinRoomBtn').onclick=()=>{
+  $('joinCodeBox')
+    .classList.remove('hidden');
+
+  $('roomCodeInput')
+    .focus();
+};
+
+$('joinConfirmBtn').onclick=
+  joinRoom;
+
+$('leaveRoomBtn').onclick=()=>{
+  if(ws){
+    ws.close();
+    ws=null;
+  }
+
+  show('onlineScreen');
+};
+
+$('hostMapSelect').onchange=()=>{
+
+  const id=
+    Number(
+      $('hostMapSelect').value
+    );
+
+  onlineMapId=id;
+
+  if(ws?.readyState===1){
+
+    ws.send(
+      JSON.stringify({
+        type:'mapSelect',
+        mapId:id
+      })
+    );
+
+  }
+
+  $('roomMapPreview').innerHTML=
+    mapPreviewHtml(
+      maps[id]
+    );
+
+  setLobbyStatus(
+    `${maps[id].name} 선택됨 — 방 참가자에게도 표시됩니다.`
+  );
+};
+
+$('onlineReadyBtn').onclick=()=>{
+
+  onlineReady=
+    !onlineReady;
+
+  updateOnlineReadyButton();
+
+  if(ws?.readyState===1){
+
+    ws.send(
+      JSON.stringify({
+        type:'ready',
+        ready:onlineReady,
+        carId:selectedCar
+      })
+    );
+
+  }
+};
+
+$('onlineStartRaceBtn').onclick=()=>{
+
+  if(ws?.readyState===1){
+
+    ws.send(
+      JSON.stringify({
+        type:'startRace',
+        mapId:onlineMapId
+      })
+    );
+
+  }
+};
+
+$('recordBtn').onclick=async()=>{
+  await renderRecordBoard();
+  show('recordScreen');
+};
+
+$('recordBack').onclick=
+  ()=>show('menu');
+
+$('mapBack').onclick=
+  ()=>show('menu');
+
+$('mapListBack').onclick=()=>{
+  renderDifficultyCards();
+  show('mapScreen');
+};
+
 $('mapNext').onclick=()=>{
   renderCarCards();
   show('carScreen');
-  requestAnimationFrame(()=>renderCarCards());
 };
 
-// 페이지가 완전히 준비된 뒤에도 한 번 더 렌더링
-window.addEventListener('DOMContentLoaded',()=>renderCarCards());
-$('startBtn').onclick=()=>{renderDifficultyCards();show('mapScreen')};
-$('onlineBtn').onclick=()=>{show('onlineScreen');setOnlineStatus('');$('joinCodeBox').classList.add('hidden');connectWS()};
-$('onlineBack').onclick=()=>show('menu');
-$('createRoomBtn').onclick=createRoom;
-$('joinRoomBtn').onclick=()=>{$('joinCodeBox').classList.remove('hidden');$('roomCodeInput').focus()};
-$('joinConfirmBtn').onclick=joinRoom;
-$('leaveRoomBtn').onclick=()=>{if(ws){ws.close();ws=null}show('onlineScreen')};
-$('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);onlineMapId=id;if(ws?.readyState===1)ws.send(JSON.stringify({type:'mapSelect',mapId:id}));$('roomMapPreview').innerHTML=mapPreviewHtml(maps[id]);setLobbyStatus(`${maps[id].name} 선택됨 — 방 참가자에게도 표시됩니다.`);};
-$('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
-$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
+$('carBack').onclick=
+  ()=>show('mapListScreen');
 
-const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
-const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
-const MIN_COLLISION_KICK=1.6; // 저속에서 겹침만 풀어주는 최소 반발력(20km/h로 속도를 강제하지 않음)
-function collisionSpeedValue(v){return Math.abs(Number(v)||0);}
-const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
-function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
-function makeKart(color){
- const g=new THREE.Group();g.userData.radius=1.45;
- const body=new THREE.Mesh(new THREE.BoxGeometry(2.45,.62,3.35),mat(color,.55));body.position.y=.72;body.castShadow=true;g.add(body);
- const lower=new THREE.Mesh(new THREE.BoxGeometry(2.62,.32,2.75),mat(0x20242b));lower.position.set(0,.48,-.05);lower.castShadow=true;g.add(lower);
- const nose=new THREE.Mesh(new THREE.BoxGeometry(1.85,.35,1.12),mat(color,.5));nose.position.set(0,.98,1.35);g.add(nose);
- const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.35,.58,.82),mat(0x10151d,.2));windshield.position.set(0,1.17,.35);windshield.rotation.x=-.12;g.add(windshield);
- const cockpit=new THREE.Mesh(new THREE.BoxGeometry(1.42,.55,1.15),mat(0x181b22));cockpit.position.set(0,1.04,-.42);g.add(cockpit);
- const spoiler=new THREE.Mesh(new THREE.BoxGeometry(2.05,.18,.25),mat(0x20242b));spoiler.position.set(0,1.25,-1.5);g.add(spoiler);const sp1=new THREE.Mesh(new THREE.BoxGeometry(.14,.45,.16),mat(0x20242b));sp1.position.set(-.72,1.05,-1.45);g.add(sp1);const sp2=sp1.clone();sp2.position.x=.72;g.add(sp2);
- const headMat=new THREE.MeshStandardMaterial({color:0xfff3b0,emissive:0xffcc55,emissiveIntensity:1.4});for(const x of [-.68,.68]){const h=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.14),headMat);h.position.set(x,.98,1.93);g.add(h)}
- const tailMat=new THREE.MeshStandardMaterial({color:0xff3030,emissive:0xaa0000,emissiveIntensity:.8});for(const x of [-.72,.72]){const t=new THREE.Mesh(new THREE.BoxGeometry(.3,.15,.12),tailMat);t.position.set(x,.75,-1.72);g.add(t)}
- for(const x of [-1.27,1.27])for(const z of [-1.08,1.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.38,20),mat(0x111318,.95));w.rotation.z=Math.PI/2;w.position.set(x,.45,z);w.castShadow=true;g.add(w)}
- const hub=mat(0xb8c0ca,.3);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.4,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
- return g;
+$('howBtn').onclick=
+  ()=>show('howScreen');
+
+$('howBack').onclick=
+  ()=>show('menu');
+
+const scene=
+  new THREE.Scene();
+
+const camera=
+  new THREE.PerspectiveCamera(
+    64,
+    innerWidth/innerHeight,
+    .1,
+    700
+  );
+
+const renderer=
+  new THREE.WebGLRenderer({
+    antialias:true
+  });
+
+renderer.setSize(
+  innerWidth,
+  innerHeight
+);
+
+renderer.setPixelRatio(
+  Math.min(
+    devicePixelRatio,
+    2
+  )
+);
+
+renderer.shadowMap.enabled=
+  false;
+
+document.body.appendChild(
+  renderer.domElement
+);
+
+scene.add(
+  new THREE.HemisphereLight(
+    0xffffff,
+    0x49634a,
+    1.6
+  )
+);
+
+const sun=
+  new THREE.DirectionalLight(
+    0xffffff,
+    1.4
+  );
+
+sun.position.set(
+  40,
+  90,
+  35
+);
+
+scene.add(sun);
+
+const world=
+  new THREE.Group();
+
+scene.add(world);
+
+let player,
+    trackCurve,
+    trackPoints=[],
+    trackWidth=16,
+    walls=[],
+    obstacles=[];
+
+let speed=0,
+    boost=0,
+    boosting=0,
+    lap=1,
+    lastProgress=0,
+    progress=0,
+    startLapArmed=false,
+    countdownTimer=0,
+    driftTime=0;
+
+let lateralVelocity=0;
+
+let cameraSmoothYaw=0;
+
+let cameraReady=false;
+
+const cameraLookTarget=
+  new THREE.Vector3();
+
+const cameraFollowTarget=
+  new THREE.Vector3();
+
+const MIN_COLLISION_KICK=
+  1.6;
+
+function collisionSpeedValue(v){
+  return Math.abs(
+    Number(v)||0
+  );
 }
-function clearWorld(){while(world.children.length)world.remove(world.children[0]);walls=[];obstacles=[];remoteKarts.clear();window.__onlineSnapshot=[]}
 
-function addObstacleCollider(x,z,radius){ obstacles.push({x,z,radius}); }
+const keys={};
+
+let spacePressed=false;
+
+let paused=false;
+
+addEventListener(
+  'keydown',
+  e=>{
+
+    if(
+      e.code==='Space' &&
+      !e.repeat
+    ){
+      spacePressed=true;
+    }
+
+    if(
+      e.code==='Escape'
+    ){
+
+      if(paused){
+
+        e.preventDefault();
+
+        togglePause();
+
+        return;
+      }
+
+      if(
+        !finished &&
+        (
+          racing||
+          countdownTimer>0
+        )
+      ){
+
+        e.preventDefault();
+
+        togglePause();
+
+        return;
+      }
+    }
+
+    keys[e.code]=true;
+
+    if(
+      [
+        'Space',
+        'ArrowUp',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight'
+      ].includes(e.code)
+    ){
+      e.preventDefault();
+    }
+
+  }
+);
+
+addEventListener(
+  'keyup',
+  e=>{
+    keys[e.code]=false;
+  }
+);
+
+function mat(
+  c,
+  r=.78
+){
+
+  return new THREE.MeshStandardMaterial({
+    color:c,
+    roughness:r
+  });
+
+}
+
+function makeKart(color){
+
+  const g=
+    new THREE.Group();
+
+  g.userData.radius=
+    1.45;
+
+  const body=
+    new THREE.Mesh(
+      new THREE.BoxGeometry(
+        2.45,
+        .62,
+        3.35
+      ),
+      mat(
+        color,
+        .55
+      )
+    );
+
+  body.position.y=
+    .72;
+
+  body.castShadow=true;
+
+  g.add(body);
+
+  const cabin=
+    new THREE.Mesh(
+      new THREE.BoxGeometry(
+        1.75,
+        .54,
+        1.45
+      ),
+      mat(
+        0x202634,
+        .3
+      )
+    );
+
+  cabin.position.set(
+    0,
+    1.16,
+    -.15
+  );
+
+  g.add(cabin);
+
+  const front=
+    new THREE.Mesh(
+      new THREE.BoxGeometry(
+        2.1,
+        .14,
+        .18
+      ),
+      mat(
+        0xffffff,
+        .4
+      )
+    );
+
+  front.position.set(
+    0,
+    .83,
+    1.68
+  );
+
+  g.add(front);
+
+  const wheelGeo=
+    new THREE.CylinderGeometry(
+      .36,
+      .36,
+      .24,
+      12
+    );
+
+  const wheelMat=
+    mat(
+      0x151515,
+      .8
+    );
+
+  [
+    [-1.12,.46,1.12],
+    [1.12,.46,1.12],
+    [-1.12,.46,-1.12],
+    [1.12,.46,-1.12]
+  ].forEach(
+    p=>{
+
+      const w=
+        new THREE.Mesh(
+          wheelGeo,
+          wheelMat
+        );
+
+      w.rotation.z=
+        Math.PI/2;
+
+      w.position.set(
+        p[0],
+        p[1],
+        p[2]
+      );
+
+      g.add(w);
+
+    }
+  );
+
+  return g;
+}
+
+function buildCurve(){
+
+  const m=
+    maps[selectedMap];
+
+  return new THREE.CatmullRomCurve3(
+    m.points.map(
+      ([x,z])=>
+        new THREE.Vector3(
+          x,
+          0,
+          z
+        )
+    ),
+    true,
+    'centripetal',
+    0.08
+  );
+}
+
+function boundaryPoint(
+  i,
+  offset
+){
+
+  const N=
+    trackPoints.length;
+
+  const p=
+    trackPoints[
+      (i+N)%N
+    ];
+
+  const prev=
+    trackPoints[
+      (i-1+N)%N
+    ];
+
+  const next=
+    trackPoints[
+      (i+1)%N
+    ];
+
+  const dir=
+    next.clone().sub(prev);
+
+  dir.y=0;
+
+  dir.normalize();
+
+  const side=
+    new THREE.Vector3(
+      -dir.z,
+      0,
+      dir.x
+    ).normalize();
+
+  return p.clone()
+    .addScaledVector(
+      side,
+      offset
+    );
+}
+
+function makeTrackRibbon(
+  points,
+  width,
+  material
+){
+
+  const N=
+    points.length;
+
+  const verts=[],
+        uv=[],
+        idx=[];
+
+  for(
+    let i=0;
+    i<N;
+    i++
+  ){
+
+    const p=
+      points[i];
+
+    const prev=
+      points[
+        (i-1+N)%N
+      ];
+
+    const next=
+      points[
+        (i+1)%N
+      ];
+
+    const dir=
+      next.clone()
+        .sub(prev);
+
+    dir.y=0;
+
+    dir.normalize();
+
+    const side=
+      new THREE.Vector3(
+        -dir.z,
+        0,
+        dir.x
+      ).normalize();
+
+    const l=
+      p.clone()
+        .addScaledVector(
+          side,
+          width/2
+        );
+
+    const r=
+      p.clone()
+        .addScaledVector(
+          side,
+          -width/2
+        );
+
+    verts.push(
+      l.x,0,l.z,
+      r.x,0,r.z
+    );
+
+    const u=
+      i/(N-1);
+
+    uv.push(
+      0,u,
+      1,u
+    );
+
+  }
+
+  for(
+    let i=0;
+    i<N-1;
+    i++
+  ){
+
+    const a=
+      i*2;
+
+    const b=
+      a+1;
+
+    const c=
+      ((i+1)%N)*2;
+
+    const d=
+      c+1;
+
+    idx.push(
+      a,
+      b,
+      c,
+      b,
+      d,
+      c
+    );
+
+  }
+
+  const geo=
+    new THREE.BufferGeometry();
+
+  geo.setAttribute(
+    'position',
+    new THREE.Float32BufferAttribute(
+      verts,
+      3
+    )
+  );
+
+  geo.setAttribute(
+    'uv',
+    new THREE.Float32BufferAttribute(
+      uv,
+      2
+    )
+  );
+
+  geo.setIndex(
+    idx
+  );
+
+  geo.computeVertexNormals();
+
+  const mesh=
+    new THREE.Mesh(
+      geo,
+      material
+    );
+
+  return mesh;
+}
+
+function makeGuardRail(
+  offset,
+  color
+){
+
+  const N=
+    trackPoints.length;
+
+  const railMat=
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness:.65,
+      metalness:.15
+    });
+
+  const group=
+    new THREE.Group();
+
+  for(
+    let i=0;
+    i<N;
+    i++
+  ){
+
+    const a=
+      boundaryPoint(
+        i,
+        offset
+      );
+
+    const b=
+      boundaryPoint(
+        (i+1)%N,
+        offset
+      );
+
+    a.y=.78;
+    b.y=.78;
+
+    const dir=
+      b.clone()
+        .sub(a);
+
+    const len=
+      dir.length();
+
+    if(len<.05)continue;
+
+    const cut=
+      Math.min(
+        .10,
+        len*.18
+      );
+
+    const unit=
+      dir.clone()
+        .normalize();
+
+    const aa=
+      a.clone()
+        .addScaledVector(
+          unit,
+          cut
+        );
+
+    const bb=
+      b.clone()
+        .addScaledVector(
+          unit,
+          -cut
+        );
+
+    const d=
+      bb.clone()
+        .sub(aa);
+
+    const l=
+      d.length();
+
+    if(l<.08)continue;
+
+    const mesh=
+      new THREE.Mesh(
+        new THREE.CylinderGeometry(
+          .19,
+          .19,
+          l,
+          8
+        ),
+        railMat
+      );
+
+    mesh.position.copy(
+      aa
+    ).add(bb)
+      .multiplyScalar(.5);
+
+    mesh.quaternion.setFromUnitVectors(
+      new THREE.Vector3(
+        0,1,0
+      ),
+      d.normalize()
+    );
+
+    group.add(mesh);
+  }
+
+  world.add(group);
+
+  return group;
+}
+
+function addObstacleCollider(
+  x,
+  z,
+  radius
+){
+
+  obstacles.push({
+    x,
+    z,
+    radius
+  });
+
+}
+
 function resolveObstacleCollisions(){
-  if(!player) return;
-  const playerRadius=1.45;
-  for(const o of obstacles){
-    const dx=player.position.x-o.x, dz=player.position.z-o.z;
-    const d2=dx*dx+dz*dz, minD=o.radius+playerRadius;
-    if(d2 < minD*minD){
-      const d=Math.max(Math.sqrt(d2),0.001);
-      const nx=dx/d, nz=dz/d;
-      const push=minD-d;
-      player.position.x += nx*push;
-      player.position.z += nz*push;
-      // 장애물도 가드레일처럼 살짝 튕겨내되, 과하게 밀리지 않게 한다.
-      const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
-      const normal=new THREE.Vector3(nx,0,nz);
-      const into=f.dot(normal);
+
+  if(!player)return;
+
+  for(
+    const o of obstacles
+  ){
+
+    const dx=
+      player.position.x-o.x;
+
+    const dz=
+      player.position.z-o.z;
+
+    const d2=
+      dx*dx+dz*dz;
+
+    const minD=
+      o.radius+1.18;
+
+    if(
+      d2<
+      minD*minD
+    ){
+
+      const d=
+        Math.max(
+          Math.sqrt(d2),
+          .001
+        );
+
+      const nx=
+        dx/d;
+
+      const nz=
+        dz/d;
+
+      const push=
+        minD-d;
+
+      player.position.x+=
+        nx*push*.74;
+
+      player.position.z+=
+        nz*push*.74;
+
+      const f=
+        new THREE.Vector3(
+          Math.sin(player.rotation.y),
+          0,
+          Math.cos(player.rotation.y)
+        );
+
+      const normal=
+        new THREE.Vector3(
+          nx,
+          0,
+          nz
+        );
+
+      const into=
+        f.dot(normal);
+
       if(into<0){
-        const impact=THREE.MathUtils.clamp(-into,0,1);
-        const reflected=f.clone().addScaledVector(normal,-1.55*into).normalize();
-        const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
-        let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
-        player.rotation.y=currentAngle+delta*(0.10+0.35*impact);
-        const collisionPower=(cars[selectedCar].collision||40)/100;
-        // 아주 느린 충돌도 최소 20km/h 충돌로 계산해 벽/장애물에 끼지 않게 한다.
-        const collisionSpeed=collisionSpeedValue(speed);
-        const speedSign=speed<0?-1:1;
-        const collisionDamp=THREE.MathUtils.lerp(0.93-0.03*collisionPower,0.67+0.08*collisionPower,impact);
-        // 실제 속도는 그대로 기준으로 사용하고, 저속에서는 '끼임 방지용' 작은 반발력만 추가한다.
-        speed=speedSign*collisionSpeed*collisionDamp;
-        const unstuck=Math.max(collisionSpeed*0.10*impact,MIN_COLLISION_KICK*0.18);
-        speed += speedSign * unstuck;
-        lateralVelocity*=THREE.MathUtils.lerp(0.74,0.46,impact);
-      } else { speed*=0.90; lateralVelocity*=0.70; }
+
+        const impact=
+          THREE.MathUtils.clamp(
+            -into,
+            0,
+            1
+          );
+
+        const reflected=
+          f.clone()
+            .addScaledVector(
+              normal,
+              -1.55*into
+            )
+            .normalize();
+
+        const currentAngle=
+          Math.atan2(
+            f.x,
+            f.z
+          );
+
+        const targetAngle=
+          Math.atan2(
+            reflected.x,
+            reflected.z
+          );
+
+        let delta=
+          targetAngle-currentAngle;
+
+        while(
+          delta>Math.PI
+        ){
+          delta-=Math.PI*2;
+        }
+
+        while(
+          delta<-Math.PI
+        ){
+          delta+=Math.PI*2;
+        }
+
+        player.rotation.y=
+          currentAngle+
+          delta*
+          (
+            .10+
+            .35*impact
+          );
+
+        const collisionPower=
+          (cars[selectedCar].collision||40)/100;
+
+        const collisionSpeed=
+          collisionSpeedValue(
+            speed
+          );
+
+        const speedSign=
+          speed<0
+            ?-1
+            :1;
+
+        const collisionDamp=
+          THREE.MathUtils.lerp(
+            .93-.03*collisionPower,
+            .67+.08*collisionPower,
+            impact
+          );
+
+        speed=
+          speedSign*
+          collisionSpeed*
+          collisionDamp;
+
+        lateralVelocity*=
+          THREE.MathUtils.lerp(
+            .74,
+            .46,
+            impact
+          );
+
+      }else{
+
+        speed*=.90;
+
+        lateralVelocity*=.70;
+
+      }
     }
   }
 }
-function buildCurve(){
- const m=maps[selectedMap];
- // 중심선을 충분히 부드럽게 샘플링해 도로 자체를 하나의 연속된 리본 메쉬로 만든다.
- return new THREE.CatmullRomCurve3(m.points.map(([x,z])=>new THREE.Vector3(x,0,z)),true,'centripetal',0.08);
-}
-function boundaryPoint(i, offset){
- const N=trackPoints.length, p=trackPoints[(i+N)%N];
- const prev=trackPoints[(i-1+N)%N], next=trackPoints[(i+1)%N];
- const dir=next.clone().sub(prev); dir.y=0; dir.normalize();
- const side=new THREE.Vector3(-dir.z,0,dir.x).normalize();
- return p.clone().addScaledVector(side,offset);
-}
-function makeTrackRibbon(points,width,material){
- const N=points.length, verts=[],uv=[],idx=[];
- for(let i=0;i<N;i++){
-  const l=boundaryPoint(i,width/2), r=boundaryPoint(i,-width/2);
-  l.y=0.08; r.y=0.08;
-  verts.push(l.x,l.y,l.z,r.x,r.y,r.z);uv.push(0,i/N,1,i/N);
- }
- for(let i=0;i<N;i++){const j=(i+1)%N,a=i*2,b=i*2+1,c=j*2,d=j*2+1;idx.push(a,b,c,b,d,c)}
- const g=new THREE.BufferGeometry();
- g.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
- g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
- g.setIndex(idx);g.computeVertexNormals();
- const mesh=new THREE.Mesh(g,material);mesh.receiveShadow=false;mesh.castShadow=false;return mesh;
-}
-function makeGuardRail(offset,color){
- // 가드레일은 구간마다 정확히 두 점 사이 길이만 사용한다.
- // 급커브에서 긴 메쉬가 안쪽으로 꺾이며 역삼각형이 생기는 문제를 피한다.
- const N=trackPoints.length;
- const railMat=new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.15});
- const group=new THREE.Group();
- for(let i=0;i<N;i++){
-   const a=boundaryPoint(i,offset);
-   const b=boundaryPoint((i+1)%N,offset);
-   a.y=.78; b.y=.78;
-   const dir=b.clone().sub(a);
-   const len=dir.length();
-   if(len<.05) continue;
-   // 양 끝을 아주 조금 줄여 급커브에서 세그먼트가 겹치지 않게 한다.
-   const cut=Math.min(.10,len*.18);
-   const unit=dir.clone().normalize();
-   const aa=a.clone().addScaledVector(unit,cut);
-   const bb=b.clone().addScaledVector(unit,-cut);
-   const d=bb.clone().sub(aa);
-   const l=d.length();
-   if(l<.08) continue;
-   const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,l,8),railMat);
-   mesh.position.copy(aa).add(bb).multiplyScalar(.5);
-   mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
-   mesh.castShadow=false; mesh.receiveShadow=false;
-   group.add(mesh);
- }
- world.add(group);
- return group;
-}
+
 function buildMap(){
- clearWorld(); const m=maps[selectedMap]; scene.background=new THREE.Color(m.sky); scene.fog=new THREE.Fog(m.sky,135,330); trackCurve=buildCurve(); trackPoints=[]; const N=700;
- const ground=new THREE.Mesh(new THREE.PlaneGeometry(1600,1600),new THREE.MeshBasicMaterial({color:m.ground}));ground.rotation.x=-Math.PI/2;ground.position.y=-1.0;world.add(ground);
- // 연속 리본 도로: 코너에서도 조각 사이 틈이 생기지 않는다.
- for(let i=0;i<N;i++) trackPoints.push(trackCurve.getPointAt(i/N));
- world.add(makeTrackRibbon(trackPoints,trackWidth,new THREE.MeshBasicMaterial({color:m.road,side:THREE.DoubleSide})));
- // 양쪽 가드레일은 도로 바깥쪽에만 배치하고 서로 겹쳐 연결한다.
- makeGuardRail(trackWidth/2+1.15,m.wall);
- makeGuardRail(-trackWidth/2-1.15,m.wall);
- // 중앙 차선: 작은 세그먼트지만 도로와 같은 높이 관계로 확실히 위에 둔다.
- for(let i=0;i<N;i+=9){const p=trackCurve.getPointAt(i/N),tan=trackCurve.getTangentAt(i/N).normalize();const q=trackCurve.getPointAt((i+3)/N);const line=new THREE.Mesh(new THREE.BoxGeometry(.16,.035,p.distanceTo(q)*.55),new THREE.MeshBasicMaterial({color:0xffffff}));line.position.copy(p);line.position.y=.255;line.rotation.y=Math.atan2(tan.x,tan.z);world.add(line)}
- const p0=trackCurve.getPointAt(0),tan0=trackCurve.getTangentAt(0).normalize(),side0=new THREE.Vector3(-tan0.z,0,tan0.x);for(let i=-5;i<=5;i++){const s=new THREE.Mesh(new THREE.BoxGeometry(1.45,.055,1.05),new THREE.MeshBasicMaterial({color:i%2?0x222222:0xffffff}));s.position.copy(p0).addScaledVector(side0,i*1.45);s.position.y=.27;s.rotation.y=Math.atan2(tan0.x,tan0.z);world.add(s)}
- // 레이스 라인 주변의 뜬금없는 나무/장애물은 제거한다. 장식물은 맵 외곽 안전 구역에만 생성한다.
- const sceneryOuter=112 + (selectedMap===1?14:0);
- for(let i=0;i<18;i++){
-  const a=i/18*Math.PI*2;
-  const x=Math.cos(a)*sceneryOuter, z=Math.sin(a)*sceneryOuter;
-  // 외곽 장식물이 도로/가드레일 근처에 생성되면 배치하지 않는다.
-  if(nearestProgress(new THREE.Vector3(x,0,z)).d < trackWidth/2 + 24) continue;
-  if(selectedMap<=1){
-   const g=new THREE.Group();
-   const tr=new THREE.Mesh(new THREE.CylinderGeometry(.5,.7,3.8,8),mat(0x6a4327));tr.position.y=1.9;tr.castShadow=false;g.add(tr);
-   const crown=new THREE.Mesh(new THREE.ConeGeometry(3.0,6.2,8),mat(0x23763a));crown.position.y=6.2;crown.castShadow=false;g.add(crown);
-   g.position.set(x,0,z);world.add(g);
-   addObstacleCollider(x,z,3.5);
-  } else if((selectedMap===2 || selectedMap===3) && nearestProgress(new THREE.Vector3(x,0,z)).d > trackWidth/2 + 28){
-   const b=new THREE.Mesh(new THREE.BoxGeometry(5,8,5),mat(0x58616d));b.position.set(x,4,z);world.add(b);
-   addObstacleCollider(x,z,3.3);
+
+  while(
+    world.children.length
+  ){
+    world.remove(
+      world.children[0]
+    );
   }
- }
- player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
- speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
- $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
+
+  obstacles=[];
+
+  trackCurve=
+    buildCurve();
+
+  const N=300;
+
+  trackPoints=[];
+
+  for(
+    let i=0;
+    i<N;
+    i++
+  ){
+
+    trackPoints.push(
+      trackCurve.getPointAt(
+        i/N
+      )
+    );
+
+  }
+
+  const m=
+    maps[selectedMap];
+
+  scene.background=
+    new THREE.Color(
+      m.sky
+    );
+
+  const ground=
+    new THREE.Mesh(
+      new THREE.PlaneGeometry(
+        600,
+        600
+      ),
+      mat(
+        m.ground,
+        .95
+      )
+    );
+
+  ground.rotation.x=
+    -Math.PI/2;
+
+  ground.position.y=
+    -.03;
+
+  world.add(
+    ground
+  );
+
+  const road=
+    makeTrackRibbon(
+      trackPoints,
+      trackWidth,
+      mat(
+        m.road,
+        .86
+      )
+    );
+
+  road.position.y=
+    .02;
+
+  world.add(
+    road
+  );
+
+  makeGuardRail(
+    trackWidth/2+1.15,
+    m.wall
+  );
+
+  makeGuardRail(
+    -trackWidth/2-1.15,
+    m.wall
+  );
+
+  const step=
+    Math.max(
+      1,
+      Math.floor(
+        trackPoints.length/
+        11
+      )
+    );
+
+  for(
+    let i=0;
+    i<trackPoints.length;
+    i+=step
+  ){
+
+    const p=
+      trackPoints[i];
+
+    if(i%3===0){
+
+      const sideSign=
+        i%2===0
+          ?1
+          :-1;
+
+      const tangent=
+        trackCurve
+          .getTangentAt(
+            i/N
+          )
+          .normalize();
+
+      const side=
+        new THREE.Vector3(
+          -tangent.z,
+          0,
+          tangent.x
+        ).normalize();
+
+      const x=
+        p.x+
+        side.x*
+        (
+          trackWidth*.5+
+          7+
+          (i%4)*1.2
+        )*
+        sideSign;
+
+      const z=
+        p.z+
+        side.z*
+        (
+          trackWidth*.5+
+          7+
+          (i%4)*1.2
+        )*
+        sideSign;
+
+      const tree=
+        new THREE.Mesh(
+          new THREE.CylinderGeometry(
+            .35,
+            .5,
+            3.5,
+            8
+          ),
+          mat(
+            0x5a3a24,
+            1
+          )
+        );
+
+      tree.position.set(
+        x,
+        1.75,
+        z
+      );
+
+      world.add(tree);
+
+      const crown=
+        new THREE.Mesh(
+          new THREE.ConeGeometry(
+            1.7,
+            3.6,
+            8
+          ),
+          mat(
+            0x268a4f,
+            .95
+          )
+        );
+
+      crown.position.set(
+        x,
+        4.2,
+        z
+      );
+
+      world.add(crown);
+    }
+  }
+
+  player=
+    makeKart(
+      cars[selectedCar].color
+    );
+
+  const p0=
+    trackCurve.getPointAt(
+      0
+    );
+
+  const tan0=
+    trackCurve.getTangentAt(
+      0
+    ).normalize();
+
+  player.position.copy(
+    p0
+  );
+
+  player.position.y=
+    .08;
+
+  player.rotation.y=
+    Math.atan2(
+      tan0.x,
+      tan0.z
+    );
+
+  cameraSmoothYaw=
+    player.rotation.y;
+
+  cameraReady=
+    true;
+
+  cameraLookTarget.copy(
+    player.position
+  ).add(
+    new THREE.Vector3(
+      0,
+      .9,
+      0
+    )
+  );
+
+  cameraFollowTarget.set(
+    player.position.x,
+    7.2,
+    player.position.z
+  );
+
+  world.add(
+    player
+  );
+
+  speed=0;
+  boost=0;
+  boosting=0;
+  spacePressed=false;
+  lap=1;
+  lastProgress=0;
+  progress=0;
+  startLapArmed=false;
+  driftTime=0;
+  lateralVelocity=0;
+  finished=false;
+  raceStartTime=0;
+  finalTime=0;
+
+  $('mapName').textContent=
+    maps[selectedMap].name+
+    ' · '+
+    (
+      '★'.repeat(
+        maps[selectedMap].stars
+      )
+    );
+
+  $('timer').textContent=
+    '00:00.00';
+
+  drawMinimap();
 }
-function nearestProgress(pos){let best=0,bestD=Infinity;for(let i=0;i<trackPoints.length;i++){const p=trackPoints[i],d=(p.x-pos.x)**2+(p.z-pos.z)**2;if(d<bestD){bestD=d;best=i/(trackPoints.length-1)}}return {t:best,d:Math.sqrt(bestD)}}
+
+function nearestProgress(pos){
+
+  let best=0;
+  let bestD=Infinity;
+
+  for(
+    let i=0;
+    i<trackPoints.length;
+    i++
+  ){
+
+    const p=
+      trackPoints[i];
+
+    const d=
+      (p.x-pos.x)**2+
+      (p.z-pos.z)**2;
+
+    if(d<bestD){
+
+      bestD=d;
+
+      best=
+        i/
+        (trackPoints.length-1);
+    }
+  }
+
+  return{
+    t:best,
+    d:Math.sqrt(bestD)
+  };
+}
+
 function resolveTrackBoundary(){
- const n=nearestProgress(player.position), limit=trackWidth/2-1.05;
- if(n.d>limit){
-  const center=trackCurve.getPointAt(n.t), tan=trackCurve.getTangentAt(n.t).normalize();
-  const side=new THREE.Vector3(-tan.z,0,tan.x).normalize();
-  const rel=player.position.clone().sub(center); const signed=rel.dot(side); const sign=signed>=0?1:-1;
-  const target=center.clone().addScaledVector(side,sign*limit); target.y=player.position.y;
-  player.position.lerp(target,.92);
-  // 경계면 법선 방향으로만 속도의 일부를 반사해 '살짝' 튕긴다.
-  const normal=side.clone().multiplyScalar(-sign); const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
-  const vn=f.dot(normal); if(vn<0){
-    // 벽에 거의 평행하게 스치면 약하게, 정면에 가깝게 부딪히면 강하게 튕긴다.
-    const impact=THREE.MathUtils.clamp(-vn,0,1);
-    const reflected=f.clone().addScaledVector(normal,-2*vn).normalize();
-    const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
-    let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
-    player.rotation.y=currentAngle+delta*(0.18+0.82*impact);
-    // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
-    const collisionSpeed=collisionSpeedValue(speed);
-    const speedSign=speed<0?-1:1;
-    const collisionDamp=THREE.MathUtils.lerp(0.88,0.52,impact);
-    // 속도를 인위적으로 20km/h 이상으로 올리지 않는다. 저속에서는 벽에서 빠져나올 최소 반발력만 준다.
-    speed=speedSign*collisionSpeed*collisionDamp;
-    const unstuck=Math.max(collisionSpeed*0.12*impact,MIN_COLLISION_KICK*0.22);
-    speed += speedSign * unstuck;
-    lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
+
+  const n=
+    nearestProgress(
+      player.position
+    );
+
+  const limit=
+    trackWidth/2-1.05;
+
+  if(n.d>limit){
+
+    const center=
+      trackCurve
+        .getPointAt(
+          n.t
+        );
+
+    const tan=
+      trackCurve
+        .getTangentAt(
+          n.t
+        )
+        .normalize();
+
+    const side=
+      new THREE.Vector3(
+        -tan.z,
+        0,
+        tan.x
+      ).normalize();
+
+    const rel=
+      player.position.clone()
+        .sub(center);
+
+    const signed=
+      rel.dot(side);
+
+    const sign=
+      signed>=0
+        ?1
+        :-1;
+
+    const target=
+      center.clone()
+        .addScaledVector(
+          side,
+          sign*limit
+        );
+
+    target.y=
+      player.position.y;
+
+    player.position.lerp(
+      target,
+      .72
+    );
+
+    const normal=
+      side.clone()
+        .multiplyScalar(
+          -sign
+        );
+
+    const f=
+      new THREE.Vector3(
+        Math.sin(
+          player.rotation.y
+        ),
+        0,
+        Math.cos(
+          player.rotation.y
+        )
+      );
+
+    const vn=
+      f.dot(
+        normal
+      );
+
+    if(vn<0){
+
+      const impact=
+        THREE.MathUtils.clamp(
+          -vn,
+          0,
+          1
+        );
+
+      const reflected=
+        f.clone()
+          .addScaledVector(
+            normal,
+            -2*vn
+          )
+          .normalize();
+
+      const currentAngle=
+        Math.atan2(
+          f.x,
+          f.z
+        );
+
+      const targetAngle=
+        Math.atan2(
+          reflected.x,
+          reflected.z
+        );
+
+      let delta=
+        targetAngle-currentAngle;
+
+      while(
+        delta>Math.PI
+      ){
+        delta-=Math.PI*2;
+      }
+
+      while(
+        delta<-Math.PI
+      ){
+        delta+=Math.PI*2;
+      }
+
+      player.rotation.y=
+        currentAngle+
+        delta*
+        (
+          .18+
+          .82*impact
+        );
+
+      const collisionSpeed=
+        collisionSpeedValue(
+          speed
+        );
+
+      const speedSign=
+        speed<0
+          ?-1
+          :1;
+
+      const collisionDamp=
+        THREE.MathUtils.lerp(
+          .88,
+          .52,
+          impact
+        );
+
+      speed=
+        speedSign*
+        collisionSpeed*
+        collisionDamp;
+
+      lateralVelocity*=
+        THREE.MathUtils.lerp(
+          .68,
+          .32,
+          impact
+        );
+
+    }else{
+
+      speed*=.88;
+
+      lateralVelocity*=.65;
+
+    }
+
   }
-  else { speed*=0.88; lateralVelocity*=0.65; }
- }
 }
+
 function drawMinimap(){
- const c=$('minimap'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='rgba(12,18,28,.92)';ctx.fillRect(0,0,c.width,c.height);if(!trackCurve||!player)return;
- const cx=c.width/2,cy=c.height/2,viewRadius=72,scale=Math.min(c.width,c.height)/(viewRadius*2);
- // 플레이어가 항상 중앙에 있고, 차가 바라보는 방향이 미니맵의 위쪽을 향하도록 회전
- function xy(p){const dx=p.x-player.position.x,dz=p.z-player.position.z,yaw=player.rotation.y;const localX=dx*Math.cos(yaw)+dz*Math.sin(yaw);const localZ=-dx*Math.sin(yaw)+dz*Math.cos(yaw);return [cx+localX*scale,cy-localZ*scale]}
- ctx.save();ctx.beginPath();ctx.rect(0,0,c.width,c.height);ctx.clip();
- ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();trackPoints.forEach((p,i)=>{const [x,y]=xy(p);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.closePath();ctx.strokeStyle='#090b10';ctx.lineWidth=trackWidth*scale+14;ctx.stroke();ctx.strokeStyle='#73777c';ctx.lineWidth=trackWidth*scale;ctx.stroke();ctx.strokeStyle='#d9d9d9';ctx.lineWidth=2;ctx.stroke();ctx.restore();
- // 주행 방향을 더 직관적으로 보이도록 앞쪽 경로를 강조
- ctx.save();ctx.translate(cx,cy);ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,-22);ctx.lineTo(0,-48);ctx.stroke();ctx.restore();
- // 다른 플레이어: 실제 서버 색상을 사용하되, 내 아이콘과 겹치지 않게 표시
- const snapshot=window.__onlineSnapshot||[];
- snapshot.forEach((p,idx)=>{
-   if(!p||p.id===onlinePlayerId||typeof p.x!=='number'||typeof p.z!=='number') return;
-   const [x,y]=xy({x:p.x,z:p.z});
-   if(x<-16||x>c.width+16||y<-16||y>c.height+16) return;
-   const fallback=['#39a0ff','#65e35b','#ff9f43','#c56cff','#21d4fd','#ff5da2','#f7d154'];
-   const raw=Number(p.color);
-   const color=Number.isFinite(raw)&&raw>0 ? '#'+(raw>>>0).toString(16).padStart(6,'0') : fallback[idx%fallback.length];
-   const ang=(p.rot||0)-player.rotation.y;
-   ctx.save();ctx.translate(x,y);ctx.rotate(-ang);
-   ctx.fillStyle=color;ctx.strokeStyle='#fff';ctx.lineWidth=1.6;
-   ctx.beginPath();ctx.moveTo(0,-7);ctx.lineTo(5,5);ctx.lineTo(0,2.5);ctx.lineTo(-5,5);ctx.closePath();ctx.fill();ctx.stroke();
-   ctx.restore();
- });
- // 중앙 플레이어 아이콘: 앞쪽(위)을 향하는 화살표
- ctx.save();ctx.translate(cx,cy);ctx.fillStyle='#ff3d4d';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(8,8);ctx.lineTo(0,5);ctx.lineTo(-8,8);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
- // 미니맵 중앙 표시
- ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.arc(cx,cy,2.5,0,Math.PI*2);ctx.fill();
-}
-function makeRemoteNameplate(name){
-  const canvas=document.createElement('canvas');
-  canvas.width=512; canvas.height=96;
-  const ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='rgba(5,10,20,.82)';
-  const radius=24;
+
+  const c=
+    $('minimap');
+
+  const ctx=
+    c.getContext(
+      '2d'
+    );
+
+  ctx.clearRect(
+    0,
+    0,
+    c.width,
+    c.height
+  );
+
+  ctx.fillStyle=
+    'rgba(12,18,28,.92)';
+
+  ctx.fillRect(
+    0,
+    0,
+    c.width,
+    c.height
+  );
+
+  if(
+    !trackCurve||
+    !player
+  )return;
+
+  const cx=
+    c.width/2;
+
+  const cy=
+    c.height/2;
+
+  const viewRadius=
+    72;
+
+  const scale=
+    Math.min(
+      c.width,
+      c.height
+    )/
+    (
+      viewRadius*2
+    );
+
+  function xy(p){
+
+    const dx=
+      p.x-
+      player.position.x;
+
+    const dz=
+      p.z-
+      player.position.z;
+
+    const yaw=
+      player.rotation.y;
+
+    const localX=
+      dx*Math.cos(yaw)+
+      dz*Math.sin(yaw);
+
+    const localZ=
+      -dx*Math.sin(yaw)+
+      dz*Math.cos(yaw);
+
+    return[
+      cx+
+      localX*scale,
+
+      cy-
+      localZ*scale
+    ];
+  }
+
+  ctx.save();
+
   ctx.beginPath();
-  ctx.moveTo(radius,0); ctx.lineTo(canvas.width-radius,0);
-  ctx.quadraticCurveTo(canvas.width,0,canvas.width,radius);
-  ctx.lineTo(canvas.width,canvas.height-radius);
-  ctx.quadraticCurveTo(canvas.width,canvas.height,canvas.width-radius,canvas.height);
-  ctx.lineTo(radius,canvas.height);
-  ctx.quadraticCurveTo(0,canvas.height,0,canvas.height-radius);
-  ctx.lineTo(0,radius);
-  ctx.quadraticCurveTo(0,0,radius,0);
+
+  ctx.rect(
+    0,
+    0,
+    c.width,
+    c.height
+  );
+
+  ctx.clip();
+
+  ctx.strokeStyle=
+    '#9298a0';
+
+  ctx.lineWidth=
+    7;
+
+  ctx.lineCap=
+    'round';
+
+  ctx.beginPath();
+
+  for(
+    let i=0;
+    i<trackPoints.length;
+    i++
+  ){
+
+    const [x,y]=
+      xy(
+        trackPoints[i]
+      );
+
+    if(i===0){
+
+      ctx.moveTo(
+        x,
+        y
+      );
+
+    }else{
+
+      ctx.lineTo(
+        x,
+        y
+      );
+
+    }
+  }
+
+  ctx.closePath();
+
+  ctx.stroke();
+
+  const fallback=[
+    '#39d9ff',
+    '#ff3d4d',
+    '#65e35b',
+    '#a78bfa',
+    '#ffd42a',
+    '#ff8b3d',
+    '#ffffff'
+  ];
+
+  const snap=
+    Array.isArray(
+      window.__onlineSnapshot
+    )
+      ?window.__onlineSnapshot
+      :[];
+
+  snap.forEach(
+    (p,idx)=>{
+
+      if(
+        p.id===
+        onlinePlayerId
+      )return;
+
+      if(
+        typeof p.x!=='number'||
+        typeof p.z!=='number'
+      )return;
+
+      const [x,y]=
+        xy({
+          x:p.x,
+          z:p.z
+        });
+
+      const raw=
+        Number(p.color);
+
+      const color=
+        Number.isFinite(raw)&&raw>0
+          ?'#'+
+            (
+              raw>>>0
+            )
+            .toString(16)
+            .padStart(6,'0')
+          :fallback[
+            idx%
+            fallback.length
+          ];
+
+      const ang=
+        (p.rot||0)-
+        player.rotation.y;
+
+      ctx.save();
+
+      ctx.translate(
+        x,
+        y
+      );
+
+      ctx.rotate(
+        -ang
+      );
+
+      ctx.fillStyle=
+        color;
+
+      ctx.strokeStyle=
+        '#fff';
+
+      ctx.lineWidth=
+        1.6;
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        0,
+        -7
+      );
+
+      ctx.lineTo(
+        5,
+        5
+      );
+
+      ctx.lineTo(
+        0,
+        2.5
+      );
+
+      ctx.lineTo(
+        -5,
+        5
+      );
+
+      ctx.closePath();
+
+      ctx.fill();
+
+      ctx.stroke();
+
+      ctx.restore();
+
+    }
+  );
+
+  ctx.save();
+
+  ctx.translate(
+    cx,
+    cy
+  );
+
+  ctx.fillStyle=
+    '#ff3d4d';
+
+  ctx.strokeStyle=
+    '#fff';
+
+  ctx.lineWidth=
+    2;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    0,
+    -12
+  );
+
+  ctx.lineTo(
+    8,
+    8
+  );
+
+  ctx.lineTo(
+    0,
+    5
+  );
+
+  ctx.lineTo(
+    -8,
+    8
+  );
+
+  ctx.closePath();
+
   ctx.fill();
-  ctx.font='bold 42px Arial, Malgun Gothic, sans-serif';
-  ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#ffffff';
-  ctx.fillText(String(name||'플레이어').slice(0,12),canvas.width/2,canvas.height/2+2);
-  const tex=new THREE.CanvasTexture(canvas); tex.needsUpdate=true;
-  const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false}));
-  sprite.scale.set(5.6,1.05,1); sprite.position.y=2.9; sprite.renderOrder=20;
+
+  ctx.stroke();
+
+  ctx.restore();
+
+  ctx.fillStyle=
+    'rgba(255,255,255,.7)';
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    2.5,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function makeRemoteNameplate(
+  name
+){
+
+  const canvas=
+    document.createElement(
+      'canvas'
+    );
+
+  canvas.width=
+    512;
+
+  canvas.height=
+    96;
+
+  const ctx=
+    canvas.getContext(
+      '2d'
+    );
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.fillStyle=
+    'rgba(5,10,20,.82)';
+
+  const radius=
+    24;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    radius,
+    0
+  );
+
+  ctx.lineTo(
+    canvas.width-radius,
+    0
+  );
+
+  ctx.quadraticCurveTo(
+    canvas.width,
+    0,
+    canvas.width,
+    radius
+  );
+
+  ctx.lineTo(
+    canvas.width,
+    canvas.height-radius
+  );
+
+  ctx.quadraticCurveTo(
+    canvas.width,
+    canvas.height,
+    canvas.width-radius,
+    canvas.height
+  );
+
+  ctx.lineTo(
+    radius,
+    canvas.height
+  );
+
+  ctx.quadraticCurveTo(
+    0,
+    canvas.height,
+    0,
+    canvas.height-radius
+  );
+
+  ctx.lineTo(
+    0,
+    radius
+  );
+
+  ctx.quadraticCurveTo(
+    0,
+    0,
+    radius,
+    0
+  );
+
+  ctx.fill();
+
+  ctx.font=
+    'bold 42px Arial, Malgun Gothic, sans-serif';
+
+  ctx.textAlign=
+    'center';
+
+  ctx.textBaseline=
+    'middle';
+
+  ctx.fillStyle=
+    '#ffffff';
+
+  ctx.fillText(
+    String(
+      name||'플레이어'
+    ).slice(
+      0,
+      12
+    ),
+    canvas.width/2,
+    canvas.height/2+2
+  );
+
+  const tex=
+    new THREE.CanvasTexture(
+      canvas
+    );
+
+  tex.needsUpdate=true;
+
+  const sprite=
+    new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map:tex,
+        transparent:true,
+        depthTest:false
+      })
+    );
+
+  sprite.scale.set(
+    5.6,
+    1.05,
+    1
+  );
+
+  sprite.position.y=
+    2.9;
+
+  sprite.renderOrder=
+    20;
+
   return sprite;
 }
-function updateRemoteKarts(snapshot){
-  if(!world) return;
-  const active=new Set();
-  for(const p of snapshot||[]){
-    if(!p||p.id===onlinePlayerId||typeof p.x!=='number'||typeof p.z!=='number') continue;
-    active.add(p.id);
-    let g=remoteKarts.get(p.id);
+
+function updateRemoteKarts(
+  snapshot
+){
+
+  if(!world)return;
+
+  const active=
+    new Set();
+
+  for(
+    const p of snapshot||[]
+  ){
+
+    if(
+      !p||
+      p.id===onlinePlayerId||
+      typeof p.x!=='number'||
+      typeof p.z!=='number'
+    )continue;
+
+    active.add(
+      p.id
+    );
+
+    let g=
+      remoteKarts.get(
+        p.id
+      );
+
     if(!g){
-      const color=Number.isFinite(Number(p.color))?Number(p.color):cars[0].color;
-      g=makeKart(color);
-      g.userData.remoteId=p.id;
-      g.userData.name=String(p.name||'플레이어');
-      g.userData.nameplate=makeRemoteNameplate(g.userData.name);
-      g.add(g.userData.nameplate);
-      g.visible=false;
-      world.add(g);
-      remoteKarts.set(p.id,g);
-    } else if(String(p.name||'플레이어')!==String(g.userData.name||'')){
-      g.userData.name=String(p.name||'플레이어');
-      if(g.userData.nameplate){
-        g.remove(g.userData.nameplate);
-        g.userData.nameplate.material.map?.dispose();
-        g.userData.nameplate.material.dispose();
+
+      const color=
+        Number.isFinite(
+          Number(p.color)
+        )
+          ?Number(p.color)
+          :cars[0].color;
+
+      g=
+        makeKart(
+          color
+        );
+
+      g.userData.remoteId=
+        p.id;
+
+      g.userData.name=
+        String(
+          p.name||
+          '플레이어'
+        );
+
+      g.userData.nameplate=
+        makeRemoteNameplate(
+          g.userData.name
+        );
+
+      g.add(
+        g.userData.nameplate
+      );
+
+      g.visible=
+        false;
+
+      world.add(
+        g
+      );
+
+      remoteKarts.set(
+        p.id,
+        g
+      );
+
+    }else if(
+      String(
+        p.name||
+        '플레이어'
+      )!==
+      String(
+        g.userData.name||''
+      )
+    ){
+
+      g.userData.name=
+        String(
+          p.name||
+          '플레이어'
+        );
+
+      if(
+        g.userData.nameplate
+      ){
+
+        g.remove(
+          g.userData.nameplate
+        );
+
+        g.userData
+          .nameplate
+          .material
+          .map?.dispose();
+
+        g.userData
+          .nameplate
+          .material
+          .dispose();
+
       }
-      g.userData.nameplate=makeRemoteNameplate(g.userData.name);
-      g.add(g.userData.nameplate);
+
+      g.userData.nameplate=
+        makeRemoteNameplate(
+          g.userData.name
+        );
+
+      g.add(
+        g.userData.nameplate
+      );
     }
-    g.userData.carId=Number(p.carId)||0;
-    g.userData.netTarget={x:p.x,y:p.y||.08,z:p.z,rot:p.rot||0};
-    g.visible=true;
+
+    g.userData.carId=
+      Number(p.carId)||0;
+
+    g.userData.netTarget={
+      x:p.x,
+      y:p.y||.08,
+      z:p.z,
+      rot:p.rot||0,
+      speed:Number(p.speed)||0
+    };
+
+    g.visible=
+      true;
+
   }
-  for(const [id,g] of remoteKarts){
-    if(!active.has(id)){
-      world.remove(g);
-      if(g.userData.nameplate?.material){
-        g.userData.nameplate.material.map?.dispose();
-        g.userData.nameplate.material.dispose();
+
+  for(
+    const [id,g]
+    of remoteKarts
+  ){
+
+    if(
+      !active.has(id)
+    ){
+
+      world.remove(
+        g
+      );
+
+      if(
+        g.userData.nameplate?.material
+      ){
+
+        g.userData.nameplate
+          .material
+          .map?.dispose();
+
+        g.userData.nameplate
+          .material
+          .dispose();
       }
-      remoteKarts.delete(id);
+
+      remoteKarts.delete(
+        id
+      );
     }
   }
 }
-function updateRemoteKartTransforms(dt){
-  for(const g of remoteKarts.values()){
-    const t=g.userData.netTarget; if(!t) continue;
-    g.position.lerp(new THREE.Vector3(t.x,t.y,t.z),Math.min(1,dt*10));
-    let d=t.rot-g.rotation.y; while(d>Math.PI)d-=Math.PI*2; while(d<-Math.PI)d+=Math.PI*2;
-    g.rotation.y+=d*Math.min(1,dt*12);
+
+function updateRemoteKartTransforms(
+  dt
+){
+
+  for(
+    const g of remoteKarts.values()
+  ){
+
+    const t=
+      g.userData.netTarget;
+
+    if(!t)continue;
+
+    g.position.lerp(
+      new THREE.Vector3(
+        t.x,
+        t.y,
+        t.z
+      ),
+      Math.min(
+        1,
+        dt*10
+      )
+    );
+
+    let d=
+      t.rot-
+      g.rotation.y;
+
+    while(
+      d>Math.PI
+    ){
+      d-=Math.PI*2;
+    }
+
+    while(
+      d<-Math.PI
+    ){
+      d+=Math.PI*2;
+    }
+
+    g.rotation.y+=
+      d*
+      Math.min(
+        1,
+        dt*12
+      );
   }
 }
+
 function resolveRemoteKartCollisions(){
-  if(!player||!onlineRoomCode) return;
-  const mine=cars[selectedCar];
-  for(const g of remoteKarts.values()){
-    if(!g.visible) continue;
-    const dx=player.position.x-g.position.x,dz=player.position.z-g.position.z,d2=dx*dx+dz*dz,minD=2.7;
-    if(d2<minD*minD){
-      const d=Math.max(Math.sqrt(d2),.001),nx=dx/d,nz=dz/d,push=minD-d;
+
+  if(
+    !player||
+    !onlineRoomCode
+  )return;
+
+  const mine=
+    cars[selectedCar];
+
+  for(
+    const g of remoteKarts.values()
+  ){
+
+    if(!g.visible)continue;
+
+    const dx=
+      player.position.x-
+      g.position.x;
+
+    const dz=
+      player.position.z-
+      g.position.z;
+
+    const d2=
+      dx*dx+
+      dz*dz;
+
+    const minD=
+      2.7;
+
+    if(
+      d2<
+      minD*minD
+    ){
+
+      const d=
+        Math.max(
+          Math.sqrt(d2),
+          .001
+        );
+
+      const nx=
+        dx/d;
+
+      const nz=
+        dz/d;
+
+      const push=
+        minD-d;
+
       if(push>0){
-        const sep=push+0.10;
-        player.position.x+=nx*sep*0.62;
-        player.position.z+=nz*sep*0.62;
-        g.position.x-=nx*sep*0.38;
-        g.position.z-=nz*sep*0.38;
+
+        const sep=
+          push+.10;
+
+        player.position.x+=
+          nx*sep*.62;
+
+        player.position.z+=
+          nz*sep*.62;
+
+        g.position.x-=
+          nx*sep*.38;
+
+        g.position.z-=
+          nz*sep*.38;
       }
-      const other=cars[g.userData.carId]||cars[0];
-      const myPower=(mine.collision||40)/100, otherPower=(other.collision||40)/100;
-      const pushPower=THREE.MathUtils.clamp(.55+myPower*.60-otherPower*.25,.35,1.25);
-      player.position.x+=nx*push*(.45+.18*myPower);
-      player.position.z+=nz*push*(.45+.18*myPower);
-      speed*=THREE.MathUtils.clamp(.995-.06*(1-myPower),.90,.99);
-      // 실제 충돌 속도에 비례해 밀고, 아주 저속에서는 겹침을 풀 정도의 최소 반발력만 추가한다.
-      const otherSpeed=collisionSpeedValue(g.userData.netTarget?.speed);
-      const collisionSpeed=Math.max(collisionSpeedValue(speed),otherSpeed);
-      const kick=Math.max(collisionSpeed*.24,MIN_COLLISION_KICK)*pushPower;
-      lateralVelocity+=nx*kick;
-      g.position.x-=nx*push*(.35+.10*pushPower);
-      g.position.z-=nz*push*(.35+.10*pushPower);
+
+      const other=
+        cars[
+          g.userData.carId
+        ]||cars[0];
+
+      const myPower=
+        (mine.collision||40)/100;
+
+      const otherPower=
+        (other.collision||40)/100;
+
+      const pushPower=
+        THREE.MathUtils.clamp(
+          .55+
+          myPower*.60-
+          otherPower*.25,
+          .35,
+          1.25
+        );
+
+      player.position.x+=
+        nx*
+        push*
+        (
+          .45+
+          .18*myPower
+        );
+
+      player.position.z+=
+        nz*
+        push*
+        (
+          .45+
+          .18*myPower
+        );
+
+      speed*=
+        THREE.MathUtils.clamp(
+          .995-
+          .06*
+          (1-myPower),
+          .90,
+          .99
+        );
+
+      const otherSpeed=
+        collisionSpeedValue(
+          g.userData
+            .netTarget
+            ?.speed
+        );
+
+      const collisionSpeed=
+        Math.max(
+          collisionSpeedValue(
+            speed
+          ),
+          otherSpeed
+        );
+
+      const kick=
+        Math.max(
+          collisionSpeed*.24,
+          MIN_COLLISION_KICK
+        )*
+        pushPower;
+
+      lateralVelocity+=
+        nx*kick;
+
+      g.position.x-=
+        nx*
+        push*
+        (
+          .35+
+          .10*pushPower
+        );
+
+      g.position.z-=
+        nz*
+        push*
+        (
+          .35+
+          .10*pushPower
+        );
     }
   }
 }
+
 function currentTowFactor(){
-  if(!onlineRoomCode||!Array.isArray(window.__onlineSnapshot)||!player||!trackPoints.length) return 0;
-  const mine=nearestProgress(player.position).t;
-  const myScore=(lap||1)+mine;
+
+  if(
+    !onlineRoomCode||
+    !Array.isArray(
+      window.__onlineSnapshot
+    )||
+    !player||
+    !trackPoints.length
+  )return 0;
+
+  const mine=
+    nearestProgress(
+      player.position
+    ).t;
+
+  const myScore=
+    (lap||1)+mine;
+
   let best=0;
-  for(const p of window.__onlineSnapshot){
-    if(!p||p.id===onlinePlayerId||typeof p.x!=='number'||typeof p.z!=='number'||p.finished) continue;
-    const otherProgress=nearestProgress(new THREE.Vector3(p.x,0,p.z)).t;
-    const otherScore=(Number(p.lap)||1)+otherProgress;
-    const gap=otherScore-myScore;
-    if(gap>0 && gap<.60) best=Math.max(best,Math.min(1,gap/.40));
+
+  for(
+    const p of window.__onlineSnapshot
+  ){
+
+    if(
+      !p||
+      p.id===onlinePlayerId||
+      typeof p.x!=='number'||
+      typeof p.z!=='number'||
+      p.finished
+    )continue;
+
+    const otherProgress=
+      nearestProgress(
+        new THREE.Vector3(
+          p.x,
+          0,
+          p.z
+        )
+      ).t;
+
+    const otherScore=
+      (Number(p.lap)||1)+
+      otherProgress;
+
+    const gap=
+      otherScore-myScore;
+
+    if(
+      gap>0&&
+      gap<.60
+    ){
+
+      best=
+        Math.max(
+          best,
+          Math.min(
+            1,
+            gap/.40
+          )
+        );
+    }
   }
+
   return best;
 }
-function showOnlineDeadline(ms){
-  let el=$('onlineDeadline');
+
+function showOnlineDeadline(
+  ms
+){
+
+  let el=
+    $('onlineDeadline');
+
   if(!el){
-    el=document.createElement('div');
-    el.id='onlineDeadline';
-    el.style='position:fixed;left:50%;top:22px;transform:translateX(-50%);z-index:18;padding:9px 16px;border-radius:12px;background:rgba(180,25,25,.88);color:#fff;font-weight:900;pointer-events:none';
-    document.body.appendChild(el);
+
+    el=
+      document.createElement(
+        'div'
+      );
+
+    el.id=
+      'onlineDeadline';
+
+    el.style=
+      'position:fixed;left:50%;top:22px;transform:translateX(-50%);z-index:18;padding:9px 16px;border-radius:12px;background:rgba(180,25,25,.88);color:#fff;font-weight:900;pointer-events:none';
+
+    document.body.appendChild(
+      el
+    );
   }
-  const end=performance.now()+Math.max(0,Number(ms)||10000);
-  onlineFirstFinishDeadline=end;
+
+  const end=
+    performance.now()+
+    Math.max(
+      0,
+      Number(ms)||10000
+    );
+
+  onlineFirstFinishDeadline=
+    end;
+
   const tick=()=>{
-    const left=Math.max(0,end-performance.now());
-    if(left<=0||onlineFirstFinishDeadline!==end){el.remove();return;}
-    el.textContent=`선두 완주 · 남은 시간 ${Math.ceil(left/1000)}초`;
-    requestAnimationFrame(tick);
+
+    const left=
+      Math.max(
+        0,
+        end-performance.now()
+      );
+
+    if(
+      left<=0||
+      onlineFirstFinishDeadline!==end
+    ){
+
+      el.remove();
+
+      return;
+    }
+
+    el.textContent=
+      `선두 완주 · 남은 시간 ${Math.ceil(left/1000)}초`;
+
+    requestAnimationFrame(
+      tick
+    );
   };
+
   tick();
 }
-function showOnlineRaceEnded(rankings){
-  let el=document.getElementById('onlineEndToast');
-  if(el) el.remove();
-  el=document.createElement('div');
-  el.id='onlineEndToast';
-  el.className='screen';
-  const list=Array.isArray(rankings)?rankings:[];
-  const rows=list.map((r,i)=>{
-    const rank=Number(r.rank)||i+1;
-    const status=r.finished?fmtTime(Number(r.time)||0):'완주 실패';
-    const car=r.car?` · ${escapeHtml(r.car)}`:'';
-    return `<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;margin:7px 0;border-radius:12px;background:#273451;text-align:left"><b style="width:36px;font-size:20px">${rank}</b><span style="flex:1;font-weight:900">${escapeHtml(r.name||'플레이어')}</span><span style="font-weight:800">${status}${car}</span></div>`;
-  }).join('');
-  el.innerHTML=`<div class="panel"><h2>레이스 결과</h2><div class="result" style="margin-bottom:16px">순위</div><div style="max-height:55vh;overflow:auto">${rows||'<div style="opacity:.7;padding:20px">결과를 불러오는 중...</div>'}</div><div style="margin-top:18px;opacity:.7;font-size:14px">잠시 후 대기실로 돌아갑니다.</div></div>`;
-  document.body.appendChild(el);
-  setTimeout(()=>{
-    if(!document.getElementById('onlineEndToast')) return;
-    el.remove();
-    onlineFirstFinishDeadline=0;
-    onlineFinished=false;
-    onlineReady=false;
-    show('lobbyScreen');
-  },4500);
+
+function showOnlineRaceEnded(
+  rankings
+){
+
+  let el=
+    document.getElementById(
+      'onlineEndToast'
+    );
+
+  if(el)el.remove();
+
+  el=
+    document.createElement(
+      'div'
+    );
+
+  el.id=
+    'onlineEndToast';
+
+  el.className=
+    'screen';
+
+  const list=
+    Array.isArray(rankings)
+      ?rankings
+      :[];
+
+  const rows=
+    list.map(
+      (r,i)=>{
+
+        const rank=
+          Number(r.rank)||i+1;
+
+        const status=
+          r.finished
+            ?fmtTime(
+              Number(r.time)||0
+            )
+            :'완주 실패';
+
+        const car=
+          r.car
+            ?` · ${escapeHtml(r.car)}`
+            :'';
+
+        return`
+          <div
+            style="display:flex;align-items:center;gap:12px;padding:12px 14px;margin:7px 0;border-radius:12px;background:#273451;text-align:left"
+          >
+
+            <b
+              style="width:36px;font-size:20px"
+            >
+              ${rank}
+            </b>
+
+            <span
+              style="flex:1;font-weight:900"
+            >
+              ${escapeHtml(
+                r.name||
+                '플레이어'
+              )}
+            </span>
+
+            <span
+              style="font-weight:800"
+            >
+              ${status}${car}
+            </span>
+
+          </div>
+        `;
+      }
+    ).join('');
+
+  el.innerHTML=`
+    <div class="panel">
+
+      <h2>레이스 결과</h2>
+
+      <div
+        class="result"
+        style="margin-bottom:16px"
+      >
+        순위
+      </div>
+
+      <div
+        style="max-height:55vh;overflow:auto"
+      >
+        ${
+          rows||
+          '<div style="opacity:.7;padding:20px">결과를 불러오는 중...</div>'
+        }
+      </div>
+
+      <div
+        style="margin-top:18px;opacity:.7;font-size:14px"
+      >
+        잠시 후 대기실로 돌아갑니다.
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(
+    el
+  );
+
+  setTimeout(
+    ()=>{
+
+      if(
+        !document.getElementById(
+          'onlineEndToast'
+        )
+      )return;
+
+      el.remove();
+
+      onlineFirstFinishDeadline=
+        0;
+
+      onlineFinished=
+        false;
+
+      onlineReady=
+        false;
+
+      show(
+        'lobbyScreen'
+      );
+
+    },
+    4500
+  );
 }
-function updateRaceCamera(dt,fast=false){
+
+function updateRaceCamera(
+  dt,
+  fast=false
+){
+
   if(!player)return;
-  const followAlpha=fast?0.17:0.12;
-  const lookAlpha=fast?0.20:0.14;
-  if(!cameraReady){cameraSmoothYaw=player.rotation.y;cameraReady=true;}
-  let dy=player.rotation.y-cameraSmoothYaw;
-  while(dy>Math.PI)dy-=Math.PI*2;
-  while(dy<-Math.PI)dy+=Math.PI*2;
-  cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  // 카메라를 크게 뒤로 빼고 높이는 낮춰서 차가 화면에서 너무 앞에 보이지 않게 한다.
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*17.0,7.2,-Math.cos(cameraSmoothYaw)*17.0).add(player.position);
-  cameraFollowTarget.lerp(back,Math.min(1,dt*10));
-  camera.position.lerp(cameraFollowTarget,followAlpha);
-  const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
-  // 시선 이동을 줄여 차를 화면 아래쪽에 안정적으로 유지한다.
-  const look=player.position.clone().addScaledVector(lookForward,1.6).add(new THREE.Vector3(0,.68,0));
-  cameraLookTarget.lerp(look,lookAlpha);
-  camera.lookAt(cameraLookTarget);
+
+  const followAlpha=
+    fast
+      ?0.17
+      :0.12;
+
+  const lookAlpha=
+    fast
+      ?0.20
+      :0.14;
+
+  if(!cameraReady){
+
+    cameraSmoothYaw=
+      player.rotation.y;
+
+    cameraReady=
+      true;
+  }
+
+  let dy=
+    player.rotation.y-
+    cameraSmoothYaw;
+
+  while(
+    dy>Math.PI
+  ){
+    dy-=Math.PI*2;
+  }
+
+  while(
+    dy<-Math.PI
+  ){
+    dy+=Math.PI*2;
+  }
+
+  cameraSmoothYaw+=
+    dy*
+    Math.min(
+      1,
+      dt*9
+    );
+
+  const back=
+    new THREE.Vector3(
+      -Math.sin(
+        cameraSmoothYaw
+      )*17.0,
+      7.2,
+      -Math.cos(
+        cameraSmoothYaw
+      )*17.0
+    ).add(
+      player.position
+    );
+
+  cameraFollowTarget.lerp(
+    back,
+    Math.min(
+      1,
+      dt*10
+    )
+  );
+
+  camera.position.lerp(
+    cameraFollowTarget,
+    followAlpha
+  );
+
+  const lookForward=
+    new THREE.Vector3(
+      Math.sin(
+        cameraSmoothYaw
+      ),
+      0,
+      Math.cos(
+        cameraSmoothYaw
+      )
+    );
+
+  const look=
+    player.position.clone()
+      .addScaledVector(
+        lookForward,
+        1.6
+      )
+      .add(
+        new THREE.Vector3(
+          0,
+          .68,
+          0
+        )
+      );
+
+  cameraLookTarget.lerp(
+    look,
+    lookAlpha
+  );
+
+  camera.lookAt(
+    cameraLookTarget
+  );
 }
 
-function hideRaceUI(){$('hud').classList.add('hidden');$('minimap').classList.add('hidden')}
-function setPauseUI(on){paused=on;const ov=$('pauseOverlay');if(!ov)return;if(on){ov.classList.remove('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false;}else{ov.classList.add('hidden');}}
-function togglePause(){if(!racing&& !paused) return;setPauseUI(!paused);}
-function leaveRaceTo(screenId){paused=false;racing=false;finished=false;countdownTimer=0;setPauseUI(false);hideRaceUI();$('countdown').classList.add('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false;if(player){world.remove(player);player=null;}while(world.children.length)world.remove(world.children[0]);show(screenId);}
-$('resumeBtn').onclick=()=>setPauseUI(false);
-$('pauseRestartBtn').onclick=()=>{ if(window.__onlineSnapshot?.length && onlineRoomCode){ alert('온라인 레이스에서는 방장과 함께 다시 시작해야 합니다.'); return; } $('pauseOverlay').classList.add('hidden'); $('resultScreen').classList.add('hidden'); startRaceNow(false); };
-$('pauseMapBtn').onclick=()=>leaveRaceTo('mapScreen');
-$('pauseMenuBtn').onclick=()=>leaveRaceTo('menu');
-function startRaceNow(fromOnline=false){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;finished=false;onlineFinished=false;onlineFirstFinishDeadline=0;setPauseUI(false); if(fromOnline){onlineReady=false;}}
-$('raceBtn').onclick=()=>startRaceNow(false);
-$('retryBtn').onclick=()=>{$('resultScreen').classList.add('hidden');buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;setPauseUI(false)};
-$('resultMenu').onclick=()=>{racing=false;hideRaceUI();show('menu')};
-async function finish(){
-  if(finished) return;
-  racing=false;
-  finished=true;
-  finalTime=(performance.now()-raceStartTime)/1000;
+function hideRaceUI(){
 
-  if(onlineRoomCode && ws?.readyState===1){
-    onlineFinished=true;
-    ws.send(JSON.stringify({type:'finishRace',time:finalTime}));
-    hideRaceUI();
+  $('hud')
+    .classList.add(
+      'hidden'
+    );
+
+  $('minimap')
+    .classList.add(
+      'hidden'
+    );
+}
+
+function setPauseUI(on){
+
+  paused=
+    on;
+
+  const ov=
+    $('pauseOverlay');
+
+  if(!ov)return;
+
+  if(on){
+
+    ov.classList.remove(
+      'hidden'
+    );
+
+    keys.KeyW=
+      keys.KeyA=
+      keys.KeyS=
+      keys.KeyD=
+      keys.Space=
+      keys.ShiftLeft=
+      keys.ShiftRight=
+      false;
+
+  }else{
+
+    ov.classList.add(
+      'hidden'
+    );
+  }
+}
+
+function togglePause(){
+
+  if(
+    !racing&&
+    !paused
+  )return;
+
+  setPauseUI(
+    !paused
+  );
+}
+
+function leaveRaceTo(
+  screenId
+){
+
+  paused=false;
+
+  racing=false;
+
+  finished=false;
+
+  countdownTimer=0;
+
+  setPauseUI(
+    false
+  );
+
+  hideRaceUI();
+
+  $('countdown')
+    .classList.add(
+      'hidden'
+    );
+
+  keys.KeyW=
+    keys.KeyA=
+    keys.KeyS=
+    keys.KeyD=
+    keys.Space=
+    keys.ShiftLeft=
+    keys.ShiftRight=
+    false;
+
+  if(player){
+
+    world.remove(
+      player
+    );
+
+    player=null;
+
+  }
+
+  while(
+    world.children.length
+  ){
+    world.remove(
+      world.children[0]
+    );
+  }
+
+  show(
+    screenId
+  );
+}
+
+$('resumeBtn').onclick=
+  ()=>setPauseUI(
+    false
+  );
+
+$('pauseRestartBtn').onclick=()=>{
+
+  if(
+    window.__onlineSnapshot?.length&&
+    onlineRoomCode
+  ){
+
+    alert(
+      '온라인 레이스에서는 방장과 함께 다시 시작해야 합니다.'
+    );
+
     return;
   }
 
-  const nick=requestNickname();
+  $('pauseOverlay')
+    .classList.add(
+      'hidden'
+    );
+
+  $('resultScreen')
+    .classList.add(
+      'hidden'
+    );
+
+  startRaceNow(
+    false
+  );
+};
+
+$('pauseMapBtn').onclick=
+  ()=>leaveRaceTo(
+    'mapScreen'
+  );
+
+$('pauseMenuBtn').onclick=
+  ()=>leaveRaceTo(
+    'menu'
+  );
+
+function startRaceNow(
+  fromOnline=false
+){
+
+  document
+    .querySelectorAll(
+      '.screen'
+    )
+    .forEach(
+      e=>e.classList.add(
+        'hidden'
+      )
+    );
+
+  buildMap();
+
+  $('hud')
+    .classList.remove(
+      'hidden'
+    );
+
+  $('minimap')
+    .classList.remove(
+      'hidden'
+    );
+
+  $('countdown')
+    .classList.remove(
+      'hidden'
+    );
+
+  countdownTimer=
+    3;
+
+  racing=false;
+
+  paused=false;
+
+  finished=false;
+
+  onlineFinished=false;
+
+  onlineFirstFinishDeadline=
+    0;
+
+  setPauseUI(
+    false
+  );
+
+  if(fromOnline){
+
+    onlineReady=
+      false;
+
+  }
+}
+
+$('raceBtn').onclick=
+  ()=>startRaceNow(
+    false
+  );
+
+$('retryBtn').onclick=()=>{
+
+  $('resultScreen')
+    .classList.add(
+      'hidden'
+    );
+
+  buildMap();
+
+  $('hud')
+    .classList.remove(
+      'hidden'
+    );
+
+  $('minimap')
+    .classList.remove(
+      'hidden'
+    );
+
+  $('countdown')
+    .classList.remove(
+      'hidden'
+    );
+
+  countdownTimer=
+    3;
+
+  racing=false;
+
+  paused=false;
+
+  setPauseUI(
+    false
+  );
+};
+
+$('resultMenu').onclick=()=>{
+
+  racing=false;
+
   hideRaceUI();
-  $('lastResultToast')?.remove();
 
-  const saved = nick !== null;
-  if(saved) await addRecord(nick,finalTime);
+  show(
+    'menu'
+  );
+};
 
-  const toast=document.createElement('div');
-  toast.id='lastResultToast';
-  toast.className='screen';
-  toast.innerHTML=`<div class="panel"><h2>완주!</h2><div class="result">${saved?`${escapeHtml(nick)}님의 기록<br><b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록 게시판에 등록되었습니다.</span>`:`<b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록을 등록하지 않았습니다.</span>`}</div><div class="menuBtns"><button class="btn" id="toastBoard">기록 게시판 보기</button><button class="btn secondary" id="toastMenu">메인 화면</button></div></div>`;
-  document.body.appendChild(toast);
+async function finish(){
 
-  document.getElementById('toastBoard').onclick=()=>{
-    toast.remove();
-    selectedRecordMap=selectedMap;
-    renderRecordBoard();
-    show('recordScreen');
-  };
+  if(finished)return;
 
-  document.getElementById('toastMenu').onclick=()=>toast.remove();
-}
+  racing=false;
 
-const clock=new THREE.Clock();
-function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05);
- if(!paused && countdownTimer>0){countdownTimer-=dt;const n=Math.ceil(countdownTimer);$('countdown').textContent=n>0?n:'GO!';if(countdownTimer<=0){$('countdown').classList.add('hidden');raceStartTime=performance.now();racing=true}}
- if(racing&&!finished&&!paused){
-  const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
-  // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
-  const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(4.5+c.max*.08);let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
-  const accelRate=forward?c.accel*1.35*(1+tow*.18):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
-  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
-  if(drifting){driftTime+=dt;boost=Math.min(100,boost+62*dt);lateralVelocity=THREE.MathUtils.lerp(lateralVelocity,-steer*speed*.42*(1.25-c.grip),Math.min(1,dt*5));}
-  else{driftTime=Math.max(0,driftTime-dt*2);boost=Math.min(100,boost+(3.2+tow*18)*dt);lateralVelocity*=Math.pow(.18,dt)}
-  if(spacePressed){
-    const canBoost = boost>=99.5;
-    spacePressed=false;
-    if(canBoost){
-      boosting=1.45;
-      boost=0;
-    }
-  }
-  if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt)}
-  speed=THREE.MathUtils.clamp(speed,-c.max*.45,c.max+(boosting>0?22:0)+towBonus);
-  // 드리프트는 차체가 즉시 방향을 바꾸지 않고 옆으로 미끄러지도록 처리
-  const speedRatio=THREE.MathUtils.clamp(Math.abs(speed)/c.max,0,1);const speedResponse=THREE.MathUtils.clamp(Math.abs(speed)/42,0,1.35);const isBalance=c.name==='레드 볼트';const driftAngleFactor=drifting?(0.70+speedRatio*0.62)*(isBalance?1.05:1.0):1.0;const steerPower=(.76+speedResponse*.34)*c.turn*(drifting?1.18:1.0)*driftAngleFactor;if(steer!==0)player.rotation.y+=steer*steerPower*dt*(speed>=0?1:-1);
-  const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
-  resolveTrackBoundary();
-  resolveObstacleCollisions();
-  resolveRemoteKartCollisions();
-  const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'%';$('boostInner').style.width=boost+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
-  const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
-  if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
-  if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>50){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
- }else if(player){updateRaceCamera(dt,false)}
- updateRemoteKartTransforms(dt);
- renderer.render(scene,camera)
-}
-animate();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
-</script>
+  finished=true;
 
-<script>
-// Lightweight game audio using Web Audio API. No external audio files required.
-(() => {
-  let ctx = null;
-  let master = null;
-  let engineOsc = null;
-  let engineGain = null;
-  let unlocked = false;
+  finalTime=
+    (
+      performance.now()-
+      raceStartTime
+    )/1000;
 
-  function ensureAudio() {
-    if (!ctx) {
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      master = ctx.createGain();
-      master.gain.value = 0.18;
-      master.connect(ctx.destination);
-    }
-    if (ctx.state === 'suspended') ctx.resume();
-    unlocked = true;
+  if(
+    onlineRoomCode&&
+    ws?.readyState===1
+  ){
+
+    onlineFinished=
+      true;
+
+    ws.send(
+      JSON.stringify({
+        type:'finishRace',
+        time:finalTime
+      })
+    );
+
+    hideRaceUI();
+
+    return;
   }
 
-  function beep(freq = 440, duration = 0.08, type = 'sine', volume = 0.08, endFreq = null) {
-    try {
-      ensureAudio();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(30, endFreq), ctx.currentTime + duration);
-      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(Math.max(0.0001, volume), ctx.currentTime + 0.008);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(master);
-      osc.start();
-      osc.stop(ctx.currentTime + duration + 0.01);
-    } catch (_) {}
-  }
+  const nick=
+    requestNickname();
 
-  window.GameAudio = {
-    unlock: ensureAudio,
-    click() { beep(520, 0.045, 'square', 0.035, 680); },
-    countdown(n) { beep(n === 1 ? 620 : 420, 0.11, 'square', 0.06, n === 1 ? 760 : 500); },
-    start() { beep(440, 0.12, 'square', 0.07, 660); setTimeout(() => beep(660, 0.18, 'sawtooth', 0.075, 980), 90); },
-    boost() { beep(220, 0.24, 'sawtooth', 0.075, 880); },
-    drift() { beep(130, 0.09, 'triangle', 0.035, 95); },
-    crash() { beep(85, 0.12, 'square', 0.06, 55); },
-    finish() { beep(520, 0.12, 'triangle', 0.06, 780); setTimeout(() => beep(780, 0.2, 'triangle', 0.06, 1040), 110); },
-    engine(speedRatio = 0) {
-      try {
-        ensureAudio();
-        if (!engineOsc) {
-          engineOsc = ctx.createOscillator();
-          engineGain = ctx.createGain();
-          engineOsc.type = 'sawtooth';
-          engineGain.gain.value = 0.0001;
-          engineOsc.connect(engineGain);
-          engineGain.connect(master);
-          engineOsc.start();
-        }
-        const r = Math.max(0, Math.min(1, speedRatio));
-        engineOsc.frequency.setTargetAtTime(70 + r * 170, ctx.currentTime, 0.03);
-        engineGain.gain.setTargetAtTime(0.008 + r * 0.022, ctx.currentTime, 0.04);
-      } catch (_) {}
-    },
-    stopEngine() {
-      if (engineGain && ctx) engineGain.gain.setTargetAtTime(0.0001, ctx.currentTime, 0.05);
-    },
-    stopAll() {
-      this.stopEngine();
-    }
-  };
+  hideRaceUI();
 
-  // Unlock audio on the first user interaction.
-  window.addEventListener('pointerdown', ensureAudio, { once: true, passive: true });
-  window.addEventListener('keydown', ensureAudio, { once: true });
-
-  // Click feedback for normal buttons.
-  document.addEventListener('click', (e) => {
-    const el = e.target.closest('button');
-    if (el) window.GameAudio?.click();
-  });
-})();
-</script>
-
-</body>
-</html>
+ 
