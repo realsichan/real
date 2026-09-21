@@ -94,11 +94,11 @@ const maps=[
  {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[0,84],[-34,84],[-59,70],[-72,48],[-70,26],[-54,11],[-33,14],[-18,0],[-28,-17],[-51,-28],[-56,-49],[-43,-67],[-17,-79],[11,-80],[38,-69],[62,-54],[76,-34],[80,-10],[68,7],[48,12],[35,1],[43,20],[61,28],[65,47],[52,65],[28,76],[7,72]]},
  {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[88,0],[73,20],[80,46],[52,52],[45,78],[19,70],[0,94],[-18,68],[-45,78],[-52,52],[-76,44],[-70,19],[-92,0],[-73,-20],[-76,-44],[-51,-51],[-47,-81],[-19,-70],[0,-90],[19,-71],[46,-80],[49,-49],[76,-44],[71,-19]]},
 
-  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[0,58],[40,58],[58,34],[54,6],[36,-12],[8,-20],[-20,-20],[-48,-8],[-58,18],[-42,42],[-18,54]]},
-  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[8,66],[-34,66],[-58,46],[-62,16],[-42,-2],[-18,4],[-4,-14],[-24,-34],[-8,-58],[28,-58],[56,-38],[62,-6],[46,18],[26,10],[34,42]]},
-  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[0,68],[42,68],[61,44],[48,20],[18,22],[30,-2],[58,-22],[42,-48],[8,-60],[-28,-52],[-52,-30],[-42,-4],[-14,10],[-34,34],[-18,56]]},
-  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[0,70],[34,68],[56,46],[52,22],[28,8],[6,18],[-14,4],[-4,-20],[22,-34],[18,-58],[-12,-66],[-42,-48],[-54,-20],[-40,8],[-62,30],[-34,54]]},
-  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[0,74],[34,70],[50,46],[28,28],[52,8],[30,-10],[54,-30],[26,-48],[4,-68],[-26,-56],[-48,-34],[-32,-12],[-58,8],[-34,30],[-54,52],[-18,64]]},
+  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[0,96],[72,96],[104,61],[97,11],[65,-22],[14,-34],[-36,-34],[-86,-14],[-104,32],[-75,76],[-32,90]]},
+  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[14,108],[-61,108],[-104,75],[-112,26],[-76,-4],[-32,7],[-7,-24],[-43,-56],[-14,-104],[50,-104],[101,-68],[112,-11],[83,32],[47,18],[61,69]]},
+  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[0,116],[75,116],[110,79],[86,36],[32,40],[54,-4],[104,-40],[75,-86],[14,-108],[-50,-94],[-94,-54],[-76,-7],[-25,18],[-61,61],[-32,95]]},
+  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[0,116],[61,122],[101,83],[94,40],[50,14],[11,32],[-25,7],[-7,-36],[40,-61],[32,-101],[-22,-112],[-76,-82],[-97,-34],[-72,14],[-112,54],[-61,97]]},
+  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[0,128],[61,122],[90,83],[50,50],[94,14],[54,-18],[97,-54],[47,-86],[7,-116],[-47,-96],[-86,-58],[-58,-22],[-104,14],[-61,54],[-97,94],[-32,112]]},
 ];
 
 const cars=[
@@ -629,10 +629,11 @@ function updateRaceCamera(dt,fast=false){
   while(dy>Math.PI)dy-=Math.PI*2;
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*10.5,6.1,-Math.cos(cameraSmoothYaw)*10.5).add(player.position);
-  cameraFollowTarget.lerp(back,Math.min(1,dt*12));
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*13.2,6.8,-Math.cos(cameraSmoothYaw)*13.2).add(player.position);
+  cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
-  const look=player.position.clone().add(new THREE.Vector3(0,.85,0));
+  const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
+  const look=player.position.clone().addScaledVector(lookForward,3.4).add(new THREE.Vector3(0,.72,0));
   cameraLookTarget.lerp(look,lookAlpha);
   camera.lookAt(cameraLookTarget);
 }
