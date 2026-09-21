@@ -110,55 +110,142 @@ const cars=[
 ];
 let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
 let raceStartTime=0,finalTime=0,lastResultTime=null;
-const RECORD_KEY='miniKartRaceBoardV2';
+// ========================================
+// 기록 저장 시스템
+// ========================================
+
+const RECORD_KEY='miniKartRaceBoard';
+const OLD_RECORD_KEYS=['miniKartRaceBoardV2'];
 const ADMIN_PASSWORD='hanchan0705';
-function fmtTime(sec){const m=Math.floor(sec/60),s2=sec-m*60;return String(m).padStart(2,'0')+':'+s2.toFixed(2).padStart(5,'0')}
-function loadRecordsLocal(){try{const x=JSON.parse(localStorage.getItem(RECORD_KEY)||'[]');return Array.isArray(x)?x:[]}catch{return []}}
-function saveRecordsLocal(records){try{localStorage.setItem(RECORD_KEY,JSON.stringify(records))}catch{}}
-window.clearRecordsPublic=()=>{if(window.__adminMode){saveRecordsLocal([]);renderRecordBoard();}}
-async function loadRecords(){
-  try{const r=await fetch('/api/records',{cache:'no-store'});if(!r.ok)throw new Error('records');const x=await r.json();if(Array.isArray(x)){saveRecordsLocal(x);return x;}}
-  catch(e){}
-  return loadRecordsLocal();
-}
-function showAdminControls(){const a=$('adminState'),c=$('clearRecordsBtn');if(a)a.classList.remove('hidden');if(c)c.classList.remove('hidden')}
-window.showAdminControls=showAdminControls;
-async function addRecord(nickname,time){
- const clean=(nickname||'플레이어').trim().slice(0,12)||'플레이어';
- const mapName=maps[selectedMap].name;
- const next={nickname:clean,time:Number(time),map:mapName,stars:maps[selectedMap].stars,car:cars[selectedCar].name,date:Date.now()};
- try{
-   const r=await fetch('/api/records',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(next)});
-   if(r.ok){const x=await r.json();if(Array.isArray(x)){saveRecordsLocal(x);return x;}}
- }catch(e){}
- const records=loadRecordsLocal();
- const existing=records.findIndex(r=>r.map===mapName && String(r.nickname).trim().toLowerCase()===clean.toLowerCase());
- if(existing>=0){if(time<records[existing].time)records[existing]=next}else records.push(next);
- records.sort((a,b)=>a.time-b.time);saveRecordsLocal(records.slice(0,500));return records.slice(0,500);
-}
-async function renderRecordBoard(){
- const ordered=orderedMapEntries();
- const tabs=$('recordMapTabs');
- const groups=[1,2,3,4,5].map(stars=>({stars,items:ordered.filter(({m})=>m.stars===stars)})).filter(g=>g.items.length);
- tabs.innerHTML=groups.map(g=>`<div style="width:100%;font-weight:900;text-align:left;margin-top:6px;color:#ffd84d">${g.stars}성</div>${g.items.map(({m,i})=>`<button class="btn ${i===selectedRecordMap?'':'secondary'}" style="padding:10px 14px;font-size:14px" data-rmap="${i}">${m.name} · ${'★'.repeat(m.stars)}</button>`).join('')}`).join('');
- tabs.querySelectorAll('[data-rmap]').forEach(b=>b.onclick=()=>{selectedRecordMap=+b.dataset.rmap;renderRecordBoard()});
- if(!Number.isInteger(selectedRecordMap) || !maps[selectedRecordMap]) selectedRecordMap=ordered[0]?.i||0;
- const mapName=maps[selectedRecordMap].name;
- const all=await loadRecords();
- const records=all.filter(r=>r.map===mapName).sort((a,b)=>a.time-b.time);
- const admin=!!window.__adminMode;
- const rows=records.length?records.slice(0,100).map((r,i)=>{
-   return `<tr><td><b>${i+1}</b></td><td>${escapeHtml(r.nickname)}</td><td><b>${fmtTime(r.time)}</b></td><td>${escapeHtml(r.car||'-')}</td><td>${new Date(r.date).toLocaleDateString('ko-KR')}</td>${admin?`<td><button class="mini danger" data-delete-name="${escapeHtml(r.nickname)}">삭제</button></td>`:''}</tr>`;
- }).join(''):`<tr><td colspan="${admin?6:5}" style="padding:28px;opacity:.65">이 맵에는 아직 기록이 없습니다.</td></tr>`;
- $('recordTableWrap').innerHTML=`<div style="overflow:auto;max-height:55vh"><table style="width:100%;border-collapse:collapse;min-width:${admin?650:560}px"><thead><tr><th>순위</th><th>닉네임</th><th>기록</th><th>차</th><th>등록일</th>${admin?'<th>관리</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`;
- document.querySelectorAll('[data-delete-name]').forEach(btn=>btn.onclick=async()=>{
-   if(!window.__adminMode)return;
-   const nickname=btn.dataset.deleteName;
-   if(!confirm(`'${nickname}'의 ${mapName} 기록을 삭제할까요?`))return;
-   try{const r=await fetch('/api/records',{method:'DELETE',headers:{'content-type':'application/json'},body:JSON.stringify({map:mapName,nickname,password:ADMIN_PASSWORD})});if(!r.ok)throw new Error('delete');const x=await r.json();saveRecordsLocal(x);await renderRecordBoard();}catch(e){alert('기록 삭제에 실패했습니다. 서버 연결을 확인하세요.');}
- });
+
+function fmtTime(sec){
+  const m=Math.floor(sec/60);
+  const s2=sec-m*60;
+  return String(m).padStart(2,'0')+':'+s2.toFixed(2).padStart(5,'0');
 }
 
+function normalizeRecord(r){
+  if(!r || !r.map) return null;
+  const nickname=String(r.nickname||'플레이어').trim().slice(0,12)||'플레이어';
+  const time=Number(r.time);
+  if(!Number.isFinite(time)||time<=0) return null;
+  return {
+    nickname,
+    map:String(r.map||'').slice(0,80),
+    time,
+    stars:Number(r.stars)||0,
+    car:String(r.car||'-').slice(0,40),
+    date:Number(r.date)||Date.now()
+  };
+}
+
+function mergeRecords(...sources){
+  const best=new Map();
+  for(const source of sources){
+    if(!Array.isArray(source)) continue;
+    for(const raw of source){
+      const r=normalizeRecord(raw);
+      if(!r) continue;
+      const key=r.map.toLowerCase()+'||'+r.nickname.toLowerCase();
+      const old=best.get(key);
+      if(!old||r.time<old.time) best.set(key,r);
+    }
+  }
+  return [...best.values()]
+    .sort((a,b)=>a.time-b.time||a.date-b.date)
+    .slice(0,500);
+}
+
+function loadRecordsLocal(){
+  try{
+    let all=[];
+    try{
+      const current=JSON.parse(localStorage.getItem(RECORD_KEY)||'[]');
+      if(Array.isArray(current)) all.push(...current);
+    }catch{}
+    for(const oldKey of OLD_RECORD_KEYS){
+      try{
+        const old=JSON.parse(localStorage.getItem(oldKey)||'[]');
+        if(Array.isArray(old)) all.push(...old);
+      }catch{}
+    }
+    const merged=mergeRecords(all);
+    saveRecordsLocal(merged);
+    return merged;
+  }catch{
+    return [];
+  }
+}
+
+function saveRecordsLocal(records){
+  try{
+    localStorage.setItem(RECORD_KEY,JSON.stringify(mergeRecords(records)));
+  }catch{}
+}
+
+async function loadRecords(){
+  const localRecords=loadRecordsLocal();
+  try{
+    const r=await fetch('/api/records',{cache:'no-store'});
+    if(!r.ok) throw new Error('records');
+    const remote=await r.json();
+    if(Array.isArray(remote)){
+      const merged=mergeRecords(remote,localRecords);
+      saveRecordsLocal(merged);
+      return merged;
+    }
+  }catch(e){}
+  return localRecords;
+}
+
+window.clearRecordsPublic=()=>{
+  if(window.__adminMode){
+    saveRecordsLocal([]);
+    renderRecordBoard();
+  }
+};
+
+function showAdminControls(){
+  const a=$('adminState'),c=$('clearRecordsBtn');
+  if(a) a.classList.remove('hidden');
+  if(c) c.classList.remove('hidden');
+}
+window.showAdminControls=showAdminControls;
+
+async function addRecord(nickname,time){
+  const clean=(nickname||'플레이어').trim().slice(0,12)||'플레이어';
+  const mapName=maps[selectedMap].name;
+  const next={
+    nickname:clean,
+    time:Number(time),
+    map:mapName,
+    stars:maps[selectedMap].stars,
+    car:cars[selectedCar].name,
+    date:Date.now()
+  };
+
+  const localRecords=loadRecordsLocal();
+  const merged=mergeRecords(localRecords,[next]);
+  saveRecordsLocal(merged);
+
+  try{
+    const r=await fetch('/api/records',{
+      method:'POST',
+      headers:{'content-type':'application/json'},
+      body:JSON.stringify(next)
+    });
+    if(r.ok){
+      const serverRecords=await r.json();
+      if(Array.isArray(serverRecords)){
+        const finalRecords=mergeRecords(merged,serverRecords);
+        saveRecordsLocal(finalRecords);
+        return finalRecords;
+      }
+    }
+  }catch(e){}
+
+  return merged;
+}
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
 function requestNickname(){const n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.','플레이어');if(n===null)return null;const clean=n.trim().slice(0,12);return clean||'플레이어'}
 
