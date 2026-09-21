@@ -278,9 +278,8 @@ $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringif
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
 const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
-const MIN_COLLISION_SPEED_KMH=20;
-const MIN_COLLISION_SPEED=MIN_COLLISION_SPEED_KMH/2.45;
-function effectiveCollisionSpeed(v){return Math.max(Math.abs(Number(v)||0),MIN_COLLISION_SPEED);}
+const MIN_COLLISION_KICK=1.6; // 저속에서 겹침만 풀어주는 최소 반발력(20km/h로 속도를 강제하지 않음)
+function collisionSpeedValue(v){return Math.abs(Number(v)||0);}
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
@@ -324,10 +323,13 @@ function resolveObstacleCollisions(){
         player.rotation.y=currentAngle+delta*(0.10+0.35*impact);
         const collisionPower=(cars[selectedCar].collision||40)/100;
         // 아주 느린 충돌도 최소 20km/h 충돌로 계산해 벽/장애물에 끼지 않게 한다.
-        const collisionSpeed=effectiveCollisionSpeed(speed);
+        const collisionSpeed=collisionSpeedValue(speed);
         const speedSign=speed<0?-1:1;
         const collisionDamp=THREE.MathUtils.lerp(0.93-0.03*collisionPower,0.67+0.08*collisionPower,impact);
+        // 실제 속도는 그대로 기준으로 사용하고, 저속에서는 '끼임 방지용' 작은 반발력만 추가한다.
         speed=speedSign*collisionSpeed*collisionDamp;
+        const unstuck=Math.max(collisionSpeed*0.10*impact,MIN_COLLISION_KICK*0.18);
+        speed += speedSign * unstuck;
         lateralVelocity*=THREE.MathUtils.lerp(0.74,0.46,impact);
       } else { speed*=0.90; lateralVelocity*=0.70; }
     }
@@ -431,7 +433,7 @@ function resolveTrackBoundary(){
   const side=new THREE.Vector3(-tan.z,0,tan.x).normalize();
   const rel=player.position.clone().sub(center); const signed=rel.dot(side); const sign=signed>=0?1:-1;
   const target=center.clone().addScaledVector(side,sign*limit); target.y=player.position.y;
-  player.position.lerp(target,.72);
+  player.position.lerp(target,.92);
   // 경계면 법선 방향으로만 속도의 일부를 반사해 '살짝' 튕긴다.
   const normal=side.clone().multiplyScalar(-sign); const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
   const vn=f.dot(normal); if(vn<0){
@@ -442,10 +444,13 @@ function resolveTrackBoundary(){
     let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
     player.rotation.y=currentAngle+delta*(0.18+0.82*impact);
     // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
-    const collisionSpeed=effectiveCollisionSpeed(speed);
+    const collisionSpeed=collisionSpeedValue(speed);
     const speedSign=speed<0?-1:1;
     const collisionDamp=THREE.MathUtils.lerp(0.88,0.52,impact);
+    // 속도를 인위적으로 20km/h 이상으로 올리지 않는다. 저속에서는 벽에서 빠져나올 최소 반발력만 준다.
     speed=speedSign*collisionSpeed*collisionDamp;
+    const unstuck=Math.max(collisionSpeed*0.12*impact,MIN_COLLISION_KICK*0.22);
+    speed += speedSign * unstuck;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
@@ -563,17 +568,23 @@ function resolveRemoteKartCollisions(){
     const dx=player.position.x-g.position.x,dz=player.position.z-g.position.z,d2=dx*dx+dz*dz,minD=2.7;
     if(d2<minD*minD){
       const d=Math.max(Math.sqrt(d2),.001),nx=dx/d,nz=dz/d,push=minD-d;
+      if(push>0){
+        const sep=push+0.10;
+        player.position.x+=nx*sep*0.62;
+        player.position.z+=nz*sep*0.62;
+        g.position.x-=nx*sep*0.38;
+        g.position.z-=nz*sep*0.38;
+      }
       const other=cars[g.userData.carId]||cars[0];
       const myPower=(mine.collision||40)/100, otherPower=(other.collision||40)/100;
       const pushPower=THREE.MathUtils.clamp(.55+myPower*.60-otherPower*.25,.35,1.25);
       player.position.x+=nx*push*(.45+.18*myPower);
       player.position.z+=nz*push*(.45+.18*myPower);
       speed*=THREE.MathUtils.clamp(.995-.06*(1-myPower),.90,.99);
-      // 저속으로 비비는 상황도 최소 충돌량을 보장해 상대 카트와 겹쳐 끼지 않게 한다.
-      const otherSpeed=Math.abs(Number(g.userData.netTarget?.speed)||0);
-      const collisionSpeed=Math.max(effectiveCollisionSpeed(speed),effectiveCollisionSpeed(otherSpeed));
-      const minKick=MIN_COLLISION_SPEED*.70;
-      const kick=Math.max(collisionSpeed*.24,minKick)*pushPower;
+      // 실제 충돌 속도에 비례해 밀고, 아주 저속에서는 겹침을 풀 정도의 최소 반발력만 추가한다.
+      const otherSpeed=collisionSpeedValue(g.userData.netTarget?.speed);
+      const collisionSpeed=Math.max(collisionSpeedValue(speed),otherSpeed);
+      const kick=Math.max(collisionSpeed*.24,MIN_COLLISION_KICK)*pushPower;
       lateralVelocity+=nx*kick;
       g.position.x-=nx*push*(.35+.10*pushPower);
       g.position.z-=nz*push*(.35+.10*pushPower);
@@ -645,11 +656,11 @@ function updateRaceCamera(dt,fast=false){
   while(dy>Math.PI)dy-=Math.PI*2;
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*26.5,9.2,-Math.cos(cameraSmoothYaw)*26.5).add(player.position);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*29.5,7.1,-Math.cos(cameraSmoothYaw)*29.5).add(player.position);
   cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
   const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
-  const look=player.position.clone().addScaledVector(lookForward,4.0).add(new THREE.Vector3(0,.60,0));
+  const look=player.position.clone().addScaledVector(lookForward,5.0).add(new THREE.Vector3(0,.52,0));
   cameraLookTarget.lerp(look,lookAlpha);
   camera.lookAt(cameraLookTarget);
 }
