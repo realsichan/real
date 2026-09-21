@@ -629,11 +629,11 @@ function updateRaceCamera(dt,fast=false){
   while(dy>Math.PI)dy-=Math.PI*2;
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*17.0,7.2,-Math.cos(cameraSmoothYaw)*17.0).add(player.position);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*20.5,7.8,-Math.cos(cameraSmoothYaw)*20.5).add(player.position);
   cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
   const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
-  const look=player.position.clone().addScaledVector(lookForward,1.6).add(new THREE.Vector3(0,.68,0));
+  const look=player.position.clone().addScaledVector(lookForward,3.0).add(new THREE.Vector3(0,.62,0));
   cameraLookTarget.lerp(look,lookAlpha);
   camera.lookAt(cameraLookTarget);
 }
