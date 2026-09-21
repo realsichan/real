@@ -277,7 +277,7 @@ $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringif
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
-const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;
+const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
@@ -412,7 +412,7 @@ function buildMap(){
    addObstacleCollider(x,z,3.3);
   }
  }
- player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);world.add(player);
+ player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,6.3,player.position.z);world.add(player);
  speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
  $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
 }
@@ -620,6 +620,23 @@ function showOnlineRaceEnded(rankings){
     show('lobbyScreen');
   },4500);
 }
+function updateRaceCamera(dt,fast=false){
+  if(!player)return;
+  const followAlpha=fast?0.16:0.11;
+  const lookAlpha=fast?0.18:0.12;
+  if(!cameraReady){cameraSmoothYaw=player.rotation.y;cameraReady=true;}
+  let dy=player.rotation.y-cameraSmoothYaw;
+  while(dy>Math.PI)dy-=Math.PI*2;
+  while(dy<-Math.PI)dy+=Math.PI*2;
+  cameraSmoothYaw+=dy*Math.min(1,dt*9);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*10.5,6.1,-Math.cos(cameraSmoothYaw)*10.5).add(player.position);
+  cameraFollowTarget.lerp(back,Math.min(1,dt*12));
+  camera.position.lerp(cameraFollowTarget,followAlpha);
+  const look=player.position.clone().add(new THREE.Vector3(0,.85,0));
+  cameraLookTarget.lerp(look,lookAlpha);
+  camera.lookAt(cameraLookTarget);
+}
+
 function hideRaceUI(){$('hud').classList.add('hidden');$('minimap').classList.add('hidden')}
 function setPauseUI(on){paused=on;const ov=$('pauseOverlay');if(!ov)return;if(on){ov.classList.remove('hidden');keys.KeyW=keys.KeyA=keys.KeyS=keys.KeyD=keys.Space=keys.ShiftLeft=keys.ShiftRight=false;}else{ov.classList.add('hidden');}}
 function togglePause(){if(!racing&& !paused) return;setPauseUI(!paused);}
@@ -695,10 +712,10 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   resolveRemoteKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
   $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'%';$('boostInner').style.width=boost+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
-  const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);camera.position.lerp(behind,.105);camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)));drawMinimap();
+  const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
   if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
   if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>50){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
- }else if(player){const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);camera.position.lerp(behind,.08);camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)))}
+ }else if(player){updateRaceCamera(dt,false)}
  updateRemoteKartTransforms(dt);
  renderer.render(scene,camera)
 }
