@@ -262,7 +262,7 @@ async function addRecord(nickname,time){
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
 function requestNickname(){const n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.','플레이어');if(n===null)return null;const clean=n.trim().slice(0,12);return clean||'플레이어'}
 
-let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
+let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineRandomMode=null, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
 let remoteKarts=new Map();
 function wsUrl(){return (location.protocol==='https:'?'wss://':'ws://')+location.host}
 function setOnlineStatus(t){const e=$('onlineStatus');if(e)e.textContent=t||''}
@@ -280,26 +280,44 @@ function renderOnlineCarCards(){
 
 function updateOnlineReadyButton(){const b=$('onlineReadyBtn'); if(b)b.textContent=onlineReady?'준비 취소':'준비 완료';}
 function renderLobby(data){
- onlineRoomCode=data.code||onlineRoomCode; onlineHostId=data.hostId||onlineHostId; onlineMapId=Number(data.mapId||0); $('roomCodeLabel').textContent=onlineRoomCode||'-';
+ onlineRoomCode=data.code||onlineRoomCode; onlineHostId=data.hostId||onlineHostId; onlineMapId=Number(data.mapId||0);
+ window.__onlinePlayers=data.players||window.__onlinePlayers||[];
+ if(Object.prototype.hasOwnProperty.call(data,'randomMode')) onlineRandomMode=data.randomMode===undefined?null:data.randomMode;
+ $('roomCodeLabel').textContent=onlineRoomCode||'-';
  const list=data.players||[]; $('roomPlayers').innerHTML=list.map((p,i)=>`<div style="padding:10px 12px;margin:6px 0;border-radius:10px;background:#273451"><b>${i+1}. ${escapeHtml(p.name)}</b>${p.host?' <span style="color:#ffe600">방장</span>':''} · ${escapeHtml(cars[Number(p.carId)]?.name||'차 미선택')} ${p.ready?' <span style="color:#65e35b;font-weight:800">준비 완료</span>':' <span style="opacity:.65">대기 중</span>'}</div>`).join('');
  const me=list.find(p=>p.id===onlinePlayerId); const isHost=me?me.host:(onlineHostId===onlinePlayerId); const allReady=list.length>0 && list.every(p=>p.ready);
  $('hostMapControls').classList.toggle('hidden',!isHost); $('onlineStartRaceBtn').classList.toggle('hidden',!(isHost && allReady));
- $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
+ const randomActive=onlineRandomMode!==null && onlineRandomMode!==undefined;
+ if(randomActive){
+   const label=onlineRandomMode===null || onlineRandomMode===-1 ? '전체 랜덤' : `${Number(onlineRandomMode)}성 랜덤`;
+   $('roomMapPreview').innerHTML=`<div style="height:120px;border-radius:12px;background:#18233a;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center"><div style="font-size:26px;font-weight:900">🎲 ${label}</div><div style="margin-top:7px;opacity:.72">레이스 시작할 때 랜덤으로 맵이 결정됩니다.</div></div>`;
+ }else{
+   $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
+ }
  renderOnlineCarCards(); updateOnlineReadyButton();
- $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
- if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
+ $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : (randomActive ? '랜덤 맵 · 시작할 때 맵이 결정됩니다.' : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`);
+ if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId); $('hostMapSelect').disabled=randomActive}
 }
 function sendOnlineMapSelection(id){
   onlineMapId=Number(id)||0;
+  onlineRandomMode=null;
   if(ws?.readyState===1){
     ws.send(JSON.stringify({type:'mapSelect',mapId:onlineMapId}));
   }
+  renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:null,players:window.__onlinePlayers||[]});
   $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]);
   setLobbyStatus(`${maps[onlineMapId].name} 선택됨 — 방 참가자에게도 표시됩니다.`);
 }
 function chooseRandomOnlineMap(stars=null){
-  const id=randomMapIndex(stars);
-  sendOnlineMapSelection(id);
+  onlineRandomMode=stars===null?-1:Number(stars);
+  if(ws?.readyState===1){
+    ws.send(JSON.stringify({type:'randomMap',stars}));
+  }
+  const label=stars===null?'전체 랜덤':`${Number(stars)}성 랜덤`;
+  const players=window.__onlinePlayers||[];
+  renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:onlineRandomMode,players});
+  $('roomMapPreview').innerHTML=`<div style="height:120px;border-radius:12px;background:#18233a;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center"><div style="font-size:26px;font-weight:900">🎲 ${label}</div><div style="margin-top:7px;opacity:.72">레이스 시작할 때 랜덤으로 맵이 결정됩니다.</div></div>`;
+  setLobbyStatus(`${label} · 시작할 때 랜덤 맵이 결정됩니다.`);
 }
 function connectWS(){
  if(ws&&ws.readyState<=1)return;
@@ -309,10 +327,10 @@ function connectWS(){
  ws.onclose=()=>{setOnlineStatus('연결이 종료되었습니다.');ws=null};
  ws.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch{return}
   if(m.type==='hello'){onlinePlayerId=m.id}
-  else if(m.type==='room'){onlineRoomCode=m.code;onlineHostId=m.hostId;onlineMapId=Number(m.mapId||0);$('onlineScreen').classList.add('hidden');show('lobbyScreen');renderLobby(m)}
-  else if(m.type==='players'){renderLobby({...m,code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players})}
-  else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players||[]});setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}
-  else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0); if(typeof startRaceNow==='function') startRaceNow(true);}
+  else if(m.type==='room'){onlineRoomCode=m.code;onlineHostId=m.hostId;onlineMapId=Number(m.mapId||0);onlineRandomMode=Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:null;window.__onlinePlayers=m.players||[];$('onlineScreen').classList.add('hidden');show('lobbyScreen');renderLobby(m)}
+  else if(m.type==='players'){window.__onlinePlayers=m.players||[];renderLobby({...m,code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:onlineRandomMode,players:m.players})}
+  else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);onlineRandomMode=Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:null;window.__onlinePlayers=m.players||[];renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:onlineRandomMode,players:m.players||[]});if(onlineRandomMode!==null && onlineRandomMode!==undefined){setLobbyStatus('랜덤 맵 · 시작할 때 맵이 결정됩니다.')}else{setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}}
+  else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0);onlineMapId=selectedMap;onlineRandomMode=null;if(typeof startRaceNow==='function') startRaceNow(true);}
   else if(m.type==='error'){setOnlineStatus(m.message||'오류가 발생했습니다.');setLobbyStatus(m.message||'오류가 발생했습니다.')}
   else if(m.type==='snapshot'){
     window.__onlineSnapshot=m.players||[];
@@ -334,7 +352,7 @@ function connectWS(){
   }
  };
 }
-function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
+function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';onlineRandomMode=null;connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 function joinRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';const code=($('roomCodeInput').value||'').trim().toUpperCase();if(code.length<5){setOnlineStatus('방 코드를 5자리로 입력하세요.');return}connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'joinRoom',name,code,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 
 const $=id=>document.getElementById(id);
@@ -488,7 +506,7 @@ $('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);sendO
 $('onlineRandomAllBtn').onclick=()=>chooseRandomOnlineMap(null);
 document.querySelectorAll('.onlineRandomStarBtn').forEach(btn=>btn.onclick=()=>chooseRandomOnlineMap(Number(btn.dataset.stars)));
 $('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
-$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
+$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId,randomMode:onlineRandomMode}));}};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
