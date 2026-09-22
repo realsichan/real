@@ -648,6 +648,16 @@ function resolveTrackBoundary(){
     const unstuck=Math.max(collisionSpeed*0.12*impact,MIN_COLLISION_KICK*0.22);
     speed += speedSign * unstuck;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
+
+    // 벽을 수평에 가깝게 스칠 때도 차가 살짝 옆으로 튕겨 나가게 한다.
+    // 너무 큰 값을 주지 않아 기존 조작감은 유지한다.
+    const carSide=new THREE.Vector3(
+      Math.cos(player.rotation.y),
+      0,
+      -Math.sin(player.rotation.y)
+    );
+    const sideSign=normal.dot(carSide);
+    lateralVelocity+=sideSign*(0.9+0.9*(1-impact));
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
  }
