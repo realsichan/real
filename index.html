@@ -658,14 +658,13 @@ function resolveTrackBoundary(){
     const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
     let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
     const maxBounceTurn=THREE.MathUtils.degToRad(58); const limitedDelta=THREE.MathUtils.clamp(delta,-maxBounceTurn,maxBounceTurn); player.rotation.y=currentAngle+limitedDelta*(0.18+0.82*impact);
-    // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
+    // 벽에 부딪히면 현재 속도에서 조금 감소한다.
+    // 저속에서 끼이는 문제는 위치 보정과 옆 방향 반발력으로 해결하고,
+    // 전진 속도를 강제로 올리지는 않는다.
     const collisionSpeed=collisionSpeedValue(speed);
     const speedSign=speed<0?-1:1;
     const collisionDamp=THREE.MathUtils.lerp(0.96,0.82,impact);
-    // 속도를 인위적으로 20km/h 이상으로 올리지 않는다. 저속에서는 벽에서 빠져나올 최소 반발력만 준다.
     speed=speedSign*collisionSpeed*collisionDamp;
-    const unstuck=Math.max(collisionSpeed*0.12*impact,MIN_COLLISION_KICK*0.22);
-    speed += speedSign * unstuck;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
 
     // 벽을 수평에 가깝게 스칠 때도 차가 살짝 옆으로 튕겨 나가게 한다.
