@@ -648,7 +648,10 @@ function resolveTrackBoundary(){
   const side=new THREE.Vector3(-tan.z,0,tan.x).normalize();
   const rel=player.position.clone().sub(center); const signed=rel.dot(side); const sign=signed>=0?1:-1;
   const target=center.clone().addScaledVector(side,sign*limit); target.y=player.position.y;
-  player.position.lerp(target,.92);
+  // 벽에 닿은 직후 차가 다시 벽 쪽으로 파고들지 않도록 조금 안쪽으로 밀어낸다.
+  const inward=side.clone().multiplyScalar(-sign*0.16);
+  target.add(inward);
+  player.position.lerp(target,1);
   // 경계면 법선 방향으로만 속도의 일부를 반사해 '살짝' 튕긴다.
   const normal=side.clone().multiplyScalar(-sign); const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
   const vn=f.dot(normal); if(vn<0){
@@ -675,7 +678,7 @@ function resolveTrackBoundary(){
       -Math.sin(player.rotation.y)
     );
     const sideSign=normal.dot(carSide);
-    lateralVelocity+=sideSign*(0.9+0.9*(1-impact));
+    lateralVelocity+=sideSign*(1.15+1.05*(1-impact));
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
  }
