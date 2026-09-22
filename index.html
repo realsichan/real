@@ -18,10 +18,10 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
 </head>
 <body>
 <div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱 프로토타입</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
-<div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
+<div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns" style="margin-top:8px"><button class="btn" id="randomAllBtn">전체 랜덤</button><button class="btn secondary" id="random1Btn">1성 랜덤</button><button class="btn secondary" id="random2Btn">2성 랜덤</button><button class="btn secondary" id="random3Btn">3성 랜덤</button><button class="btn secondary" id="random4Btn">4성 랜덤</button><button class="btn secondary" id="random5Btn">5성 랜덤</button><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
 <div id="mapListScreen" class="screen hidden"><div class="panel"><h2 id="mapListTitle">맵 선택</h2><div class="cards" id="mapCards"></div><div class="menuBtns"><button class="btn" id="mapNext">차 선택</button><button class="btn secondary" id="mapListBack">난이도 선택으로</button></div></div></div>
 <div id="onlineScreen" class="screen hidden"><div class="panel"><h2>온라인 멀티플레이</h2><p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p><input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700"><div class="menuBtns"><button class="btn" id="createRoomBtn">방 만들기</button><button class="btn secondary" id="joinRoomBtn">방 참가</button><button class="btn secondary" id="onlineBack">메인 화면</button></div><div id="joinCodeBox" class="hidden" style="margin-top:16px"><input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase"><div style="margin-top:10px"><button class="btn" id="joinConfirmBtn">이 방 참가</button></div></div><div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div></div></div>
-<div id="lobbyScreen" class="screen hidden"><div class="panel"><h2>대기실</h2><div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div><div id="hostMapControls" class="hidden" style="margin:12px 0 18px"><div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div><select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select></div><div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div><div style="font-weight:800;margin:12px 0 8px">차 선택</div><div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div><div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div><div class="menuBtns"><button class="btn" id="onlineReadyBtn">준비 완료</button><button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button><button class="btn secondary" id="leaveRoomBtn">방 나가기</button></div><div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div></div></div>
+<div id="lobbyScreen" class="screen hidden"><div class="panel"><h2>대기실</h2><div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div><div id="hostMapControls" class="hidden" style="margin:12px 0 18px"><div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div><select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px"><button class="btn" id="onlineRandomAllBtn" style="padding:10px 14px;font-size:14px">전체 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="1" style="padding:10px 14px;font-size:14px">1성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="2" style="padding:10px 14px;font-size:14px">2성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="3" style="padding:10px 14px;font-size:14px">3성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="4" style="padding:10px 14px;font-size:14px">4성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="5" style="padding:10px 14px;font-size:14px">5성 랜덤</button></div></div><div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div><div style="font-weight:800;margin:12px 0 8px">차 선택</div><div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div><div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div><div class="menuBtns"><button class="btn" id="onlineReadyBtn">준비 완료</button><button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button><button class="btn secondary" id="leaveRoomBtn">방 나가기</button></div><div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div></div></div>
 <div id="carScreen" class="screen hidden"><div class="panel"><h2>차 선택</h2><div class="cards" id="carCards">
 <div class="card selected" data-fallback-car="0"><div class="carPreview"><div class="miniCar" style="background:#e53935"></div></div><h3>레드 볼트</h3><p>균형형 카트</p></div>
 <div class="card" data-fallback-car="1"><div class="carPreview"><div class="miniCar" style="background:#287cff"></div></div><h3>블루 스톰</h3><p>속도형 카트</p></div>
@@ -289,6 +289,18 @@ function renderLobby(data){
  $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
  if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
 }
+function sendOnlineMapSelection(id){
+  onlineMapId=Number(id)||0;
+  if(ws?.readyState===1){
+    ws.send(JSON.stringify({type:'mapSelect',mapId:onlineMapId}));
+  }
+  $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]);
+  setLobbyStatus(`${maps[onlineMapId].name} 선택됨 — 방 참가자에게도 표시됩니다.`);
+}
+function chooseRandomOnlineMap(stars=null){
+  const id=randomMapIndex(stars);
+  sendOnlineMapSelection(id);
+}
 function connectWS(){
  if(ws&&ws.readyState<=1)return;
  ws=new WebSocket(wsUrl());
@@ -329,6 +341,17 @@ const $=id=>document.getElementById(id);
 function show(id){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));$(id).classList.remove('hidden')}
 function orderedMapEntries(){
  return maps.map((m,i)=>({m,i})).sort((a,b)=>a.m.stars-b.m.stars || a.i-b.i);
+}
+function randomMapIndex(stars=null){
+ const candidates=maps.map((m,i)=>({m,i})).filter(x=>stars===null||x.m.stars===stars);
+ if(!candidates.length)return 0;
+ return candidates[Math.floor(Math.random()*candidates.length)].i;
+}
+function chooseRandomNormalMap(stars=null){
+ selectedMap=randomMapIndex(stars);
+ if(stars!==null) selectedDifficulty=stars;
+ renderCarCards();
+ show('carScreen');
 }
 function renderDifficultyCards(){
  const groups=[
@@ -460,6 +483,12 @@ $('mapNext').onclick=()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   renderCarCards();
 });
+$('randomAllBtn').onclick=()=>chooseRandomNormalMap(null);
+$('random1Btn').onclick=()=>chooseRandomNormalMap(1);
+$('random2Btn').onclick=()=>chooseRandomNormalMap(2);
+$('random3Btn').onclick=()=>chooseRandomNormalMap(3);
+$('random4Btn').onclick=()=>chooseRandomNormalMap(4);
+$('random5Btn').onclick=()=>chooseRandomNormalMap(5);
 $('startBtn').onclick=()=>{renderDifficultyCards();show('mapScreen')};
 $('onlineBtn').onclick=()=>{show('onlineScreen');setOnlineStatus('');$('joinCodeBox').classList.add('hidden');connectWS()};
 $('onlineBack').onclick=()=>show('menu');
@@ -467,7 +496,9 @@ $('createRoomBtn').onclick=createRoom;
 $('joinRoomBtn').onclick=()=>{$('joinCodeBox').classList.remove('hidden');$('roomCodeInput').focus()};
 $('joinConfirmBtn').onclick=joinRoom;
 $('leaveRoomBtn').onclick=()=>{if(ws){ws.close();ws=null}show('onlineScreen')};
-$('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);onlineMapId=id;if(ws?.readyState===1)ws.send(JSON.stringify({type:'mapSelect',mapId:id}));$('roomMapPreview').innerHTML=mapPreviewHtml(maps[id]);setLobbyStatus(`${maps[id].name} 선택됨 — 방 참가자에게도 표시됩니다.`);};
+$('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);sendOnlineMapSelection(id);};
+$('onlineRandomAllBtn').onclick=()=>chooseRandomOnlineMap(null);
+document.querySelectorAll('.onlineRandomStarBtn').forEach(btn=>btn.onclick=()=>chooseRandomOnlineMap(Number(btn.dataset.stars)));
 $('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
 $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
 
@@ -939,7 +970,7 @@ async function finish(){
     show('recordScreen');
   };
 
-  document.getElementById('toastMenu').onclick=()=>toast.remove();
+  document.getElementById('toastMenu').onclick=()=>{toast.remove();racing=false;finished=true;hideRaceUI();$('countdown').classList.add('hidden');window.GameAudio?.stopAll?.();show('menu');};
 }
 
 const clock=new THREE.Clock();
