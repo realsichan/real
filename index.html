@@ -845,6 +845,22 @@ function resolveRemoteKartCollisions(){
       player.position.x+=nx*push*(.45+.18*myPower);
       player.position.z+=nz*push*(.45+.18*myPower);
       speed*=THREE.MathUtils.clamp(.995-.06*(1-myPower),.90,.99);
+
+      // 앞차의 뒤쪽을 정면으로 들이받은 경우에는 속도를 조금 더 줄인다.
+      // 옆면 충돌이나 정면충돌에는 적용하지 않고, 겹친 상태에서 매 프레임 반복 감속되는 것도 막는다.
+      const playerForward=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
+      const toOther=new THREE.Vector3(g.position.x-player.position.x,0,g.position.z-player.position.z).normalize();
+      const otherForward=new THREE.Vector3(Math.sin(g.rotation.y),0,Math.cos(g.rotation.y));
+      const rearHit=
+        speed>8 &&
+        playerForward.dot(toOther)>.58 &&
+        otherForward.dot(toOther)>.58;
+      const now=performance.now();
+      if(rearHit && now-(g.userData.lastRearHit||0)>260){
+        speed*=.80;
+        g.userData.lastRearHit=now;
+      }
+
       // 실제 충돌 속도에 비례해 밀고, 아주 저속에서는 겹침을 풀 정도의 최소 반발력만 추가한다.
       const otherSpeed=collisionSpeedValue(g.userData.netTarget?.speed);
       const collisionSpeed=Math.max(collisionSpeedValue(speed),otherSpeed);
