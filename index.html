@@ -657,7 +657,7 @@ function resolveTrackBoundary(){
     const reflected=f.clone().addScaledVector(normal,-2*vn).normalize();
     const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
     let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
-    player.rotation.y=currentAngle+delta*(0.18+0.82*impact);
+    const maxBounceTurn=THREE.MathUtils.degToRad(58); const limitedDelta=THREE.MathUtils.clamp(delta,-maxBounceTurn,maxBounceTurn); player.rotation.y=currentAngle+limitedDelta*(0.18+0.82*impact);
     // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
     const collisionSpeed=collisionSpeedValue(speed);
     const speedSign=speed<0?-1:1;
