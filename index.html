@@ -559,17 +559,34 @@ function makeTrackRibbon(points,width,material){
 }
 function makeGuardRail(offset,color){
  // 가드레일은 구간마다 정확히 두 점 사이 길이만 사용한다.
- // 급커브에서 긴 메쉬가 안쪽으로 꺾이며 역삼각형이 생기는 문제를 피한다.
+ // 급커브나 서로 가까운 트랙 구간에서 레일이 도로 안쪽으로
+ // 가로질러 들어가는 역삼각형/대각선 돌출을 자동으로 제외한다.
  const N=trackPoints.length;
  const railMat=new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.15});
  const group=new THREE.Group();
+ const roadLimit=trackWidth/2+.30;
+
  for(let i=0;i<N;i++){
    const a=boundaryPoint(i,offset);
    const b=boundaryPoint((i+1)%N,offset);
    a.y=.78; b.y=.78;
+
+   // 직선으로 연결한 레일 구간이 실제 도로 안쪽을 통과하면
+   // 그 구간만 건너뛴다. 다른 모든 레일은 기존 방식 그대로 유지한다.
+   let intrudesRoad=false;
+   for(const t of [.20,.50,.80]){
+     const probe=a.clone().lerp(b,t);
+     if(nearestProgress(probe).d < roadLimit){
+       intrudesRoad=true;
+       break;
+     }
+   }
+   if(intrudesRoad) continue;
+
    const dir=b.clone().sub(a);
    const len=dir.length();
    if(len<.05) continue;
+
    // 양 끝을 아주 조금 줄여 급커브에서 세그먼트가 겹치지 않게 한다.
    const cut=Math.min(.10,len*.18);
    const unit=dir.clone().normalize();
@@ -578,12 +595,14 @@ function makeGuardRail(offset,color){
    const d=bb.clone().sub(aa);
    const l=d.length();
    if(l<.08) continue;
+
    const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,l,8),railMat);
    mesh.position.copy(aa).add(bb).multiplyScalar(.5);
    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
    mesh.castShadow=false; mesh.receiveShadow=false;
    group.add(mesh);
  }
+
  world.add(group);
  return group;
 }
