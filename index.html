@@ -970,8 +970,21 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(4.5+c.max*.08);let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
   const accelRate=forward?c.accel*1.35*(1+tow*.18):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
   const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
-  if(drifting){driftTime+=dt;boost=Math.min(100,boost+62*dt);lateralVelocity=THREE.MathUtils.lerp(lateralVelocity,-steer*speed*.42*(1.25-c.grip),Math.min(1,dt*5));}
-  else{driftTime=Math.max(0,driftTime-dt*2);boost=Math.min(100,boost+(3.2+tow*18)*dt);lateralVelocity*=Math.pow(.18,dt)}
+  if(drifting){
+    driftTime+=dt;
+    boost=Math.min(100,boost+62*dt);
+    const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
+    const slipStrength=1.0+2.0*driftSlip;
+    lateralVelocity=THREE.MathUtils.lerp(
+      lateralVelocity,
+      -steer*speed*.42*(1.25-c.grip)*slipStrength,
+      Math.min(1,dt*5)
+    );
+  }else{
+    driftTime=Math.max(0,driftTime-dt*2);
+    boost=Math.min(100,boost+(3.2+tow*18)*dt);
+    lateralVelocity*=Math.pow(.18,dt)
+  }
   if(spacePressed){
     const canBoost = boost>=99.5;
     spacePressed=false;
@@ -984,7 +997,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   speed=THREE.MathUtils.clamp(speed,-c.max*.45,c.max+(boosting>0?22:0)+towBonus);
   // 드리프트는 차체가 즉시 방향을 바꾸지 않고 옆으로 미끄러지도록 처리
   const speedRatio=THREE.MathUtils.clamp(Math.abs(speed)/c.max,0,1);const speedResponse=THREE.MathUtils.clamp(Math.abs(speed)/42,0,1.35);const isBalance=c.name==='레드 볼트';const driftAngleFactor=drifting?(0.70+speedRatio*0.62)*(isBalance?1.05:1.0):1.0;const steerPower=(.76+speedResponse*.34)*c.turn*(drifting?1.18:1.0)*driftAngleFactor;if(steer!==0)player.rotation.y+=steer*steerPower*dt*(speed>=0?1:-1);
-  const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
+  const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);const driftGrip=drifting?THREE.MathUtils.clamp(.93+THREE.MathUtils.clamp(driftTime/3.0,0,1)*.065,.93,.995):.55;lateralVelocity*=drifting?Math.pow(driftGrip,dt*60):Math.pow(.55,dt*60);
   resolveTrackBoundary();
   resolveObstacleCollisions();
   resolveRemoteKartCollisions();
