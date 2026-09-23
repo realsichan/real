@@ -115,11 +115,11 @@ const maps=[
 ];
 
 const cars=[
- {name:'레드 볼트',color:0xe53935,max:47,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
- {name:'블루 스톰',color:0x287cff,max:58,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
- {name:'퍼플 드리프터',color:0x9b45ff,max:43,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
- {name:'그린 스프린터',color:0x31c76a,max:50,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
- {name:'블랙 가디언',color:0x20252c,max:44,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
+ {name:'레드 볼트',color:0xe53935,max:50,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
+ {name:'블루 스톰',color:0x287cff,max:55,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
+ {name:'퍼플 드리프터',color:0x9b45ff,max:46,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
+ {name:'그린 스프린터',color:0x31c76a,max:53,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
+ {name:'블랙 가디언',color:0x20252c,max:47,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
 ];
 let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
 let raceStartTime=0,finalTime=0,lastResultTime=null;
@@ -973,6 +973,10 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   if(drifting){
     driftTime+=dt;
     boost=Math.min(100,boost+62*dt);
+    // 드리프트 중에는 속도가 조금씩 감소한다. 드리프트 수치가 높을수록 감소량이 적다.
+    const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
+    const driftSpeedLoss=0.06-0.04*driftStat;
+    speed*=Math.max(0,1-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.0*driftSlip;
     lateralVelocity=THREE.MathUtils.lerp(
