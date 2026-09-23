@@ -98,20 +98,20 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/three@0.160.0/build/three.min.js'"></script>
 <script>
 const maps=[
- {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[0,79],[53,79],[77,53],[79,9],[61,-26],[28,-44],[-6,-57],[-46,-57],[-75,-37],[-81,4],[-66,37],[-33,61]]},
- {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-72,55],[22,77],[72,55],[79,16],[50,-6],[75,-33],[55,-64],[-22,-77],[-75,-55],[-81,-20],[-50,2],[-72,24]]},
- {name:'시티 크로스',stars:2,laps:2,desc:'긴 직선과 S자 코너가 섞인 중급 코스.',sky:0x50698c,ground:0x31383d,road:0x41454b,wall:0xf2c94c,points:[[0,79],[46,79],[70,64],[72,33],[54,16],[28,22],[11,2],[16,-24],[46,-44],[47,-67],[20,-79],[-15,-79],[-46,-67],[-68,-42],[-74,-9],[-55,13],[-30,6],[-22,31],[-37,55],[-19,75]]},
- {name:'네온 블록',stars:2,laps:2,desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',sky:0x17223a,ground:0x293445,road:0x494d59,wall:0x39d9ff,points:[[4,84],[-42,84],[-69,69],[-79,43],[-73,18],[-46,4],[-24,15],[-2,4],[-4,-20],[-29,-29],[-53,-18],[-66,-37],[-47,-62],[-16,-74],[21,-75],[53,-61],[73,-35],[78,-9],[61,9],[34,2],[26,28],[48,45],[30,67],[7,74]]},
- {name:'데저트 익스트림',stars:3,laps:2,desc:'헤어핀과 급커브가 많은 상급 코스.',sky:0xffa06d,ground:0xb98550,road:0x55504b,wall:0x42b8b1,points:[[0,84],[40,84],[68,65],[77,34],[63,9],[34,12],[20,-9],[48,-33],[56,-55],[38,-76],[2,-86],[-32,-75],[-64,-58],[-79,-31],[-76,-3],[-54,16],[-24,11],[-37,37],[-23,63],[-4,77]]},
- {name:'화산 링',stars:3,laps:2,desc:'좁은 노면과 연속 S자 구간의 상급 코스.',sky:0x7f3f35,ground:0x4e3430,road:0x3f4147,wall:0xff6b35,points:[[-77,72],[16,82],[66,61],[79,28],[61,6],[28,-6],[55,-33],[72,-66],[11,-82],[-50,-72],[-77,-44],[-61,-13],[-28,0],[-50,28],[-72,44]]},
- {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[0,92],[-37,92],[-65,77],[-79,53],[-77,29],[-59,12],[-36,15],[-20,0],[-31,-19],[-56,-31],[-62,-54],[-47,-74],[-19,-87],[12,-88],[42,-76],[68,-59],[84,-37],[88,-11],[75,8],[53,13],[38,1],[47,22],[67,31],[72,52],[57,72],[31,84],[8,79]]},
- {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[97,0],[80,22],[88,51],[57,57],[50,86],[21,77],[0,103],[-20,75],[-50,86],[-57,57],[-84,48],[-77,21],[-101,0],[-80,-22],[-84,-48],[-56,-56],[-52,-89],[-21,-77],[0,-99],[21,-78],[51,-88],[54,-54],[84,-48],[78,-21]]},
+ {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[1,150],[54,197],[107,150],[155,98],[159,10],[172,-42],[123,-60],[57,-96],[-11,-122],[-51,-158],[-91,-122],[-149,-82],[-161,0],[-176,46],[-131,66],[-65,114]]},
+ {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-142,112],[-68,219],[46,156],[146,112],[160,34],[150,-14],[102,-10],[152,-64],[112,-126],[46,-208],[-42,-152],[-148,-108],[-160,-38],[-149,12],[-98,6],[-142,50]]},
+ {name:'시티 크로스',stars:2,laps:2,desc:'긴 직선과 S자 코너가 섞인 중급 코스.',sky:0x50698c,ground:0x31383d,road:0x41454b,wall:0xf2c94c,points:[[-2,155],[44,196],[90,155],[138,125],[142,63],[139,30],[106,29],[54,41],[20,1],[48,-21],[30,-51],[90,-91],[92,-137],[76,-174],[38,-161],[-32,-161],[-94,-137],[-139,-132],[-138,-87],[-150,-21],[-112,23],[-94,-7],[-62,9],[-46,59],[-76,107],[-76,143],[-40,147]]},
+ {name:'네온 블록',stars:2,laps:2,desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',sky:0x17223a,ground:0x293445,road:0x494d59,wall:0x39d9ff,points:[[13,163],[-33,204],[-79,163],[-133,133],[-153,81],[-170,50],[-141,31],[-87,3],[-43,25],[-11,34],[1,3],[-3,-45],[-53,-63],[-87,-74],[-101,-41],[-127,-79],[-89,-129],[-69,-169],[-27,-153],[47,-155],[111,-127],[154,-119],[151,-75],[161,-23],[127,13],[106,-19],[73,-1],[57,51],[101,85],[103,123],[65,129],[19,143]]},
+ {name:'데저트 익스트림',stars:3,laps:2,desc:'헤어핀과 급커브가 많은 상급 코스.',sky:0xffa06d,ground:0xb98550,road:0x55504b,wall:0x42b8b1,points:[[-3,165],[37,201],[77,165],[133,127],[151,65],[160,27],[123,15],[65,21],[37,-21],[87,-20],[93,-69],[109,-113],[73,-155],[46,-198],[1,-175],[-67,-153],[-131,-119],[-170,-106],[-161,-65],[-155,-9],[-111,29],[-76,51],[-51,19],[-77,71],[-49,123],[-42,154],[-11,151]]},
+ {name:'화산 링',stars:3,laps:2,desc:'좁은 노면과 연속 S자 구간의 상급 코스.',sky:0x7f3f35,ground:0x4e3430,road:0x3f4147,wall:0xff6b35,points:[[-152,144],[-68,237],[34,164],[134,122],[160,56],[162,17],[124,12],[58,-12],[112,-66],[158,-84],[146,-132],[24,-164],[-98,-144],[-150,-141],[-152,-88],[-120,-26],[-54,0],[-101,8],[-98,56],[-142,88]]},
+ {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[-6,177],[-43,210],[-80,177],[-136,147],[-164,99],[-183,73],[-160,51],[-124,17],[-78,23],[-75,-7],[-46,-7],[-68,-45],[-118,-69],[-144,-87],[-130,-115],[-100,-155],[-44,-181],[-14,-210],[18,-183],[78,-159],[130,-125],[166,-118],[162,-81],[170,-29],[144,9],[127,34],[100,19],[70,-5],[88,37],[116,28],[128,55],[138,97],[108,137],[93,172],[56,161],[10,151]]},
+ {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[194,0],[197,37],[160,44],[176,102],[114,114],[133,149],[100,172],[42,154],[0,206],[-45,196],[-40,150],[-100,172],[-114,114],[-149,129],[-168,96],[-154,42],[-202,0],[-201,-41],[-160,-44],[-168,-96],[-112,-112],[-138,-149],[-104,-178],[-42,-154],[0,-198],[40,-196],[42,-156],[102,-176],[108,-108],[143,-129],[168,-96],[156,-42]]},
 
-  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[0,106],[79,106],[114,67],[107,12],[72,-24],[15,-37],[-40,-37],[-95,-15],[-114,35],[-82,84],[-35,99]]},
-  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[15,119],[-67,119],[-114,82],[-123,29],[-84,-4],[-35,8],[-8,-26],[-47,-62],[-15,-114],[55,-114],[111,-75],[123,-12],[91,35],[52,20],[67,76]]},
-  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[0,128],[82,128],[121,87],[95,40],[35,44],[59,-4],[114,-44],[82,-95],[15,-119],[-55,-103],[-103,-59],[-84,-8],[-28,20],[-67,67],[-35,105]]},
-  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[0,128],[67,134],[111,91],[103,44],[55,15],[12,35],[-28,8],[-8,-40],[44,-67],[35,-111],[-24,-123],[-84,-90],[-107,-37],[-79,15],[-123,59],[-67,107]]},
-  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[0,141],[67,134],[99,91],[55,55],[103,15],[59,-20],[107,-59],[52,-95],[8,-128],[-52,-106],[-95,-64],[-64,-24],[-114,15],[-67,59],[-107,103],[-35,123]]},
+  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[-2,176],[77,247],[156,176],[226,98],[212,-12],[209,-80],[142,-84],[28,-110],[-82,-110],[-157,-138],[-192,-66],[-230,34],[-166,132],[-132,189],[-72,162]]},
+  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[29,233],[-53,306],[-135,233],[-229,159],[-247,53],[-238,-16],[-169,-13],[-71,11],[-17,-57],[-24,-128],[-95,-129],[-31,-233],[109,-233],[200,-245],[221,-155],[245,-29],[181,65],[155,15],[103,35],[133,147]]},
+  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[-15,244],[67,317],[149,244],[227,162],[175,68],[118,126],[55,76],[103,-20],[213,-100],[226,-180],[149,-202],[15,-250],[-125,-218],[-213,-218],[-221,-130],[-183,-28],[-71,28],[-153,39],[-149,122],[-85,198]]},
+  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[6,246],[67,312],[140,258],[228,172],[212,78],[190,5],[116,20],[30,60],[-50,6],[-73,-60],[-10,-90],[94,-144],[76,-232],[28,-298],[-42,-256],[-162,-190],[-208,-84],[-227,-7],[-152,20],[-240,108],[-128,204],[-80,285]]},
+  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[-1,267],[72,320],[133,253],[197,167],[109,95],[193,98],[205,15],[117,-55],[213,-133],[190,-218],[103,-205],[15,-271],[-105,-227],[-186,-224],[-191,-143],[-129,-63],[-229,15],[-222,101],[-135,103],[-215,191],[-71,231],[-52,280]]},
 ];
 
 const cars=[
@@ -262,7 +262,7 @@ async function addRecord(nickname,time){
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[m]))}
 function requestNickname(){const n=prompt('완주했습니다! 기록 게시판에 등록할 닉네임을 입력하세요.\n취소하면 기록을 등록하지 않습니다.','플레이어');if(n===null)return null;const clean=n.trim().slice(0,12);return clean||'플레이어'}
 
-let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineRandomMode=null, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
+let ws=null, onlineRoomCode='', onlineHostId='', onlinePlayerId='', onlineMapId=0, onlineReady=false, onlineFirstFinishDeadline=0, onlineFinished=false;
 let remoteKarts=new Map();
 function wsUrl(){return (location.protocol==='https:'?'wss://':'ws://')+location.host}
 function setOnlineStatus(t){const e=$('onlineStatus');if(e)e.textContent=t||''}
@@ -280,44 +280,26 @@ function renderOnlineCarCards(){
 
 function updateOnlineReadyButton(){const b=$('onlineReadyBtn'); if(b)b.textContent=onlineReady?'준비 취소':'준비 완료';}
 function renderLobby(data){
- onlineRoomCode=data.code||onlineRoomCode; onlineHostId=data.hostId||onlineHostId; onlineMapId=Number(data.mapId||0);
- window.__onlinePlayers=data.players||window.__onlinePlayers||[];
- if(Object.prototype.hasOwnProperty.call(data,'randomMode')) onlineRandomMode=data.randomMode===undefined?null:data.randomMode;
- $('roomCodeLabel').textContent=onlineRoomCode||'-';
+ onlineRoomCode=data.code||onlineRoomCode; onlineHostId=data.hostId||onlineHostId; onlineMapId=Number(data.mapId||0); $('roomCodeLabel').textContent=onlineRoomCode||'-';
  const list=data.players||[]; $('roomPlayers').innerHTML=list.map((p,i)=>`<div style="padding:10px 12px;margin:6px 0;border-radius:10px;background:#273451"><b>${i+1}. ${escapeHtml(p.name)}</b>${p.host?' <span style="color:#ffe600">방장</span>':''} · ${escapeHtml(cars[Number(p.carId)]?.name||'차 미선택')} ${p.ready?' <span style="color:#65e35b;font-weight:800">준비 완료</span>':' <span style="opacity:.65">대기 중</span>'}</div>`).join('');
  const me=list.find(p=>p.id===onlinePlayerId); const isHost=me?me.host:(onlineHostId===onlinePlayerId); const allReady=list.length>0 && list.every(p=>p.ready);
  $('hostMapControls').classList.toggle('hidden',!isHost); $('onlineStartRaceBtn').classList.toggle('hidden',!(isHost && allReady));
- const randomActive=onlineRandomMode!==null && onlineRandomMode!==undefined;
- if(randomActive){
-   const label=onlineRandomMode===null || onlineRandomMode===-1 ? '전체 랜덤' : `${Number(onlineRandomMode)}성 랜덤`;
-   $('roomMapPreview').innerHTML=`<div style="height:120px;border-radius:12px;background:#18233a;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center"><div style="font-size:26px;font-weight:900">🎲 ${label}</div><div style="margin-top:7px;opacity:.72">레이스 시작할 때 랜덤으로 맵이 결정됩니다.</div></div>`;
- }else{
-   $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
- }
+ $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]||maps[0]);
  renderOnlineCarCards(); updateOnlineReadyButton();
- $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : (randomActive ? '랜덤 맵 · 시작할 때 맵이 결정됩니다.' : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`);
- if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId); $('hostMapSelect').disabled=randomActive}
+ $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
+ if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
 }
 function sendOnlineMapSelection(id){
   onlineMapId=Number(id)||0;
-  onlineRandomMode=null;
   if(ws?.readyState===1){
     ws.send(JSON.stringify({type:'mapSelect',mapId:onlineMapId}));
   }
-  renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:null,players:window.__onlinePlayers||[]});
   $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]);
   setLobbyStatus(`${maps[onlineMapId].name} 선택됨 — 방 참가자에게도 표시됩니다.`);
 }
 function chooseRandomOnlineMap(stars=null){
-  onlineRandomMode=stars===null?-1:Number(stars);
-  if(ws?.readyState===1){
-    ws.send(JSON.stringify({type:'randomMap',stars}));
-  }
-  const label=stars===null?'전체 랜덤':`${Number(stars)}성 랜덤`;
-  const players=window.__onlinePlayers||[];
-  renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:onlineRandomMode,players});
-  $('roomMapPreview').innerHTML=`<div style="height:120px;border-radius:12px;background:#18233a;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center"><div style="font-size:26px;font-weight:900">🎲 ${label}</div><div style="margin-top:7px;opacity:.72">레이스 시작할 때 랜덤으로 맵이 결정됩니다.</div></div>`;
-  setLobbyStatus(`${label} · 시작할 때 랜덤 맵이 결정됩니다.`);
+  const id=randomMapIndex(stars);
+  sendOnlineMapSelection(id);
 }
 function connectWS(){
  if(ws&&ws.readyState<=1)return;
@@ -327,10 +309,10 @@ function connectWS(){
  ws.onclose=()=>{setOnlineStatus('연결이 종료되었습니다.');ws=null};
  ws.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch{return}
   if(m.type==='hello'){onlinePlayerId=m.id}
-  else if(m.type==='room'){onlineRoomCode=m.code;onlineHostId=m.hostId;onlineMapId=Number(m.mapId||0);onlineRandomMode=Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:null;window.__onlinePlayers=m.players||[];$('onlineScreen').classList.add('hidden');show('lobbyScreen');renderLobby(m)}
-  else if(m.type==='players'){window.__onlinePlayers=m.players||[];renderLobby({...m,code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:onlineRandomMode,players:m.players})}
-  else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);onlineRandomMode=Object.prototype.hasOwnProperty.call(m,'randomMode')?m.randomMode:null;window.__onlinePlayers=m.players||[];renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,randomMode:onlineRandomMode,players:m.players||[]});if(onlineRandomMode!==null && onlineRandomMode!==undefined){setLobbyStatus('랜덤 맵 · 시작할 때 맵이 결정됩니다.')}else{setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}}
-  else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0);onlineMapId=selectedMap;onlineRandomMode=null;if(typeof startRaceNow==='function') startRaceNow(true);}
+  else if(m.type==='room'){onlineRoomCode=m.code;onlineHostId=m.hostId;onlineMapId=Number(m.mapId||0);$('onlineScreen').classList.add('hidden');show('lobbyScreen');renderLobby(m)}
+  else if(m.type==='players'){renderLobby({...m,code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players})}
+  else if(m.type==='mapSelected'){onlineMapId=Number(m.mapId||0);renderLobby({code:onlineRoomCode,hostId:onlineHostId,mapId:onlineMapId,players:m.players||[]});setLobbyStatus(`${maps[onlineMapId]?.name||'선택 맵'}으로 설정되었습니다.`)}
+  else if(m.type==='raceStart'){selectedMap=Number(m.mapId||0); if(typeof startRaceNow==='function') startRaceNow(true);}
   else if(m.type==='error'){setOnlineStatus(m.message||'오류가 발생했습니다.');setLobbyStatus(m.message||'오류가 발생했습니다.')}
   else if(m.type==='snapshot'){
     window.__onlineSnapshot=m.players||[];
@@ -352,7 +334,7 @@ function connectWS(){
   }
  };
 }
-function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';onlineRandomMode=null;connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
+function createRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'createRoom',name,mapId:selectedMap,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 function joinRoom(){const name=($('onlineName').value||'플레이어').trim().slice(0,12)||'플레이어';const code=($('roomCodeInput').value||'').trim().toUpperCase();if(code.length<5){setOnlineStatus('방 코드를 5자리로 입력하세요.');return}connectWS();const sendIt=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'joinRoom',name,code,carId:selectedCar}));}else setTimeout(sendIt,100)};sendIt()}
 
 const $=id=>document.getElementById(id);
@@ -506,14 +488,14 @@ $('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);sendO
 $('onlineRandomAllBtn').onclick=()=>chooseRandomOnlineMap(null);
 document.querySelectorAll('.onlineRandomStarBtn').forEach(btn=>btn.onclick=()=>chooseRandomOnlineMap(Number(btn.dataset.stars)));
 $('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
-$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1){ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId,randomMode:onlineRandomMode}));}};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
+$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
 const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
 const MIN_COLLISION_KICK=4.0; // 저속에서 살짝 끼는 것을 막는 최소 반발력(과도한 속도 강제는 하지 않음)
 function collisionSpeedValue(v){return Math.abs(Number(v)||0);}
-const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(e.key==='Shift'){keys.ShiftLeft=true;keys.ShiftRight=true;}if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>{keys[e.code]=false;if(e.key==='Shift'){keys.ShiftLeft=false;keys.ShiftRight=false;}});
+const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
 function makeKart(color){
  const g=new THREE.Group();g.userData.radius=1.45;
@@ -845,22 +827,6 @@ function resolveRemoteKartCollisions(){
       player.position.x+=nx*push*(.45+.18*myPower);
       player.position.z+=nz*push*(.45+.18*myPower);
       speed*=THREE.MathUtils.clamp(.995-.06*(1-myPower),.90,.99);
-
-      // 앞차의 뒤쪽을 정면으로 들이받은 경우에는 속도를 조금 더 줄인다.
-      // 옆면 충돌이나 정면충돌에는 적용하지 않고, 겹친 상태에서 매 프레임 반복 감속되는 것도 막는다.
-      const playerForward=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
-      const toOther=new THREE.Vector3(g.position.x-player.position.x,0,g.position.z-player.position.z).normalize();
-      const otherForward=new THREE.Vector3(Math.sin(g.rotation.y),0,Math.cos(g.rotation.y));
-      const rearHit=
-        speed>8 &&
-        playerForward.dot(toOther)>.58 &&
-        otherForward.dot(toOther)>.58;
-      const now=performance.now();
-      if(rearHit && now-(g.userData.lastRearHit||0)>260){
-        speed*=.80;
-        g.userData.lastRearHit=now;
-      }
-
       // 실제 충돌 속도에 비례해 밀고, 아주 저속에서는 겹침을 풀 정도의 최소 반발력만 추가한다.
       const otherSpeed=collisionSpeedValue(g.userData.netTarget?.speed);
       const collisionSpeed=Math.max(collisionSpeedValue(speed),otherSpeed);
