@@ -497,18 +497,67 @@ const MIN_COLLISION_KICK=4.0; // 저속에서 살짝 끼는 것을 막는 최소
 function collisionSpeedValue(v){return Math.abs(Number(v)||0);}
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
-function makeKart(color){
- const g=new THREE.Group();g.userData.radius=1.45;
- const body=new THREE.Mesh(new THREE.BoxGeometry(2.45,.62,3.35),mat(color,.55));body.position.y=.72;body.castShadow=true;g.add(body);
- const lower=new THREE.Mesh(new THREE.BoxGeometry(2.62,.32,2.75),mat(0x20242b));lower.position.set(0,.48,-.05);lower.castShadow=true;g.add(lower);
- const nose=new THREE.Mesh(new THREE.BoxGeometry(1.85,.35,1.12),mat(color,.5));nose.position.set(0,.98,1.35);g.add(nose);
- const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.35,.58,.82),mat(0x10151d,.2));windshield.position.set(0,1.17,.35);windshield.rotation.x=-.12;g.add(windshield);
- const cockpit=new THREE.Mesh(new THREE.BoxGeometry(1.42,.55,1.15),mat(0x181b22));cockpit.position.set(0,1.04,-.42);g.add(cockpit);
- const spoiler=new THREE.Mesh(new THREE.BoxGeometry(2.05,.18,.25),mat(0x20242b));spoiler.position.set(0,1.25,-1.5);g.add(spoiler);const sp1=new THREE.Mesh(new THREE.BoxGeometry(.14,.45,.16),mat(0x20242b));sp1.position.set(-.72,1.05,-1.45);g.add(sp1);const sp2=sp1.clone();sp2.position.x=.72;g.add(sp2);
- const headMat=new THREE.MeshStandardMaterial({color:0xfff3b0,emissive:0xffcc55,emissiveIntensity:1.4});for(const x of [-.68,.68]){const h=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.14),headMat);h.position.set(x,.98,1.93);g.add(h)}
- const tailMat=new THREE.MeshStandardMaterial({color:0xff3030,emissive:0xaa0000,emissiveIntensity:.8});for(const x of [-.72,.72]){const t=new THREE.Mesh(new THREE.BoxGeometry(.3,.15,.12),tailMat);t.position.set(x,.75,-1.72);g.add(t)}
- for(const x of [-1.27,1.27])for(const z of [-1.08,1.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.38,20),mat(0x111318,.95));w.rotation.z=Math.PI/2;w.position.set(x,.45,z);w.castShadow=true;g.add(w)}
- const hub=mat(0xb8c0ca,.3);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.4,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
+function makeKart(color,carId=0){
+ const g=new THREE.Group();g.userData.radius=1.45;g.userData.carId=Number(carId)||0;
+ const dark=mat(0x20242b,.42), black=mat(0x111318,.92), glass=mat(0x10151d,.18);
+ const body=new THREE.Mesh(new THREE.BoxGeometry(2.45,.62,3.35),mat(color,.50));body.position.y=.72;body.castShadow=true;g.add(body);
+ const lower=new THREE.Mesh(new THREE.BoxGeometry(2.64,.34,2.82),dark);lower.position.set(0,.48,-.03);lower.castShadow=true;g.add(lower);
+ const nose=new THREE.Mesh(new THREE.BoxGeometry(1.86,.35,1.15),mat(color,.46));nose.position.set(0,.98,1.36);g.add(nose);
+ const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.38,.58,.84),glass);windshield.position.set(0,1.17,.32);windshield.rotation.x=-.12;g.add(windshield);
+ const cockpit=new THREE.Mesh(new THREE.BoxGeometry(1.44,.56,1.18),mat(0x181b22,.52));cockpit.position.set(0,1.04,-.42);g.add(cockpit);
+ const headMat=new THREE.MeshStandardMaterial({color:0xfff3b0,emissive:0xffcc55,emissiveIntensity:1.35});
+ for(const x of [-.68,.68]){const h=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.14),headMat);h.position.set(x,.98,1.93);g.add(h)}
+ const tailMat=new THREE.MeshStandardMaterial({color:0xff3030,emissive:0xaa0000,emissiveIntensity:.75});
+ for(const x of [-.72,.72]){const t=new THREE.Mesh(new THREE.BoxGeometry(.30,.15,.12),tailMat);t.position.set(x,.75,-1.72);g.add(t)}
+ for(const x of [-1.27,1.27])for(const z of [-1.08,1.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.38,20),black);w.rotation.z=Math.PI/2;w.position.set(x,.45,z);w.castShadow=true;g.add(w)}
+ const hub=mat(0xb8c0ca,.28);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.40,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
+
+ const sideSkirtMat=mat(0x252a32,.34);
+ for(const x of [-1.28,1.28]){
+   const skirt=new THREE.Mesh(new THREE.BoxGeometry(.20,.22,2.35),sideSkirtMat);
+   skirt.position.set(x,.55,-.02);g.add(skirt);
+ }
+
+ if(g.userData.carId===1){
+   const splitter=new THREE.Mesh(new THREE.BoxGeometry(2.25,.12,.32),mat(color,.35));
+   splitter.position.set(0,.62,1.62);g.add(splitter);
+   const wing=new THREE.Mesh(new THREE.BoxGeometry(2.35,.16,.30),dark);
+   wing.position.set(0,1.34,-1.56);g.add(wing);
+   for(const x of [-.82,.82]){const s=new THREE.Mesh(new THREE.BoxGeometry(.12,.48,.16),dark);s.position.set(x,1.10,-1.52);g.add(s)}
+   const noseTip=new THREE.Mesh(new THREE.BoxGeometry(.72,.12,.52),mat(color,.35));
+   noseTip.position.set(0,.79,1.72);g.add(noseTip);
+ }else if(g.userData.carId===2){
+   for(const x of [-1.38,1.38]){
+     const fin=new THREE.Mesh(new THREE.BoxGeometry(.16,.34,1.65),mat(color,.40));
+     fin.position.set(x,.72,-.15);fin.rotation.z=x<0?-.16:.16;g.add(fin);
+   }
+   const driftSpoiler=new THREE.Mesh(new THREE.BoxGeometry(2.00,.18,.26),mat(color,.36));
+   driftSpoiler.position.set(0,1.26,-1.48);driftSpoiler.rotation.x=-.10;g.add(driftSpoiler);
+   const centerStripe=new THREE.Mesh(new THREE.BoxGeometry(.30,.08,2.35),mat(0xffffff,.32));
+   centerStripe.position.set(0,1.18,.08);g.add(centerStripe);
+ }else if(g.userData.carId===3){
+   const frontBar=new THREE.Mesh(new THREE.BoxGeometry(2.10,.16,.20),mat(0xffffff,.40));
+   frontBar.position.set(0,.68,1.72);g.add(frontBar);
+   for(const x of [-.88,.88]){
+     const pod=new THREE.Mesh(new THREE.BoxGeometry(.26,.26,.72),mat(color,.38));
+     pod.position.set(x,.82,1.15);g.add(pod);
+   }
+   const compactWing=new THREE.Mesh(new THREE.BoxGeometry(1.72,.16,.25),dark);
+   compactWing.position.set(0,1.18,-1.48);g.add(compactWing);
+   for(const x of [-.62,.62]){const p=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.34,10),black);p.rotation.z=Math.PI/2;p.position.set(x,.68,-1.76);g.add(p)}
+ }else if(g.userData.carId===4){
+   const bumper=new THREE.Mesh(new THREE.BoxGeometry(2.58,.30,.28),dark);
+   bumper.position.set(0,.58,1.70);g.add(bumper);
+   const guardTop=new THREE.Mesh(new THREE.BoxGeometry(1.78,.14,.22),mat(color,.42));
+   guardTop.position.set(0,.82,1.76);g.add(guardTop);
+   for(const x of [-1.38,1.38]){
+     const armor=new THREE.Mesh(new THREE.BoxGeometry(.26,.48,1.52),dark);
+     armor.position.set(x,.72,.12);g.add(armor);
+   }
+   const heavyWing=new THREE.Mesh(new THREE.BoxGeometry(2.48,.22,.34),dark);
+   heavyWing.position.set(0,1.28,-1.52);g.add(heavyWing);
+   for(const x of [-.90,.90]){const s=new THREE.Mesh(new THREE.BoxGeometry(.16,.55,.18),dark);s.position.set(x,1.00,-1.47);g.add(s)}
+ }
  return g;
 }
 function clearWorld(){while(world.children.length)world.remove(world.children[0]);walls=[];obstacles=[];remoteKarts.clear();window.__onlineSnapshot=[]}
@@ -655,20 +704,20 @@ function buildMap(){
    addObstacleCollider(x,z,3.3);
   }
  }
- player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
+ player=makeKart(cars[selectedCar].color,selectedCar);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
  speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
  $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
 }
 function nearestProgress(pos){let best=0,bestD=Infinity;for(let i=0;i<trackPoints.length;i++){const p=trackPoints[i],d=(p.x-pos.x)**2+(p.z-pos.z)**2;if(d<bestD){bestD=d;best=i/(trackPoints.length-1)}}return {t:best,d:Math.sqrt(bestD)}}
 function resolveTrackBoundary(){
- const n=nearestProgress(player.position), limit=trackWidth/2-1.05;
+ const n=nearestProgress(player.position), limit=trackWidth/2-1.25;
  if(n.d>limit){
   const center=trackCurve.getPointAt(n.t), tan=trackCurve.getTangentAt(n.t).normalize();
   const side=new THREE.Vector3(-tan.z,0,tan.x).normalize();
   const rel=player.position.clone().sub(center); const signed=rel.dot(side); const sign=signed>=0?1:-1;
   const target=center.clone().addScaledVector(side,sign*limit); target.y=player.position.y;
   // 벽에 닿은 직후 차가 다시 벽 쪽으로 파고들지 않도록 조금 안쪽으로 밀어낸다.
-  const inward=side.clone().multiplyScalar(-sign*0.16);
+  const inward=side.clone().multiplyScalar(-sign*0.34);
   target.add(inward);
   player.position.lerp(target,1);
   // 경계면 법선 방향으로만 속도의 일부를 반사해 '살짝' 튕긴다.
@@ -697,7 +746,7 @@ function resolveTrackBoundary(){
       -Math.sin(player.rotation.y)
     );
     const sideSign=normal.dot(carSide);
-    lateralVelocity+=sideSign*(1.15+1.05*(1-impact));
+    lateralVelocity+=sideSign*(1.45+1.25*(1-impact));
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
  }
@@ -765,7 +814,7 @@ function updateRemoteKarts(snapshot){
     let g=remoteKarts.get(p.id);
     if(!g){
       const color=Number.isFinite(Number(p.color))?Number(p.color):cars[0].color;
-      g=makeKart(color);
+      g=makeKart(color,Number(p.carId)||0);
       g.userData.remoteId=p.id;
       g.userData.name=String(p.name||'플레이어');
       g.userData.nameplate=makeRemoteNameplate(g.userData.name);
