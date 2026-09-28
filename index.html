@@ -967,8 +967,8 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
  if(racing&&!finished&&!paused){
   const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
   // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
-  const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(4.5+c.max*.08);let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
-  const accelRate=forward?c.accel*1.35*(1+tow*.18):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
+  const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(5.6+c.max*.10);let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
+  const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
   const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
   if(drifting){
     driftTime+=dt;
@@ -986,7 +986,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     );
   }else{
     driftTime=Math.max(0,driftTime-dt*2);
-    boost=Math.min(100,boost+(3.2+tow*18)*dt);
+    boost=Math.min(100,boost+(3.2+tow*25)*dt);
     lateralVelocity*=Math.pow(.18,dt)
   }
   if(spacePressed){
