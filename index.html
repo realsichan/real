@@ -1035,7 +1035,8 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     boost=Math.min(100,boost+62*dt);
     // 드리프트 중에는 계속 감속한다. 드리프트 수치가 높을수록 감소량이 적다.
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftSpeedLoss=0.075-0.050*driftStat;
+    const driftHold=THREE.MathUtils.clamp(driftTime/3.0,0,1);
+    const driftSpeedLoss=(0.040+0.045*driftHold)*(1-0.45*driftStat);
     speed*=Math.max(0,1-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.25*driftSlip;
