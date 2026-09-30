@@ -11,22 +11,28 @@
 .title{font-size:58px;font-weight:900;letter-spacing:-4px;margin:0 0 8px;text-shadow:0 8px 20px #000}.sub{opacity:.75;margin-bottom:30px}.menuBtns{display:flex;flex-direction:column;gap:12px;max-width:350px;margin:auto}.btn{padding:15px 20px;border-radius:15px;background:#ff3d4d;color:#fff;font-size:18px;font-weight:800;box-shadow:0 8px 20px rgba(0,0,0,.25)}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#34415f}.btn.green{background:#18a957}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:20px 0 26px}.card{padding:15px;border-radius:18px;background:#202a43;border:2px solid transparent;text-align:left}.card.selected{border-color:#ff4757;background:#2a3552}.card h3{margin:0 0 8px;font-size:22px}#carCards{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;width:100%}#carCards .card{display:block!important;min-height:260px}.card p{margin:6px 0;opacity:.8}.preview{height:96px;border-radius:12px;margin-bottom:13px;display:flex;align-items:center;justify-content:center;font-size:48px}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.stars{letter-spacing:3px;font-size:20px;color:#ffd84d;text-shadow:0 1px 0 rgba(0,0,0,.35)}.mapMeta{font-size:13px;opacity:.7;line-height:1.55}.carPreview{height:96px;display:flex;align-items:center;justify-content:center}.miniCar{width:105px;height:50px;border-radius:15px;position:relative;box-shadow:inset 0 -9px 0 rgba(0,0,0,.18),inset 0 3px 0 rgba(255,255,255,.28)}.miniCar:before,.miniCar:after{content:'';position:absolute;width:23px;height:23px;background:#111;border-radius:50%;bottom:-8px}.miniCar:before{left:7px}.miniCar:after{right:7px}.stats{margin-top:12px}.statRow{margin-top:9px}.statLabel{display:flex;justify-content:space-between;font-size:12px;font-weight:800;opacity:.9;margin-bottom:4px}.statBar{height:9px;background:#111a2b;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}.statFill{height:100%;border-radius:8px;background:linear-gradient(90deg,#38bdf8,#60a5fa,#a78bfa)}
 #hud{position:fixed;left:14px;top:14px;z-index:10;color:#fff;background:rgba(0,0,0,.56);padding:10px 14px;border-radius:14px;line-height:1.55;font-weight:800;min-width:205px;pointer-events:none}.boostBox{margin-top:7px}.boostOuter{height:11px;background:#202020;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.18)}.boostInner{height:100%;width:0%;background:#22d3ee;transition:width .06s}.ready{color:#ffe600}#minimap{position:fixed;right:14px;top:14px;z-index:11;width:205px;height:154px;border-radius:16px;background:rgba(10,15,25,.82);border:2px solid rgba(255,255,255,.22);box-shadow:0 8px 25px rgba(0,0,0,.28)}
-#countdown{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:96px;font-weight:900;text-shadow:0 8px 30px #000;pointer-events:none}.pauseOverlay{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);color:#fff}.pausePanel{width:min(430px,88vw);padding:30px;border-radius:24px;background:rgba(15,22,40,.96);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center}.pauseTitle{font-size:42px;font-weight:900;margin-bottom:10px}.pauseSub{opacity:.72;margin-bottom:24px}.pauseBtns{display:flex;flex-direction:column;gap:10px}.hidden{display:none!important}.difficultyCard{min-height:305px;padding:0 0 22px!important;overflow:hidden;text-align:left;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;background:#202a43!important}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.difficultyVisual{height:145px;display:flex;align-items:center;justify-content:center;margin:0;border-radius:0 0 16px 16px;font-size:58px}.difficultyVisual .stars{font-size:62px;letter-spacing:7px;color:#ffd42a;text-shadow:0 3px 0 rgba(180,120,0,.28),0 0 10px rgba(255,211,55,.18);white-space:nowrap}.difficultyName{padding:22px 18px 0;font-size:25px;font-weight:900;text-align:left}.result{font-size:20px;margin:15px 0 25px}
-@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.title{font-size:42px}.cards{grid-template-columns:1fr}.panel{padding:24px}.cards .card{display:none}.cards .card.selected{display:block}#minimap{width:170px;height:128px;right:10px;top:10px}}
+#countdown{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:96px;font-weight:900;text-shadow:0 8px 30px #000;pointer-events:none}.pauseOverlay{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);color:#fff}.pausePanel{width:min(430px,88vw);padding:30px;border-radius:24px;background:rgba(15,22,40,.96);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center}.pauseTitle{font-size:42px;font-weight:900;margin-bottom:10px}.pauseSub{opacity:.72;margin-bottom:24px}.pauseBtns{display:flex;flex-direction:column;gap:10px}.hidden{display:none!important}.difficultyCard{min-height:305px;padding:0 0 22px!important;overflow:hidden;text-align:left;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;background:#202a43!important}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.randomDifficultyPanel{grid-column:3;grid-row:2;align-self:stretch;display:flex;flex-direction:column;gap:7px;padding:10px;border-radius:18px;background:#18233a;border:1px solid rgba(255,255,255,.12);min-height:160px}.randomDifficultyTitle{font-size:13px;font-weight:900;opacity:.9;text-align:center;margin-bottom:2px}.randomDifficultyPanel .btn{padding:9px 8px;font-size:13px;border-radius:11px;min-height:36px}.difficultyVisual{height:145px;display:flex;align-items:center;justify-content:center;margin:0;border-radius:0 0 16px 16px;font-size:58px}.difficultyVisual .stars{font-size:62px;letter-spacing:7px;color:#ffd42a;text-shadow:0 3px 0 rgba(180,120,0,.28),0 0 10px rgba(255,211,55,.18);white-space:nowrap}.difficultyName{padding:22px 18px 0;font-size:25px;font-weight:900;text-align:left}.result{font-size:20px;margin:15px 0 25px}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.randomDifficultyPanel{grid-column:2;grid-row:3;min-height:0}}
+@media(max-width:700px){.title{font-size:42px}.cards{grid-template-columns:1fr}.panel{padding:24px}.cards .card{display:none}.cards .card.selected{display:block}.randomDifficultyPanel{grid-column:1;grid-row:auto;width:100%}#minimap{width:170px;height:128px;right:10px;top:10px}}
 table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}table th{position:sticky;top:0;background:#1b2438}#lastResultToast{z-index:30}</style>
 </head>
 <body>
 <div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱 프로토타입</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
-<div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
+<div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns" style="margin-top:8px"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
 <div id="mapListScreen" class="screen hidden"><div class="panel"><h2 id="mapListTitle">맵 선택</h2><div class="cards" id="mapCards"></div><div class="menuBtns"><button class="btn" id="mapNext">차 선택</button><button class="btn secondary" id="mapListBack">난이도 선택으로</button></div></div></div>
 <div id="onlineScreen" class="screen hidden"><div class="panel"><h2>온라인 멀티플레이</h2><p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p><input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700"><div class="menuBtns"><button class="btn" id="createRoomBtn">방 만들기</button><button class="btn secondary" id="joinRoomBtn">방 참가</button><button class="btn secondary" id="onlineBack">메인 화면</button></div><div id="joinCodeBox" class="hidden" style="margin-top:16px"><input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase"><div style="margin-top:10px"><button class="btn" id="joinConfirmBtn">이 방 참가</button></div></div><div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div></div></div>
-<div id="lobbyScreen" class="screen hidden"><div class="panel"><h2>대기실</h2><div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div><div id="hostMapControls" class="hidden" style="margin:12px 0 18px"><div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div><select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select></div><div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div><div style="font-weight:800;margin:12px 0 8px">차 선택</div><div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div><div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div><div class="menuBtns"><button class="btn" id="onlineReadyBtn">준비 완료</button><button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button><button class="btn secondary" id="leaveRoomBtn">방 나가기</button></div><div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div></div></div>
-<div id="carScreen" class="screen hidden"><div class="panel"><h2>차 선택</h2><div class="cards" id="carCards"></div><div class="menuBtns"><button class="btn green" id="raceBtn">레이스 시작</button><button class="btn secondary" id="carBack">맵 선택으로</button></div></div></div>
+<div id="lobbyScreen" class="screen hidden"><div class="panel"><h2>대기실</h2><div style="font-size:18px;margin-bottom:10px">방 코드: <b id="roomCodeLabel">-</b></div><div id="hostMapControls" class="hidden" style="margin:12px 0 18px"><div style="font-weight:800;margin-bottom:10px">방장 맵 선택</div><select id="hostMapSelect" style="padding:12px;border-radius:10px;width:min(420px,90%);font-weight:700"></select><div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px"><button class="btn" id="onlineRandomAllBtn" style="padding:10px 14px;font-size:14px">전체 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="1" style="padding:10px 14px;font-size:14px">1성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="2" style="padding:10px 14px;font-size:14px">2성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="3" style="padding:10px 14px;font-size:14px">3성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="4" style="padding:10px 14px;font-size:14px">4성 랜덤</button><button class="btn secondary onlineRandomStarBtn" data-stars="5" style="padding:10px 14px;font-size:14px">5성 랜덤</button></div></div><div id="roomMapPreview" style="margin:12px auto 18px;max-width:520px;padding:16px;border-radius:18px;background:#202a43;text-align:left"></div><div style="font-weight:800;margin:12px 0 8px">차 선택</div><div id="onlineCarCards" class="cards" style="margin:10px 0 18px"></div><div id="roomPlayers" style="text-align:left;max-height:250px;overflow:auto;margin:12px 0 18px"></div><div class="menuBtns"><button class="btn" id="onlineReadyBtn">준비 완료</button><button class="btn green hidden" id="onlineStartRaceBtn">레이스 시작</button><button class="btn secondary" id="leaveRoomBtn">방 나가기</button></div><div id="lobbyStatus" style="margin-top:12px;opacity:.8"></div></div></div>
+<div id="carScreen" class="screen hidden"><div class="panel"><h2>차 선택</h2><div class="cards" id="carCards">
+<div class="card selected" data-fallback-car="0"><div class="carPreview"><div class="miniCar" style="background:#e53935"></div></div><h3>레드 볼트</h3><p>균형형 카트</p></div>
+<div class="card" data-fallback-car="1"><div class="carPreview"><div class="miniCar" style="background:#287cff"></div></div><h3>블루 스톰</h3><p>속도형 카트</p></div>
+<div class="card" data-fallback-car="2"><div class="carPreview"><div class="miniCar" style="background:#9b45ff"></div></div><h3>퍼플 드리프터</h3><p>드리프트형 카트</p></div>
+<div class="card" data-fallback-car="3"><div class="carPreview"><div class="miniCar" style="background:#31c76a"></div></div><h3>그린 스프린터</h3><p>가속형 카트</p></div>
+<div class="card" data-fallback-car="4"><div class="carPreview"><div class="miniCar" style="background:#20252c"></div></div><h3>블랙 가디언</h3><p>충돌형 카트</p></div>
+</div><div class="menuBtns"><button class="btn green" id="raceBtn">레이스 시작</button><button class="btn secondary" id="carBack">맵 선택으로</button></div></div></div>
 <div id="howScreen" class="screen hidden"><div class="panel"><h2>조작 방법</h2><p><b>W</b> 전진 &nbsp; <b>S</b> 후진</p><p><b>A</b> 좌회전 &nbsp; <b>D</b> 우회전</p><p><b>Shift</b> : 드리프트 &nbsp; <b>Space</b> : 부스트 (게이지 100%)</p><button class="btn secondary" id="howBack">돌아가기</button></div></div>
 <div id="recordScreen" class="screen hidden"><div class="panel"><h2>기록 게시판</h2><p class="sub" style="margin-bottom:14px">맵별로 따로 순위가 집계됩니다.</p><div id="recordMapTabs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 18px"></div><div id="recordTableWrap"></div><div class="menuBtns"><button class="btn secondary" id="recordBack">메인으로</button><button class="btn secondary" id="adminBtn">관리자</button><button class="btn danger hidden" id="clearRecordsBtn">전체 기록 초기화</button></div><div id="adminState" class="sub hidden" style="margin-top:10px">관리자 모드: 기록 삭제 가능</div></div></div>
 <div id="resultScreen" class="screen hidden"><div class="panel"><h2>레이스 종료!</h2><div class="result" id="resultText"></div><div class="menuBtns"><button class="btn" id="retryBtn">다시 하기</button><button class="btn secondary" id="resultMenu">메인 메뉴</button></div></div></div>
-<div id="hud" class="hidden">속도: <span id="speed">0</span> km/h<br>랩: <span id="lap">1</span> / 2<br>시간: <span id="timer">00:00.00</span><br><span id="mapName"></span><div class="boostBox">BOOST <span id="boostPct">0%</span><div class="boostOuter"><div id="boostInner" class="boostInner"></div></div></div></div>
+<div id="hud" class="hidden">속도: <span id="speed">0</span> km/h<br>랩: <span id="lap">1</span> / <span id="lapTotal">2</span><br>시간: <span id="timer">00:00.00</span><br><span id="mapName"></span><div class="boostBox">BOOST <span id="boostPct">0% · 0/2</span><div class="boostOuter"><div id="boostInner" class="boostInner"></div></div></div></div>
 <canvas id="minimap" class="hidden" width="440" height="330"></canvas><div id="countdown" class="hidden"></div><div id="pauseOverlay" class="pauseOverlay hidden"><div class="pausePanel"><div class="pauseTitle">일시 정지</div><div class="pauseSub">ESC를 다시 누르면 게임이 계속됩니다.</div><div class="pauseBtns"><button class="btn green" id="resumeBtn">계속하기</button><button class="btn" id="pauseRestartBtn">현재 맵 다시 시작</button><button class="btn secondary" id="pauseMapBtn">맵 선택으로</button><button class="btn secondary" id="pauseMenuBtn">메인 화면으로</button></div></div></div>
 <script>
 // 메뉴/선택 화면은 3D 엔진과 독립적으로 먼저 동작하도록 구성
@@ -70,6 +76,13 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
   q('mapBack')?.addEventListener('click',()=>show('menu'));
   q('mapListBack')?.addEventListener('click',()=>{renderDifficultyFallback();show('mapScreen');});
   q('mapNext')?.addEventListener('click',()=>show('carScreen'));
+  q('carCards')?.querySelectorAll('[data-fallback-car]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      q('carCards').querySelectorAll('[data-fallback-car]').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      window.__selectedCarFallback=Number(card.dataset.fallbackCar)||0;
+    });
+  });
   q('carBack')?.addEventListener('click',()=>show('mapListScreen'));
   q('onlineBtn')?.addEventListener('click',()=>show('onlineScreen'));
   q('onlineBack')?.addEventListener('click',()=>show('menu'));
@@ -85,28 +98,28 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/three@0.160.0/build/three.min.js'"></script>
 <script>
 const maps=[
- {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[0,72],[48,72],[70,48],[72,8],[55,-24],[25,-40],[-5,-52],[-42,-52],[-68,-34],[-74,4],[-60,34],[-30,55]]},
- {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-65,50],[20,70],[65,50],[72,15],[45,-5],[68,-30],[50,-58],[-20,-70],[-68,-50],[-74,-18],[-45,2],[-65,22]]},
- {name:'시티 크로스',stars:2,laps:2,desc:'긴 직선과 S자 코너가 섞인 중급 코스.',sky:0x50698c,ground:0x31383d,road:0x41454b,wall:0xf2c94c,points:[[0,72],[42,72],[64,58],[65,30],[49,15],[25,20],[10,2],[15,-22],[42,-40],[43,-61],[18,-72],[-14,-72],[-42,-61],[-62,-38],[-67,-8],[-50,12],[-27,5],[-20,28],[-34,50],[-17,68]]},
- {name:'네온 블록',stars:2,laps:2,desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',sky:0x17223a,ground:0x293445,road:0x494d59,wall:0x39d9ff,points:[[4,76],[-38,76],[-63,63],[-72,39],[-66,16],[-42,4],[-22,14],[-2,4],[-4,-18],[-26,-26],[-48,-16],[-60,-34],[-43,-56],[-15,-67],[19,-68],[48,-55],[66,-32],[71,-8],[55,8],[31,2],[24,25],[44,41],[27,61],[6,67]]},
- {name:'데저트 익스트림',stars:3,laps:2,desc:'헤어핀과 급커브가 많은 상급 코스.',sky:0xffa06d,ground:0xb98550,road:0x55504b,wall:0x42b8b1,points:[[0,76],[36,76],[62,59],[70,31],[57,8],[31,11],[18,-8],[44,-30],[51,-50],[35,-69],[2,-78],[-29,-68],[-58,-53],[-72,-28],[-69,-3],[-49,15],[-22,10],[-34,34],[-21,57],[-4,70]]},
- {name:'화산 링',stars:3,laps:2,desc:'좁은 노면과 연속 S자 구간의 상급 코스.',sky:0x7f3f35,ground:0x4e3430,road:0x3f4147,wall:0xff6b35,points:[[-70,65],[15,75],[60,55],[72,25],[55,5],[25,-5],[50,-30],[65,-60],[10,-75],[-45,-65],[-70,-40],[-55,-12],[-25,0],[-45,25],[-65,40]]},
- {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[0,84],[-34,84],[-59,70],[-72,48],[-70,26],[-54,11],[-33,14],[-18,0],[-28,-17],[-51,-28],[-56,-49],[-43,-67],[-17,-79],[11,-80],[38,-69],[62,-54],[76,-34],[80,-10],[68,7],[48,12],[35,1],[43,20],[61,28],[65,47],[52,65],[28,76],[7,72]]},
- {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[88,0],[73,20],[80,46],[52,52],[45,78],[19,70],[0,94],[-18,68],[-45,78],[-52,52],[-76,44],[-70,19],[-92,0],[-73,-20],[-76,-44],[-51,-51],[-47,-81],[-19,-70],[0,-90],[19,-71],[46,-80],[49,-49],[76,-44],[71,-19]]},
+ {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[1,150],[54,197],[107,150],[155,98],[159,10],[172,-42],[123,-60],[57,-96],[-11,-122],[-51,-158],[-91,-122],[-149,-82],[-161,0],[-176,46],[-131,66],[-65,114]]},
+ {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-142,112],[-68,219],[46,156],[146,112],[160,34],[150,-14],[102,-10],[152,-64],[112,-126],[46,-208],[-42,-152],[-148,-108],[-160,-38],[-149,12],[-98,6],[-142,50]]},
+ {name:'시티 크로스',stars:2,laps:2,desc:'긴 직선과 S자 코너가 섞인 중급 코스.',sky:0x50698c,ground:0x31383d,road:0x41454b,wall:0xf2c94c,points:[[-2,155],[44,196],[90,155],[138,125],[142,63],[139,30],[106,29],[54,41],[20,1],[48,-21],[30,-51],[90,-91],[92,-137],[76,-174],[38,-161],[-32,-161],[-94,-137],[-139,-132],[-138,-87],[-150,-21],[-112,23],[-94,-7],[-62,9],[-46,59],[-76,107],[-76,143],[-40,147]]},
+ {name:'네온 블록',stars:2,laps:2,desc:'교차로 같은 급커브와 좁은 통로가 있는 중급 코스.',sky:0x17223a,ground:0x293445,road:0x494d59,wall:0x39d9ff,points:[[13,163],[-33,204],[-79,163],[-133,133],[-153,81],[-170,50],[-141,31],[-87,3],[-43,25],[-11,34],[1,3],[-3,-45],[-53,-63],[-87,-74],[-101,-41],[-127,-79],[-89,-129],[-69,-169],[-27,-153],[47,-155],[111,-127],[154,-119],[151,-75],[161,-23],[127,13],[106,-19],[73,-1],[57,51],[101,85],[103,123],[65,129],[19,143]]},
+ {name:'데저트 익스트림',stars:3,laps:2,desc:'헤어핀과 급커브가 많은 상급 코스.',sky:0xffa06d,ground:0xb98550,road:0x55504b,wall:0x42b8b1,points:[[-3,165],[37,201],[77,165],[133,127],[151,65],[160,27],[123,15],[65,21],[37,-21],[87,-20],[93,-69],[109,-113],[73,-155],[46,-198],[1,-175],[-67,-153],[-131,-119],[-170,-106],[-161,-65],[-155,-9],[-111,29],[-76,51],[-51,19],[-77,71],[-49,123],[-42,154],[-11,151]]},
+ {name:'화산 링',stars:3,laps:2,desc:'좁은 노면과 연속 S자 구간의 상급 코스.',sky:0x7f3f35,ground:0x4e3430,road:0x3f4147,wall:0xff6b35,points:[[-152,144],[-68,237],[34,164],[134,122],[160,56],[162,17],[124,12],[58,-12],[112,-66],[158,-84],[146,-132],[24,-164],[-98,-144],[-150,-141],[-152,-88],[-120,-26],[-54,0],[-101,8],[-98,56],[-142,88]]},
+ {name:'얼음 협곡',stars:4,laps:2,desc:'긴 내리막과 좁은 S자, 연속 헤어핀이 있는 최상급 코스.',sky:0x9ed8ff,ground:0x5b6f82,road:0x3e454d,wall:0x7fe7ff,points:[[-6,177],[-43,210],[-80,177],[-136,147],[-164,99],[-183,73],[-160,51],[-124,17],[-78,23],[-75,-7],[-46,-7],[-68,-45],[-118,-69],[-144,-87],[-130,-115],[-100,-155],[-44,-181],[-14,-210],[18,-183],[78,-159],[130,-125],[166,-118],[162,-81],[170,-29],[144,9],[127,34],[100,19],[70,-5],[88,37],[116,28],[128,55],[138,97],[108,137],[93,172],[56,161],[10,151]]},
+ {name:'카오스 캐니언',stars:5,laps:2,desc:'극한 난이도. 초급자에게는 매우 어려운 코스.',sky:0x1b1027,ground:0x24182c,road:0x37313d,wall:0xff2d95,points:[[194,0],[197,37],[160,44],[176,102],[114,114],[133,149],[100,172],[42,154],[0,206],[-45,196],[-40,150],[-100,172],[-114,114],[-149,129],[-168,96],[-154,42],[-202,0],[-201,-41],[-160,-44],[-168,-96],[-112,-112],[-138,-149],[-104,-178],[-42,-154],[0,-198],[40,-196],[42,-156],[102,-176],[108,-108],[143,-129],[168,-96],[156,-42]]},
 
-  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[0,96],[72,96],[104,61],[97,11],[65,-22],[14,-34],[-36,-34],[-86,-14],[-104,32],[-75,76],[-32,90]]},
-  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[14,108],[-61,108],[-104,75],[-112,26],[-76,-4],[-32,7],[-7,-24],[-43,-56],[-14,-104],[50,-104],[101,-68],[112,-11],[83,32],[47,18],[61,69]]},
-  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[0,116],[75,116],[110,79],[86,36],[32,40],[54,-4],[104,-40],[75,-86],[14,-108],[-50,-94],[-94,-54],[-76,-7],[-25,18],[-61,61],[-32,95]]},
-  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[0,116],[61,122],[101,83],[94,40],[50,14],[11,32],[-25,7],[-7,-36],[40,-61],[32,-101],[-22,-112],[-76,-82],[-97,-34],[-72,14],[-112,54],[-61,97]]},
-  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[0,128],[61,122],[90,83],[50,50],[94,14],[54,-18],[97,-54],[47,-86],[7,-116],[-47,-96],[-86,-58],[-58,-22],[-104,14],[-61,54],[-97,94],[-32,112]]},
+  {name:'그린 숏서킷',stars:1,laps:1,desc:'짧고 넓은 1랩 입문 코스.',sky:0xa9e7ff,ground:0x5ea957,road:0x555961,wall:0xffffff,points:[[-2,176],[77,247],[156,176],[226,98],[212,-12],[209,-80],[142,-84],[28,-110],[-82,-110],[-157,-138],[-192,-66],[-230,34],[-166,132],[-132,189],[-72,162]]},
+  {name:'네온 숏루프',stars:2,laps:1,desc:'중간 난이도의 빠른 1랩 코스.',sky:0x18233a,ground:0x29394a,road:0x484d58,wall:0x39d9ff,points:[[29,233],[-53,306],[-135,233],[-229,159],[-247,53],[-238,-16],[-169,-13],[-71,11],[-17,-57],[-24,-128],[-95,-129],[-31,-233],[109,-233],[200,-245],[221,-155],[245,-29],[181,65],[155,15],[103,35],[133,147]]},
+  {name:'사막 쇼트헤어핀',stars:3,laps:1,desc:'짧지만 헤어핀이 강한 1랩 코스.',sky:0xffb37e,ground:0xc38a55,road:0x55504b,wall:0x40c4b5,points:[[-15,244],[67,317],[149,244],[227,162],[175,68],[118,126],[55,76],[103,-20],[213,-100],[226,-180],[149,-202],[15,-250],[-125,-218],[-213,-218],[-221,-130],[-183,-28],[-71,28],[-153,39],[-149,122],[-85,198]]},
+  {name:'빙하 쇼트코스',stars:4,laps:1,desc:'좁은 S자와 급코너가 이어지는 1랩 코스.',sky:0xa7e0ff,ground:0x60798d,road:0x414951,wall:0x7fe7ff,points:[[6,246],[67,312],[140,258],[228,172],[212,78],[190,5],[116,20],[30,60],[-50,6],[-73,-60],[-10,-90],[94,-144],[76,-232],[28,-298],[-42,-256],[-162,-190],[-208,-84],[-227,-7],[-152,20],[-240,108],[-128,204],[-80,285]]},
+  {name:'카오스 쇼트락',stars:5,laps:1,desc:'극한의 급회전이 몰아치는 초고난도 1랩.',sky:0x1b1027,ground:0x2a1b31,road:0x39333f,wall:0xff2d95,points:[[-1,267],[72,320],[133,253],[197,167],[109,95],[193,98],[205,15],[117,-55],[213,-133],[190,-218],[103,-205],[15,-271],[-105,-227],[-186,-224],[-191,-143],[-129,-63],[-229,15],[-222,101],[-135,103],[-215,191],[-71,231],[-52,280]]},
 ];
 
 const cars=[
- {name:'레드 볼트',color:0xe53935,max:47,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
- {name:'블루 스톰',color:0x287cff,max:58,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
- {name:'퍼플 드리프터',color:0x9b45ff,max:43,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
- {name:'그린 스프린터',color:0x31c76a,max:50,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
- {name:'블랙 가디언',color:0x20252c,max:44,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
+ {name:'레드 볼트',color:0xe53935,max:50,accel:21,turn:1.06,grip:.90,collision:46,desc:'균형형 카트'},
+ {name:'블루 스톰',color:0x287cff,max:55,accel:19,turn:.99,grip:.94,collision:32,desc:'속도형 카트'},
+ {name:'퍼플 드리프터',color:0x9b45ff,max:46,accel:20,turn:1.16,grip:.70,collision:36,desc:'드리프트형 카트'},
+ {name:'그린 스프린터',color:0x31c76a,max:53,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
+ {name:'블랙 가디언',color:0x20252c,max:47,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
 ];
 let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
 let raceStartTime=0,finalTime=0,lastResultTime=null;
@@ -276,6 +289,18 @@ function renderLobby(data){
  $('lobbyStatus').textContent = isHost ? (allReady ? '모든 플레이어 준비 완료! 레이스를 시작할 수 있습니다.' : `${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`) : `선택 맵: ${maps[onlineMapId]?.name||'-'} · ${list.filter(p=>p.ready).length}/${list.length}명 준비 완료`;
  if(isHost){const ordered=orderedMapEntries();$('hostMapSelect').innerHTML=ordered.map(({m,i})=>`<option value="${i}">${m.stars}성 · ${m.name} · ${m.laps} LAP</option>`).join('');$('hostMapSelect').value=String(onlineMapId)}
 }
+function sendOnlineMapSelection(id){
+  onlineMapId=Number(id)||0;
+  if(ws?.readyState===1){
+    ws.send(JSON.stringify({type:'mapSelect',mapId:onlineMapId}));
+  }
+  $('roomMapPreview').innerHTML=mapPreviewHtml(maps[onlineMapId]);
+  setLobbyStatus(`${maps[onlineMapId].name} 선택됨 — 방 참가자에게도 표시됩니다.`);
+}
+function chooseRandomOnlineMap(stars=null){
+  const id=randomMapIndex(stars);
+  sendOnlineMapSelection(id);
+}
 function connectWS(){
  if(ws&&ws.readyState<=1)return;
  ws=new WebSocket(wsUrl());
@@ -316,6 +341,11 @@ const $=id=>document.getElementById(id);
 function show(id){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));$(id).classList.remove('hidden')}
 function orderedMapEntries(){
  return maps.map((m,i)=>({m,i})).sort((a,b)=>a.m.stars-b.m.stars || a.i-b.i);
+}
+function randomMapIndex(stars=null){
+ const candidates=maps.map((m,i)=>({m,i})).filter(x=>stars===null||x.m.stars===stars);
+ if(!candidates.length)return 0;
+ return candidates[Math.floor(Math.random()*candidates.length)].i;
 }
 function renderDifficultyCards(){
  const groups=[
@@ -366,14 +396,15 @@ window.showAdminControlsPublic=showAdminControls;
 function gauge(label,value,max=100){const pct=Math.max(0,Math.min(100,value/max*100));return `<div class="statRow"><div class="statLabel"><span>${label}</span></div><div class="statBar"><div class="statFill" style="width:${pct}%"></div></div></div>`}
 function renderCarCards(){
   const box=$('carCards');
-  if(!box) return;
+  if(!box) return false;
 
-  // 차 선택 화면이 어떤 화면 크기에서도 반드시 보이도록 강제로 렌더링
+  // 차 선택 화면에서 카드가 숨겨지는 것을 막고 다시 렌더링한다.
   box.style.display='grid';
   box.style.gridTemplateColumns='repeat(2,minmax(0,1fr))';
   box.style.gap='13px';
   box.style.width='100%';
-
+  box.style.visibility='visible';
+  box.style.opacity='1';
   box.innerHTML='';
 
   cars.forEach((c,i)=>{
@@ -387,6 +418,8 @@ function renderCarCards(){
     card.className='card'+(i===selectedCar?' selected':'');
     card.dataset.i=String(i);
     card.style.display='block';
+    card.style.visibility='visible';
+    card.style.opacity='1';
     card.style.cursor='pointer';
     card.innerHTML=`
       <div class="carPreview">
@@ -409,20 +442,41 @@ function renderCarCards(){
 
     box.appendChild(card);
   });
+
+  return box.children.length>0;
+}
+
+function openCarSelection(){
+  const screen=$('carScreen');
+  if(screen) screen.classList.remove('hidden');
+
+  try{
+    renderCarCards();
+  }catch(e){
+    const box=$('carCards');
+    if(box){
+      box.innerHTML=cars.map((c,i)=>`<div class="card${i===selectedCar?' selected':''}" style="display:block!important;visibility:visible!important;cursor:pointer" data-i="${i}"><div class="carPreview"><div class="miniCar" style="background:#${Number(c.color).toString(16).padStart(6,'0')}"></div></div><h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.desc)}</p></div>`).join('');
+      box.querySelectorAll('.card').forEach(card=>card.onclick=()=>{selectedCar=Number(card.dataset.i);openCarSelection();});
+    }
+  }
+
+  requestAnimationFrame(()=>{
+    try{renderCarCards();}catch(e){}
+  });
 }
 
 renderDifficultyCards();
 renderCarCards();
 
-// 차 선택 버튼을 눌렀을 때 반드시 다시 그린다.
+// 맵 선택에서 차 선택으로 넘어갈 때 차 카드를 다시 그린다.
 $('mapNext').onclick=()=>{
-  renderCarCards();
   show('carScreen');
-  requestAnimationFrame(()=>renderCarCards());
+  openCarSelection();
 };
 
-// 페이지가 완전히 준비된 뒤에도 한 번 더 렌더링
-window.addEventListener('DOMContentLoaded',()=>renderCarCards());
+window.addEventListener('DOMContentLoaded',()=>{
+  renderCarCards();
+});
 $('startBtn').onclick=()=>{renderDifficultyCards();show('mapScreen')};
 $('onlineBtn').onclick=()=>{show('onlineScreen');setOnlineStatus('');$('joinCodeBox').classList.add('hidden');connectWS()};
 $('onlineBack').onclick=()=>show('menu');
@@ -430,29 +484,80 @@ $('createRoomBtn').onclick=createRoom;
 $('joinRoomBtn').onclick=()=>{$('joinCodeBox').classList.remove('hidden');$('roomCodeInput').focus()};
 $('joinConfirmBtn').onclick=joinRoom;
 $('leaveRoomBtn').onclick=()=>{if(ws){ws.close();ws=null}show('onlineScreen')};
-$('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);onlineMapId=id;if(ws?.readyState===1)ws.send(JSON.stringify({type:'mapSelect',mapId:id}));$('roomMapPreview').innerHTML=mapPreviewHtml(maps[id]);setLobbyStatus(`${maps[id].name} 선택됨 — 방 참가자에게도 표시됩니다.`);};
+$('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);sendOnlineMapSelection(id);};
+$('onlineRandomAllBtn').onclick=()=>chooseRandomOnlineMap(null);
+document.querySelectorAll('.onlineRandomStarBtn').forEach(btn=>btn.onclick=()=>chooseRandomOnlineMap(Number(btn.dataset.stars)));
 $('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
 $('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
-const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boostReady=false,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
-const MIN_COLLISION_KICK=1.6; // 저속에서 겹침만 풀어주는 최소 반발력(20km/h로 속도를 강제하지 않음)
+const world=new THREE.Group();scene.add(world);let player,trackCurve,trackPoints=[],trackWidth=16,walls=[],obstacles=[];let speed=0,boost=0,boosting=0,lap=1,lastProgress=0,progress=0,countdownTimer=0,driftTime=0;let lateralVelocity=0;let cameraSmoothYaw=0;let cameraReady=false;const cameraLookTarget=new THREE.Vector3();const cameraFollowTarget=new THREE.Vector3();
+const MIN_COLLISION_KICK=4.0; // 저속에서 살짝 끼는 것을 막는 최소 반발력(과도한 속도 강제는 하지 않음)
 function collisionSpeedValue(v){return Math.abs(Number(v)||0);}
 const keys={};let spacePressed=false;let paused=false;addEventListener('keydown',e=>{if(e.code==='Space' && !e.repeat) spacePressed=true;if(e.code==='Escape'){if(paused){e.preventDefault();togglePause();return}if(!finished&&(racing||countdownTimer>0)){e.preventDefault();togglePause();return}}keys[e.code]=true;if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code))e.preventDefault()});addEventListener('keyup',e=>keys[e.code]=false);
 function mat(c,r=.78){return new THREE.MeshStandardMaterial({color:c,roughness:r})}
-function makeKart(color){
- const g=new THREE.Group();g.userData.radius=1.45;
- const body=new THREE.Mesh(new THREE.BoxGeometry(2.45,.62,3.35),mat(color,.55));body.position.y=.72;body.castShadow=true;g.add(body);
- const lower=new THREE.Mesh(new THREE.BoxGeometry(2.62,.32,2.75),mat(0x20242b));lower.position.set(0,.48,-.05);lower.castShadow=true;g.add(lower);
- const nose=new THREE.Mesh(new THREE.BoxGeometry(1.85,.35,1.12),mat(color,.5));nose.position.set(0,.98,1.35);g.add(nose);
- const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.35,.58,.82),mat(0x10151d,.2));windshield.position.set(0,1.17,.35);windshield.rotation.x=-.12;g.add(windshield);
- const cockpit=new THREE.Mesh(new THREE.BoxGeometry(1.42,.55,1.15),mat(0x181b22));cockpit.position.set(0,1.04,-.42);g.add(cockpit);
- const spoiler=new THREE.Mesh(new THREE.BoxGeometry(2.05,.18,.25),mat(0x20242b));spoiler.position.set(0,1.25,-1.5);g.add(spoiler);const sp1=new THREE.Mesh(new THREE.BoxGeometry(.14,.45,.16),mat(0x20242b));sp1.position.set(-.72,1.05,-1.45);g.add(sp1);const sp2=sp1.clone();sp2.position.x=.72;g.add(sp2);
- const headMat=new THREE.MeshStandardMaterial({color:0xfff3b0,emissive:0xffcc55,emissiveIntensity:1.4});for(const x of [-.68,.68]){const h=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.14),headMat);h.position.set(x,.98,1.93);g.add(h)}
- const tailMat=new THREE.MeshStandardMaterial({color:0xff3030,emissive:0xaa0000,emissiveIntensity:.8});for(const x of [-.72,.72]){const t=new THREE.Mesh(new THREE.BoxGeometry(.3,.15,.12),tailMat);t.position.set(x,.75,-1.72);g.add(t)}
- for(const x of [-1.27,1.27])for(const z of [-1.08,1.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.38,20),mat(0x111318,.95));w.rotation.z=Math.PI/2;w.position.set(x,.45,z);w.castShadow=true;g.add(w)}
- const hub=mat(0xb8c0ca,.3);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.4,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
+function makeKart(color,carId=0){
+ const g=new THREE.Group();g.userData.radius=1.45;g.userData.carId=Number(carId)||0;
+ const dark=mat(0x20242b,.42), black=mat(0x111318,.92), glass=mat(0x10151d,.18);
+ const body=new THREE.Mesh(new THREE.BoxGeometry(2.45,.62,3.35),mat(color,.50));body.position.y=.72;body.castShadow=true;g.add(body);
+ const lower=new THREE.Mesh(new THREE.BoxGeometry(2.64,.34,2.82),dark);lower.position.set(0,.48,-.03);lower.castShadow=true;g.add(lower);
+ const nose=new THREE.Mesh(new THREE.BoxGeometry(1.86,.35,1.15),mat(color,.46));nose.position.set(0,.98,1.36);g.add(nose);
+ const windshield=new THREE.Mesh(new THREE.BoxGeometry(1.38,.58,.84),glass);windshield.position.set(0,1.17,.32);windshield.rotation.x=-.12;g.add(windshield);
+ const cockpit=new THREE.Mesh(new THREE.BoxGeometry(1.44,.56,1.18),mat(0x181b22,.52));cockpit.position.set(0,1.04,-.42);g.add(cockpit);
+ const headMat=new THREE.MeshStandardMaterial({color:0xfff3b0,emissive:0xffcc55,emissiveIntensity:1.35});
+ for(const x of [-.68,.68]){const h=new THREE.Mesh(new THREE.BoxGeometry(.38,.16,.14),headMat);h.position.set(x,.98,1.93);g.add(h)}
+ const tailMat=new THREE.MeshStandardMaterial({color:0xff3030,emissive:0xaa0000,emissiveIntensity:.75});
+ for(const x of [-.72,.72]){const t=new THREE.Mesh(new THREE.BoxGeometry(.30,.15,.12),tailMat);t.position.set(x,.75,-1.72);g.add(t)}
+ for(const x of [-1.27,1.27])for(const z of [-1.08,1.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.43,.43,.38,20),black);w.rotation.z=Math.PI/2;w.position.set(x,.45,z);w.castShadow=true;g.add(w)}
+ const hub=mat(0xb8c0ca,.28);for(const x of [-1.47,1.47])for(const z of [-1.08,1.05]){const h=new THREE.Mesh(new THREE.CylinderGeometry(.17,.17,.40,16),hub);h.rotation.z=Math.PI/2;h.position.set(x,.45,z);g.add(h)}
+
+ const sideSkirtMat=mat(0x252a32,.34);
+ for(const x of [-1.28,1.28]){
+   const skirt=new THREE.Mesh(new THREE.BoxGeometry(.20,.22,2.35),sideSkirtMat);
+   skirt.position.set(x,.55,-.02);g.add(skirt);
+ }
+
+ if(g.userData.carId===1){
+   const splitter=new THREE.Mesh(new THREE.BoxGeometry(2.25,.12,.32),mat(color,.35));
+   splitter.position.set(0,.62,1.62);g.add(splitter);
+   const wing=new THREE.Mesh(new THREE.BoxGeometry(2.35,.16,.30),dark);
+   wing.position.set(0,1.34,-1.56);g.add(wing);
+   for(const x of [-.82,.82]){const s=new THREE.Mesh(new THREE.BoxGeometry(.12,.48,.16),dark);s.position.set(x,1.10,-1.52);g.add(s)}
+   const noseTip=new THREE.Mesh(new THREE.BoxGeometry(.72,.12,.52),mat(color,.35));
+   noseTip.position.set(0,.79,1.72);g.add(noseTip);
+ }else if(g.userData.carId===2){
+   for(const x of [-1.38,1.38]){
+     const fin=new THREE.Mesh(new THREE.BoxGeometry(.16,.34,1.65),mat(color,.40));
+     fin.position.set(x,.72,-.15);fin.rotation.z=x<0?-.16:.16;g.add(fin);
+   }
+   const driftSpoiler=new THREE.Mesh(new THREE.BoxGeometry(2.00,.18,.26),mat(color,.36));
+   driftSpoiler.position.set(0,1.26,-1.48);driftSpoiler.rotation.x=-.10;g.add(driftSpoiler);
+   const centerStripe=new THREE.Mesh(new THREE.BoxGeometry(.30,.08,2.35),mat(0xffffff,.32));
+   centerStripe.position.set(0,1.18,.08);g.add(centerStripe);
+ }else if(g.userData.carId===3){
+   const frontBar=new THREE.Mesh(new THREE.BoxGeometry(2.10,.16,.20),mat(0xffffff,.40));
+   frontBar.position.set(0,.68,1.72);g.add(frontBar);
+   for(const x of [-.88,.88]){
+     const pod=new THREE.Mesh(new THREE.BoxGeometry(.26,.26,.72),mat(color,.38));
+     pod.position.set(x,.82,1.15);g.add(pod);
+   }
+   const compactWing=new THREE.Mesh(new THREE.BoxGeometry(1.72,.16,.25),dark);
+   compactWing.position.set(0,1.18,-1.48);g.add(compactWing);
+   for(const x of [-.62,.62]){const p=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.34,10),black);p.rotation.z=Math.PI/2;p.position.set(x,.68,-1.76);g.add(p)}
+ }else if(g.userData.carId===4){
+   const bumper=new THREE.Mesh(new THREE.BoxGeometry(2.58,.30,.28),dark);
+   bumper.position.set(0,.58,1.70);g.add(bumper);
+   const guardTop=new THREE.Mesh(new THREE.BoxGeometry(1.78,.14,.22),mat(color,.42));
+   guardTop.position.set(0,.82,1.76);g.add(guardTop);
+   for(const x of [-1.38,1.38]){
+     const armor=new THREE.Mesh(new THREE.BoxGeometry(.26,.48,1.52),dark);
+     armor.position.set(x,.72,.12);g.add(armor);
+   }
+   const heavyWing=new THREE.Mesh(new THREE.BoxGeometry(2.48,.22,.34),dark);
+   heavyWing.position.set(0,1.28,-1.52);g.add(heavyWing);
+   for(const x of [-.90,.90]){const s=new THREE.Mesh(new THREE.BoxGeometry(.16,.55,.18),dark);s.position.set(x,1.00,-1.47);g.add(s)}
+ }
  return g;
 }
 function clearWorld(){while(world.children.length)world.remove(world.children[0]);walls=[];obstacles=[];remoteKarts.clear();window.__onlineSnapshot=[]}
@@ -522,17 +627,34 @@ function makeTrackRibbon(points,width,material){
 }
 function makeGuardRail(offset,color){
  // 가드레일은 구간마다 정확히 두 점 사이 길이만 사용한다.
- // 급커브에서 긴 메쉬가 안쪽으로 꺾이며 역삼각형이 생기는 문제를 피한다.
+ // 급커브나 서로 가까운 트랙 구간에서 레일이 도로 안쪽으로
+ // 가로질러 들어가는 역삼각형/대각선 돌출을 자동으로 제외한다.
  const N=trackPoints.length;
  const railMat=new THREE.MeshStandardMaterial({color,roughness:.65,metalness:.15});
  const group=new THREE.Group();
+ const roadLimit=trackWidth/2+.30;
+
  for(let i=0;i<N;i++){
    const a=boundaryPoint(i,offset);
    const b=boundaryPoint((i+1)%N,offset);
    a.y=.78; b.y=.78;
+
+   // 직선으로 연결한 레일 구간이 실제 도로 안쪽을 통과하면
+   // 그 구간만 건너뛴다. 다른 모든 레일은 기존 방식 그대로 유지한다.
+   let intrudesRoad=false;
+   for(const t of [.20,.50,.80]){
+     const probe=a.clone().lerp(b,t);
+     if(nearestProgress(probe).d < roadLimit){
+       intrudesRoad=true;
+       break;
+     }
+   }
+   if(intrudesRoad) continue;
+
    const dir=b.clone().sub(a);
    const len=dir.length();
    if(len<.05) continue;
+
    // 양 끝을 아주 조금 줄여 급커브에서 세그먼트가 겹치지 않게 한다.
    const cut=Math.min(.10,len*.18);
    const unit=dir.clone().normalize();
@@ -541,12 +663,14 @@ function makeGuardRail(offset,color){
    const d=bb.clone().sub(aa);
    const l=d.length();
    if(l<.08) continue;
+
    const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.19,.19,l,8),railMat);
    mesh.position.copy(aa).add(bb).multiplyScalar(.5);
    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
    mesh.castShadow=false; mesh.receiveShadow=false;
    group.add(mesh);
  }
+
  world.add(group);
  return group;
 }
@@ -580,19 +704,22 @@ function buildMap(){
    addObstacleCollider(x,z,3.3);
   }
  }
- player=makeKart(cars[selectedCar].color);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
- speed=0;boost=0;boostReady=false;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
+ player=makeKart(cars[selectedCar].color,selectedCar);player.position.copy(p0);player.position.y=.08;player.rotation.y=Math.atan2(tan0.x,tan0.z);cameraSmoothYaw=player.rotation.y;cameraReady=true;cameraLookTarget.copy(player.position).add(new THREE.Vector3(0,.9,0));cameraFollowTarget.set(player.position.x,7.2,player.position.z);world.add(player);
+ speed=0;boost=0;boosting=0;spacePressed=false;lap=1;lastProgress=0;progress=0;driftTime=0;lateralVelocity=0;finished=false;raceStartTime=0;finalTime=0;
  $('mapName').textContent=maps[selectedMap].name+' · '+('★'.repeat(maps[selectedMap].stars));$('timer').textContent='00:00.00';drawMinimap();
 }
 function nearestProgress(pos){let best=0,bestD=Infinity;for(let i=0;i<trackPoints.length;i++){const p=trackPoints[i],d=(p.x-pos.x)**2+(p.z-pos.z)**2;if(d<bestD){bestD=d;best=i/(trackPoints.length-1)}}return {t:best,d:Math.sqrt(bestD)}}
 function resolveTrackBoundary(){
- const n=nearestProgress(player.position), limit=trackWidth/2-1.05;
+ const n=nearestProgress(player.position), limit=trackWidth/2-1.25;
  if(n.d>limit){
   const center=trackCurve.getPointAt(n.t), tan=trackCurve.getTangentAt(n.t).normalize();
   const side=new THREE.Vector3(-tan.z,0,tan.x).normalize();
   const rel=player.position.clone().sub(center); const signed=rel.dot(side); const sign=signed>=0?1:-1;
   const target=center.clone().addScaledVector(side,sign*limit); target.y=player.position.y;
-  player.position.lerp(target,.92);
+  // 벽에 닿은 직후 차가 다시 벽 쪽으로 파고들지 않도록 조금 안쪽으로 밀어낸다.
+  const inward=side.clone().multiplyScalar(-sign*0.34);
+  target.add(inward);
+  player.position.lerp(target,1);
   // 경계면 법선 방향으로만 속도의 일부를 반사해 '살짝' 튕긴다.
   const normal=side.clone().multiplyScalar(-sign); const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));
   const vn=f.dot(normal); if(vn<0){
@@ -601,16 +728,27 @@ function resolveTrackBoundary(){
     const reflected=f.clone().addScaledVector(normal,-2*vn).normalize();
     const currentAngle=Math.atan2(f.x,f.z), targetAngle=Math.atan2(reflected.x,reflected.z);
     let delta=targetAngle-currentAngle; while(delta>Math.PI)delta-=Math.PI*2; while(delta<-Math.PI)delta+=Math.PI*2;
-    player.rotation.y=currentAngle+delta*(0.18+0.82*impact);
-    // 벽 충돌도 아주 낮은 속도에서는 최소 충돌 속도를 적용한다.
+    const maxBounceTurn=THREE.MathUtils.degToRad(58); const limitedDelta=THREE.MathUtils.clamp(delta,-maxBounceTurn,maxBounceTurn); player.rotation.y=currentAngle+limitedDelta*(0.18+0.82*impact);
+    // 벽에 부딪히면 현재 속도에서 조금 감소한다.
+    // 저속에서 끼이는 문제는 위치 보정과 옆 방향 반발력으로 해결하고,
+    // 전진 속도를 강제로 올리지는 않는다.
     const collisionSpeed=collisionSpeedValue(speed);
     const speedSign=speed<0?-1:1;
-    const collisionDamp=THREE.MathUtils.lerp(0.88,0.52,impact);
-    // 속도를 인위적으로 20km/h 이상으로 올리지 않는다. 저속에서는 벽에서 빠져나올 최소 반발력만 준다.
+    const collisionDamp=drifting
+      ?THREE.MathUtils.lerp(0.985,0.90,impact)
+      :THREE.MathUtils.lerp(0.96,0.82,impact);
     speed=speedSign*collisionSpeed*collisionDamp;
-    const unstuck=Math.max(collisionSpeed*0.12*impact,MIN_COLLISION_KICK*0.22);
-    speed += speedSign * unstuck;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
+
+    // 벽을 수평에 가깝게 스칠 때도 차가 살짝 옆으로 튕겨 나가게 한다.
+    // 너무 큰 값을 주지 않아 기존 조작감은 유지한다.
+    const carSide=new THREE.Vector3(
+      Math.cos(player.rotation.y),
+      0,
+      -Math.sin(player.rotation.y)
+    );
+    const sideSign=normal.dot(carSide);
+    lateralVelocity+=sideSign*(1.45+1.25*(1-impact));
   }
   else { speed*=0.88; lateralVelocity*=0.65; }
  }
@@ -678,7 +816,7 @@ function updateRemoteKarts(snapshot){
     let g=remoteKarts.get(p.id);
     if(!g){
       const color=Number.isFinite(Number(p.color))?Number(p.color):cars[0].color;
-      g=makeKart(color);
+      g=makeKart(color,Number(p.carId)||0);
       g.userData.remoteId=p.id;
       g.userData.name=String(p.name||'플레이어');
       g.userData.nameplate=makeRemoteNameplate(g.userData.name);
@@ -816,7 +954,7 @@ function updateRaceCamera(dt,fast=false){
   while(dy<-Math.PI)dy+=Math.PI*2;
   cameraSmoothYaw+=dy*Math.min(1,dt*9);
   // 카메라를 크게 뒤로 빼고 높이는 낮춰서 차가 화면에서 너무 앞에 보이지 않게 한다.
-  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*17.0,7.2,-Math.cos(cameraSmoothYaw)*17.0).add(player.position);
+  const back=new THREE.Vector3(-Math.sin(cameraSmoothYaw)*14.0,7.2,-Math.cos(cameraSmoothYaw)*14.0).add(player.position);
   cameraFollowTarget.lerp(back,Math.min(1,dt*10));
   camera.position.lerp(cameraFollowTarget,followAlpha);
   const lookForward=new THREE.Vector3(Math.sin(cameraSmoothYaw),0,Math.cos(cameraSmoothYaw));
@@ -871,7 +1009,7 @@ async function finish(){
     show('recordScreen');
   };
 
-  document.getElementById('toastMenu').onclick=()=>toast.remove();
+  document.getElementById('toastMenu').onclick=()=>{toast.remove();racing=false;finished=true;hideRaceUI();$('countdown').classList.add('hidden');window.GameAudio?.stopAll?.();show('menu');};
 }
 
 const clock=new THREE.Clock();
@@ -880,35 +1018,53 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
  if(racing&&!finished&&!paused){
   const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
   // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
-  const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(4.5+c.max*.08);let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
-  const accelRate=forward?c.accel*1.35*(1+tow*.18):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
-  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
-  if(!boostReady){
-    if(drifting){driftTime+=dt;boost=Math.min(100,boost+62*dt);lateralVelocity=THREE.MathUtils.lerp(lateralVelocity,-steer*speed*.42*(1.25-c.grip),Math.min(1,dt*5));}
-    else{driftTime=Math.max(0,driftTime-dt*2);boost=Math.min(100,boost+(3.2+tow*18)*dt);lateralVelocity*=Math.pow(.18,dt)}
-    if(boost>=100){boost=0;boostReady=true;}
+  const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(5.6+c.max*.10);
+  // 출발할 때 드리프트가 속도를 0으로 묶지 않도록 충분히 달린 뒤에만 드리프트를 시작한다.
+  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&forward&&Math.abs(speed)>2.5;
+  let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
+  if(drifting){
+    // 드리프트 중에는 가속하지 않고 속도가 계속 감소한다. 오래 끌수록 감속량이 계속 커진다.
+    // 드리프트 중 부스트가 켜져 있으면 게이지가 더 빠르게 차고 옆으로 더 크게 미끄러진다.
+    driftTime+=dt;
+    const driftGain=boosting>0?128:92;
+    boost=Math.min(200,boost+driftGain*dt);
+    const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
+    const driftSpeedLoss=(1.15+0.90*driftTime+0.14*driftTime*driftTime)*(1-.42*driftStat);
+    speed=Math.max(0,speed-driftSpeedLoss*dt);
+    const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
+    const slipStrength=(1.0+2.0*driftSlip)*(boosting>0?1.35:1.0);
+    lateralVelocity=THREE.MathUtils.lerp(
+      lateralVelocity,
+      -steer*speed*.42*(1.25-c.grip)*slipStrength,
+      Math.min(1,dt*5)
+    );
   }else{
-    driftTime=Math.max(0,driftTime-dt*2);
-    lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
+    // 드리프트를 놓는 순간 드리프트 감속 효과를 완전히 끝내고 정상 가속으로 돌아간다.
+    driftTime=0;
+    boost=Math.min(200,boost+(4.8+tow*30)*dt);
+    const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;
+    if(speed<target)speed=Math.min(target,speed+accelRate*dt);
+    else speed=Math.max(target,speed-13*dt);
+    lateralVelocity*=Math.pow(.18,dt);
   }
   if(spacePressed){
+    const canBoost = boost>=99.5;
     spacePressed=false;
-    if(boostReady){
+    if(canBoost){
       boosting=1.45;
-      boostReady=false;
-      boost=0;
+      boost=Math.max(0,boost-100);
     }
   }
-  if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt)}
+  if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt);boost=Math.min(200,boost+6.5*dt)}
   speed=THREE.MathUtils.clamp(speed,-c.max*.45,c.max+(boosting>0?22:0)+towBonus);
   // 드리프트는 차체가 즉시 방향을 바꾸지 않고 옆으로 미끄러지도록 처리
   const speedRatio=THREE.MathUtils.clamp(Math.abs(speed)/c.max,0,1);const speedResponse=THREE.MathUtils.clamp(Math.abs(speed)/42,0,1.35);const isBalance=c.name==='레드 볼트';const driftAngleFactor=drifting?(0.70+speedRatio*0.62)*(isBalance?1.05:1.0):1.0;const steerPower=(.76+speedResponse*.34)*c.turn*(drifting?1.18:1.0)*driftAngleFactor;if(steer!==0)player.rotation.y+=steer*steerPower*dt*(speed>=0?1:-1);
-  const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
+  const f=new THREE.Vector3(Math.sin(player.rotation.y),0,Math.cos(player.rotation.y));const side=new THREE.Vector3(Math.cos(player.rotation.y),0,-Math.sin(player.rotation.y));player.position.addScaledVector(f,speed*dt);player.position.addScaledVector(side,lateralVelocity*dt);const driftGrip=drifting?THREE.MathUtils.clamp(.93+THREE.MathUtils.clamp(driftTime/3.0,0,1)*.065,.93,.995):.55;lateralVelocity*=drifting?Math.pow(driftGrip,dt*60):Math.pow(.55,dt*60);
   resolveTrackBoundary();
   resolveObstacleCollisions();
   resolveRemoteKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':(boostReady?'READY':' '+Math.round(boost)+'%');$('boostInner').style.width=boostReady?'100%':boost+'%';$('boostInner').style.background=boostReady?'#ffe600':'#22d3ee';
+  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.min(200,Math.round(boost))+'% · '+Math.min(2,Math.floor(boost/100))+'/2';$('boostInner').style.width=Math.min(100,(boost/200)*100)+'%';$('boostInner').style.background=boost>=100?'#ffe600':'#22d3ee';
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
   if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
   if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>50){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
