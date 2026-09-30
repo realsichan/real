@@ -1017,24 +1017,18 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
   // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
   const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(5.6+c.max*.10);
-  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>7;
+  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>0.15;
   let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
   if(drifting){
-    // 드리프트 중에는 목표 속도 자체도 낮춰서 가속 때문에 감속이 상쇄되지 않게 한다.
-    const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftTargetFactor=.88+.07*driftStat;
-    target*=driftTargetFactor;
+    // 드리프트 중에는 전진 입력으로 다시 가속되지 않게 하고, 속도가 계속 떨어지도록 한다.
+    target=0;
   }
-  const accelRate=forward?c.accel*1.35*(1+tow*.24)*(drifting?.62:1):reverse?c.accel*1.1:13;if(speed<target)speed=Math.min(target,speed+accelRate*dt);else speed=Math.max(target,speed-13*dt);
   if(drifting){
     driftTime+=dt;
     boost=Math.min(100,boost+62*dt);
-    // 드리프트를 오래 끌수록 감속이 조금씩 더 커진다. 드리프트 수치가 높을수록 감속은 적다.
+    // 오래 끌수록 감속량이 계속 커진다. 시간에 대한 상한을 두지 않는다.
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    // 드리프트를 오래 끌수록 감속이 계속 누적되어 커진다.
-    // 일정 시간 이후 더 이상 증가하지 않는 상한을 두지 않는다.
-    const driftDuration=driftTime/3.0;
-    const driftSpeedLoss=(1.25+1.75*driftDuration+0.55*driftDuration*driftDuration)*(1-.42*driftStat);
+    const driftSpeedLoss=(0.75+0.95*driftTime+0.08*driftTime*driftTime)*(1-.42*driftStat);
     speed=Math.max(0,speed-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.0*driftSlip;
