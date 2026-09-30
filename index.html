@@ -734,7 +734,9 @@ function resolveTrackBoundary(){
     // 전진 속도를 강제로 올리지는 않는다.
     const collisionSpeed=collisionSpeedValue(speed);
     const speedSign=speed<0?-1:1;
-    const collisionDamp=THREE.MathUtils.lerp(0.96,0.82,impact);
+    const collisionDamp=drifting
+      ?THREE.MathUtils.lerp(0.985,0.90,impact)
+      :THREE.MathUtils.lerp(0.96,0.82,impact);
     speed=speedSign*collisionSpeed*collisionDamp;
     lateralVelocity*=THREE.MathUtils.lerp(0.68,0.32,impact);
 
@@ -1025,7 +1027,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     driftTime+=dt;
     boost=Math.min(100,boost+62*dt);
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftSpeedLoss=(0.80+0.65*driftTime+0.10*driftTime*driftTime)*(1-.42*driftStat);
+    const driftSpeedLoss=(1.15+0.90*driftTime+0.14*driftTime*driftTime)*(1-.42*driftStat);
     speed=Math.max(0,speed-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.0*driftSlip;
