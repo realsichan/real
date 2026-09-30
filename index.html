@@ -1025,12 +1025,14 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   if(drifting){
     // 드리프트 중에는 가속하지 않고 속도가 계속 감소한다. 오래 끌수록 감속량이 계속 커진다.
     driftTime+=dt;
-    boost=Math.min(200,boost+(boosting>0?132:82)*dt);
+    const boostDriftCharge=boosting>0?145:92;
+    boost=Math.min(200,boost+boostDriftCharge*dt);
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftSpeedLoss=(1.45+1.05*driftTime+0.18*driftTime*driftTime)*(1-.42*driftStat);
+    const driftSpeedLoss=(1.55+1.10*driftTime+0.18*driftTime*driftTime)*(1-.42*driftStat);
     speed=Math.max(0,speed-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
-    const slipStrength=1.0+2.0*driftSlip+(boosting>0?1.15:0);
+    const postBoostSlip=boosting>0?1.55:1.0;
+    const slipStrength=(1.0+2.0*driftSlip)*postBoostSlip;
     lateralVelocity=THREE.MathUtils.lerp(
       lateralVelocity,
       -steer*speed*.42*(1.25-c.grip)*slipStrength,
@@ -1039,7 +1041,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   }else{
     // 드리프트를 놓는 순간 드리프트 감속 효과를 완전히 끝내고 정상 가속으로 돌아간다.
     driftTime=0;
-    boost=Math.min(200,boost+(5.5+tow*34)*dt);
+    boost=Math.min(200,boost+(6.5+tow*40)*dt);
     const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;
     if(speed<target)speed=Math.min(target,speed+accelRate*dt);
     else speed=Math.max(target,speed-13*dt);
@@ -1049,8 +1051,8 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     const canBoost = boost>=99.5;
     spacePressed=false;
     if(canBoost){
-      boost-=100;
-      boosting=Math.min(2.90,boosting+1.45);
+      boosting=1.45;
+      boost=Math.max(0,boost-100);
     }
   }
   if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt)}
@@ -1062,7 +1064,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   resolveObstacleCollisions();
   resolveRemoteKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.round(boost)+'% ('+Math.floor(boost/100)+'개)';$('boostInner').style.width=Math.min(100,boost/2)+'%';$('boostInner').style.background=boost>=200?'#ffe600':boost>=100?'#7dd3fc':'#22d3ee';
+  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':Math.min(2,Math.floor(boost/100))+'/2';$('boostInner').style.width=Math.min(100,boost/2)+'%';$('boostInner').style.background=boost>=200?'#ffe600':'#22d3ee';
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
   if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
   if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>50){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
