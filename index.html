@@ -1031,8 +1031,10 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     boost=Math.min(100,boost+62*dt);
     // 드리프트를 오래 끌수록 감속이 조금씩 더 커진다. 드리프트 수치가 높을수록 감속은 적다.
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftDuration=THREE.MathUtils.clamp(driftTime/3.0,0,1);
-    const driftSpeedLoss=(1.25+1.75*driftDuration)*(1-.42*driftStat);
+    // 드리프트를 오래 끌수록 감속이 계속 누적되어 커진다.
+    // 일정 시간 이후 더 이상 증가하지 않는 상한을 두지 않는다.
+    const driftDuration=driftTime/3.0;
+    const driftSpeedLoss=(1.25+1.75*driftDuration+0.55*driftDuration*driftDuration)*(1-.42*driftStat);
     speed=Math.max(0,speed-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.0*driftSlip;
