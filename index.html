@@ -1017,19 +1017,17 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
   // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
   const normalMax=c.max;const tow=currentTowFactor();const towBonus=tow*(5.6+c.max*.10);
-  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&Math.abs(speed)>0.15;
+  // 출발할 때 드리프트가 속도를 0으로 묶지 않도록 충분히 달린 뒤에만 드리프트를 시작한다.
+  const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&forward&&Math.abs(speed)>2.5;
   let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
   if(drifting){
-    // 드리프트 중에는 전진 입력으로 다시 가속되지 않게 하고, 속도가 계속 떨어지도록 한다.
-    target=0;
-  }
-  if(drifting){
+    // 드리프트 중에는 정상 가속을 유지하되, 드리프트가 길어질수록 그 가속보다 큰 감속이 누적되도록 한다.
     driftTime+=dt;
     boost=Math.min(100,boost+62*dt);
-    // 오래 끌수록 감속량이 계속 커진다. 시간에 대한 상한을 두지 않는다.
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftSpeedLoss=(0.75+0.95*driftTime+0.08*driftTime*driftTime)*(1-.42*driftStat);
-    speed=Math.max(0,speed-driftSpeedLoss*dt);
+    const driftSpeedLoss=(0.70+0.55*driftTime+0.12*driftTime*driftTime)*(1-.42*driftStat);
+    const driftAccel=forward?c.accel*1.05*(1+tow*.16):0;
+    speed=Math.max(0,speed+(driftAccel-driftSpeedLoss)*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=1.0+2.0*driftSlip;
     lateralVelocity=THREE.MathUtils.lerp(
@@ -1038,9 +1036,13 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
       Math.min(1,dt*5)
     );
   }else{
-    driftTime=Math.max(0,driftTime-dt*2);
+    // 드리프트를 놓는 순간 드리프트 감속 효과를 완전히 끝내고 정상 가속으로 돌아간다.
+    driftTime=0;
     boost=Math.min(100,boost+(3.2+tow*25)*dt);
-    lateralVelocity*=Math.pow(.18,dt)
+    const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;
+    if(speed<target)speed=Math.min(target,speed+accelRate*dt);
+    else speed=Math.max(target,speed-13*dt);
+    lateralVelocity*=Math.pow(.18,dt);
   }
   if(spacePressed){
     const canBoost = boost>=99.5;
