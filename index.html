@@ -1022,48 +1022,45 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   // 출발할 때 드리프트가 속도를 0으로 묶지 않도록 충분히 달린 뒤에만 드리프트를 시작한다.
   const drifting=(keys.ShiftLeft||keys.ShiftRight)&&Math.abs(steer)>0&&forward&&Math.abs(speed)>2.5;
   let target=forward?(normalMax*.96+towBonus):0;if(reverse)target=-normalMax*.42;if(!forward&&!reverse)target=0;
-  if(!boostReady){
-    if(drifting){
-      // 드리프트 중에는 가속하지 않고 속도가 계속 감소한다. 오래 끌수록 감속량이 계속 커진다.
-      driftTime+=dt;
-      boost=Math.min(100,boost+92*dt);
-      const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-      const driftSpeedLoss=(1.15+0.90*driftTime+0.14*driftTime*driftTime)*(1-.42*driftStat);
-      speed=Math.max(0,speed-driftSpeedLoss*dt);
-      const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
-      const slipStrength=1.0+2.0*driftSlip;
-      lateralVelocity=THREE.MathUtils.lerp(
-        lateralVelocity,
-        -steer*speed*.42*(1.25-c.grip)*slipStrength,
-        Math.min(1,dt*5)
-      );
-    }else{
-      // 드리프트를 놓는 순간 드리프트 감속 효과를 완전히 끝내고 정상 가속으로 돌아간다.
-      driftTime=0;
-      boost=Math.min(100,boost+(4.8+tow*30)*dt);
-      const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;
-      if(speed<target)speed=Math.min(target,speed+accelRate*dt);
-      else speed=Math.max(target,speed-13*dt);
-      lateralVelocity*=Math.pow(.18,dt);
-    }
-    if(boost>=100){
-      boost=0;
-      boostReady=true;
-    }
+  if(drifting){
+    // 드리프트 중에는 가속하지 않고 속도가 계속 감소한다. 오래 끌수록 감속량이 계속 커진다.
+    // 드리프트 중 부스트가 켜져 있으면 게이지가 더 빠르게 차고 옆으로 더 크게 미끄러진다.
+    driftTime+=dt;
+    const driftGain=boosting>0?128:92;
+    if(!boostReady) boost=Math.min(100,boost+driftGain*dt);
+    const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
+    const driftSpeedLoss=(1.15+0.90*driftTime+0.14*driftTime*driftTime)*(1-.42*driftStat);
+    speed=Math.max(0,speed-driftSpeedLoss*dt);
+    const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
+    const slipStrength=(1.0+2.0*driftSlip)*(boosting>0?1.35:1.0);
+    lateralVelocity=THREE.MathUtils.lerp(
+      lateralVelocity,
+      -steer*speed*.42*(1.25-c.grip)*slipStrength,
+      Math.min(1,dt*5)
+    );
   }else{
-    // 부스트가 이미 저장되어 있으면 게이지는 더 이상 차지 않는다.
+    // 드리프트를 놓는 순간 드리프트 감속 효과를 완전히 끝내고 정상 가속으로 돌아간다.
     driftTime=0;
-    lateralVelocity*=drifting?Math.pow(.93,dt*60):Math.pow(.55,dt*60);
+    if(!boostReady) boost=Math.min(100,boost+(4.8+tow*30)*dt);
+    const accelRate=forward?c.accel*1.35*(1+tow*.24):reverse?c.accel*1.1:13;
+    if(speed<target)speed=Math.min(target,speed+accelRate*dt);
+    else speed=Math.max(target,speed-13*dt);
+    lateralVelocity*=Math.pow(.18,dt);
+  }
+  if(!boostReady && boost>=100){
+    boost=0;
+    boostReady=true;
   }
   if(spacePressed){
+    const canBoost=boostReady;
     spacePressed=false;
-    if(boostReady){
+    if(canBoost){
       boosting=1.45;
       boostReady=false;
       boost=0;
     }
   }
-  if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt)}
+  if(boosting>0){boosting=Math.max(0,boosting-dt);speed=Math.min(c.max+22,speed+42*dt);if(!boostReady) boost=Math.min(100,boost+6.5*dt)}
   speed=THREE.MathUtils.clamp(speed,-c.max*.45,c.max+(boosting>0?22:0)+towBonus);
   // 드리프트는 차체가 즉시 방향을 바꾸지 않고 옆으로 미끄러지도록 처리
   const speedRatio=THREE.MathUtils.clamp(Math.abs(speed)/c.max,0,1);const speedResponse=THREE.MathUtils.clamp(Math.abs(speed)/42,0,1.35);const isBalance=c.name==='레드 볼트';const driftAngleFactor=drifting?(0.70+speedRatio*0.62)*(isBalance?1.05:1.0):1.0;const steerPower=(.76+speedResponse*.34)*c.turn*(drifting?1.18:1.0)*driftAngleFactor;if(steer!==0)player.rotation.y+=steer*steerPower*dt*(speed>=0?1:-1);
@@ -1072,7 +1069,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   resolveObstacleCollisions();
   resolveRemoteKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':(boostReady?'100% · 저장됨':Math.round(boost)+'%');$('boostInner').style.width=boostReady?'100%':boost+'%';$('boostInner').style.background=boostReady?'#ffe600':'#22d3ee';
+  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>0?'BOOST!':(boostReady?'0% · 저장됨':Math.round(boost)+'%');$('boostInner').style.width=Math.min(100,boost)+'%';$('boostInner').style.background=boostReady?'#ffe600':'#22d3ee';
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
   if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
   if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>50){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
