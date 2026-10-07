@@ -504,10 +504,7 @@ function createBoostEffect(){
   const flameMat=new THREE.MeshBasicMaterial({color:0xffe65c,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false});
   const flame=new THREE.Mesh(new THREE.ConeGeometry(.34,1.65,12),flameMat);
   flame.rotation.x=-Math.PI/2; flame.position.set(0,.58,-2.45); g.add(flame);
-  const ringMat=new THREE.MeshBasicMaterial({color:0x70eaff,transparent:true,opacity:.65,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(1.15,.08,8,32),ringMat);
-  ring.rotation.x=Math.PI/2; ring.position.y=.55; g.add(ring);
-  g.userData={glow,flame,ring};
+  g.userData={glow,flame};
   player.add(g); boostEffectGroup=g; boostEffectTime=0;
 }
 function updateBoostEffect(dt){
