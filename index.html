@@ -498,26 +498,18 @@ function createBoostEffect(){
   if(!player)return;
   if(boostEffectGroup){player.remove(boostEffectGroup);boostEffectGroup=null;}
   const g=new THREE.Group();
-  const glowMat=new THREE.MeshBasicMaterial({color:0x28d7ff,transparent:true,opacity:.82,blending:THREE.AdditiveBlending,depthWrite:false});
-  const glow=new THREE.Mesh(new THREE.SphereGeometry(.72,16,10),glowMat);
-  glow.scale.set(.9,.8,1.5); glow.position.z=-1.78; g.add(glow);
   const flameMat=new THREE.MeshBasicMaterial({color:0xffe65c,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false});
   const flame=new THREE.Mesh(new THREE.ConeGeometry(.34,1.65,12),flameMat);
   flame.rotation.x=-Math.PI/2; flame.position.set(0,.58,-2.45); g.add(flame);
-  g.userData={glow,flame};
+  g.userData={flame};
   player.add(g); boostEffectGroup=g; boostEffectTime=0;
 }
 function updateBoostEffect(dt){
   if(!boostEffectGroup)return;
   boostEffectTime+=dt;
   const u=boostEffectGroup.userData;
-  const pulse=1+Math.sin(boostEffectTime*24)*.10;
-  u.glow.scale.set(.9*pulse,.8*pulse,1.5+Math.sin(boostEffectTime*30)*.18);
   u.flame.scale.set(1+Math.sin(boostEffectTime*32)*.16,1+Math.sin(boostEffectTime*28)*.12,1+Math.sin(boostEffectTime*32)*.16);
   u.flame.material.opacity=.72+.22*(.5+.5*Math.sin(boostEffectTime*30));
-  u.ring.rotation.z+=dt*7;
-  const ringScale=1+.16*Math.sin(boostEffectTime*18);
-  u.ring.scale.set(ringScale,ringScale,ringScale);
 }
 function clearBoostEffect(){
   if(!boostEffectGroup)return;
