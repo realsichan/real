@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MINI KART 3D</title>
+<title>3D 카트 레이싱</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:auto;background:#111;font-family:Arial,'Malgun Gothic',sans-serif}button{font:inherit;cursor:pointer;border:0}canvas{display:block}
 .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;overscroll-behavior:contain;padding:24px 0;background:linear-gradient(180deg,rgba(5,15,35,.18),rgba(4,8,20,.82));color:#fff}
 .panel{width:min(880px,91vw);max-height:calc(100vh - 48px);overflow-y:auto;padding:28px;border-radius:28px;background:rgba(12,18,35,.92);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center;backdrop-filter:blur(10px)}
-.title{font-size:58px;font-weight:900;letter-spacing:-4px;margin:0 0 8px;text-shadow:0 8px 20px #000}.sub{opacity:.75;margin-bottom:30px}.menuBtns{display:flex;flex-direction:column;gap:12px;max-width:350px;margin:auto}.btn{padding:15px 20px;border-radius:15px;background:#ff3d4d;color:#fff;font-size:18px;font-weight:800;box-shadow:0 8px 20px rgba(0,0,0,.25)}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#34415f}.btn.green{background:#18a957}
+.title{font-size:58px;font-weight:900;letter-spacing:-4px;margin:0 0 8px;text-shadow:0 8px 20px #000}.sub{opacity:.75;margin-bottom:30px}.menuBtns{display:flex;flex-direction:column;gap:12px;max-width:350px;margin:auto}.btn{padding:15px 20px;border-radius:15px;background:#ff3d4d;color:#fff;font-size:18px;font-weight:800;box-shadow:0 8px 20px rgba(0,0,0,.25)}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#34415f}.btn.green{background:#18a957}.btn.blue{background:#2563eb}.btn.danger{background:#dc3545}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:20px 0 26px}.card{padding:15px;border-radius:18px;background:#202a43;border:2px solid transparent;text-align:left}.card.selected{border-color:#ff4757;background:#2a3552}.card h3{margin:0 0 8px;font-size:22px}#carCards{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;width:100%}#carCards .card{display:block!important;min-height:260px}.card p{margin:6px 0;opacity:.8}.preview{height:96px;border-radius:12px;margin-bottom:13px;display:flex;align-items:center;justify-content:center;font-size:48px}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.stars{letter-spacing:3px;font-size:20px;color:#ffd84d;text-shadow:0 1px 0 rgba(0,0,0,.35)}.mapMeta{font-size:13px;opacity:.7;line-height:1.55}.carPreview{height:96px;display:flex;align-items:center;justify-content:center}.miniCar{width:105px;height:50px;border-radius:15px;position:relative;box-shadow:inset 0 -9px 0 rgba(0,0,0,.18),inset 0 3px 0 rgba(255,255,255,.28)}.miniCar:before,.miniCar:after{content:'';position:absolute;width:23px;height:23px;background:#111;border-radius:50%;bottom:-8px}.miniCar:before{left:7px}.miniCar:after{right:7px}.stats{margin-top:12px}.statRow{margin-top:9px}.statLabel{display:flex;justify-content:space-between;font-size:12px;font-weight:800;opacity:.9;margin-bottom:4px}.statBar{height:9px;background:#111a2b;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}.statFill{height:100%;border-radius:8px;background:linear-gradient(90deg,#38bdf8,#60a5fa,#a78bfa)}
 #hud{position:fixed;left:14px;top:14px;z-index:10;color:#fff;background:rgba(0,0,0,.56);padding:10px 14px;border-radius:14px;line-height:1.55;font-weight:800;min-width:205px;pointer-events:none}.boostBox{margin-top:7px}.boostOuter{height:11px;background:#202020;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.18)}.boostInner{height:100%;width:0%;background:#22d3ee;transition:width .06s}.ready{color:#ffe600}#minimap{position:fixed;right:14px;top:14px;z-index:11;width:205px;height:154px;border-radius:16px;background:rgba(10,15,25,.82);border:2px solid rgba(255,255,255,.22);box-shadow:0 8px 25px rgba(0,0,0,.28)}
 #countdown{position:fixed;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;color:#fff;font-size:96px;font-weight:900;text-shadow:0 8px 30px #000;pointer-events:none}.pauseOverlay{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);color:#fff}.pausePanel{width:min(430px,88vw);padding:30px;border-radius:24px;background:rgba(15,22,40,.96);border:1px solid rgba(255,255,255,.16);box-shadow:0 25px 80px rgba(0,0,0,.5);text-align:center}.pauseTitle{font-size:42px;font-weight:900;margin-bottom:10px}.pauseSub{opacity:.72;margin-bottom:24px}.pauseBtns{display:flex;flex-direction:column;gap:10px}.hidden{display:none!important}.difficultyCard{min-height:305px;padding:0 0 22px!important;overflow:hidden;text-align:left;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;background:#202a43!important}.difficultyCard:nth-child(4){grid-column:1}.difficultyCard:nth-child(5){grid-column:2}.randomDifficultyPanel{grid-column:3;grid-row:2;align-self:stretch;display:flex;flex-direction:column;gap:7px;padding:10px;border-radius:18px;background:#18233a;border:1px solid rgba(255,255,255,.12);min-height:160px}.randomDifficultyTitle{font-size:13px;font-weight:900;opacity:.9;text-align:center;margin-bottom:2px}.randomDifficultyPanel .btn{padding:9px 8px;font-size:13px;border-radius:11px;min-height:36px}.difficultyVisual{height:145px;display:flex;align-items:center;justify-content:center;margin:0;border-radius:0 0 16px 16px;font-size:58px}.difficultyVisual .stars{font-size:62px;letter-spacing:7px;color:#ffd42a;text-shadow:0 3px 0 rgba(180,120,0,.28),0 0 10px rgba(255,211,55,.18);white-space:nowrap}.difficultyName{padding:22px 18px 0;font-size:25px;font-weight:900;text-align:left}.result{font-size:20px;margin:15px 0 25px}
@@ -17,9 +17,7 @@
 table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center}table th{position:sticky;top:0;background:#1b2438}#lastResultToast{z-index:30}</style>
 </head>
 <body>
-<div id="menu" class="screen"><div class="panel"><h1 class="title">MINI KART 3D</h1><div class="sub">3D 카트 레이싱</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn secondary" id="licenseBtn">라이선스</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
-<div id="licenseScreen" class="screen hidden"><div class="panel"><h2>라이선스</h2><p class="sub" style="margin-bottom:16px">각 라이선스의 시험 코스를 모두 통과하면 다음 라이선스가 해금됩니다.</p><div class="cards" id="licenseCards"></div><div class="menuBtns"><button class="btn secondary" id="licenseBack">메인으로</button></div></div></div>
-<div id="licenseTestScreen" class="screen hidden"><div class="panel"><h2 id="licenseTestTitle">라이선스 시험</h2><p class="sub" id="licenseTestDesc" style="margin-bottom:16px"></p><div class="cards" id="licenseTestCards"></div><div class="menuBtns"><button class="btn secondary" id="licenseTestBack">라이선스로</button></div></div></div>
+<div id="menu" class="screen"><div class="panel"><h1 class="title">3D 카트 레이싱</h1><div class="sub">3D 카트 레이싱</div><div class="menuBtns"><button class="btn" id="startBtn">게임 시작</button><button class="btn secondary" id="howBtn">조작 방법</button><button class="btn secondary" id="recordBtn">기록 게시판</button><button class="btn blue" id="licenseBtn">라이선스</button><button class="btn green" id="onlineBtn">온라인 멀티플레이</button></div></div></div>
 <div id="mapScreen" class="screen hidden"><div class="panel"><h2>난이도 선택</h2><div class="cards" id="difficultyCards"></div><div class="menuBtns" style="margin-top:8px"><button class="btn secondary" id="mapBack">뒤로</button></div></div></div>
 <div id="mapListScreen" class="screen hidden"><div class="panel"><h2 id="mapListTitle">맵 선택</h2><div class="cards" id="mapCards"></div><div class="menuBtns"><button class="btn" id="mapNext">차 선택</button><button class="btn secondary" id="mapListBack">난이도 선택으로</button></div></div></div>
 <div id="onlineScreen" class="screen hidden"><div class="panel"><h2>온라인 멀티플레이</h2><p style="opacity:.75">닉네임을 입력하고 방을 만들거나 친구의 방에 참가하세요.</p><input id="onlineName" maxlength="12" placeholder="닉네임" style="width:min(360px,90%);padding:14px;border-radius:12px;border:0;margin:8px 0 12px;background:#eef2ff;color:#111;font-weight:700"><div class="menuBtns"><button class="btn" id="createRoomBtn">방 만들기</button><button class="btn secondary" id="joinRoomBtn">방 참가</button><button class="btn secondary" id="onlineBack">메인 화면</button></div><div id="joinCodeBox" class="hidden" style="margin-top:16px"><input id="roomCodeInput" maxlength="5" placeholder="방 코드 5자리" style="width:220px;padding:13px;border-radius:12px;border:0;text-align:center;text-transform:uppercase"><div style="margin-top:10px"><button class="btn" id="joinConfirmBtn">이 방 참가</button></div></div><div id="onlineStatus" style="margin-top:14px;min-height:24px;opacity:.8"></div></div></div>
@@ -31,6 +29,8 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
 <div class="card" data-fallback-car="3"><div class="carPreview"><div class="miniCar" style="background:#31c76a"></div></div><h3>그린 스프린터</h3><p>가속형 카트</p></div>
 <div class="card" data-fallback-car="4"><div class="carPreview"><div class="miniCar" style="background:#20252c"></div></div><h3>블랙 가디언</h3><p>충돌형 카트</p></div>
 </div><div class="menuBtns"><button class="btn green" id="raceBtn">레이스 시작</button><button class="btn secondary" id="carBack">맵 선택으로</button></div></div></div>
+<div id="licenseScreen" class="screen hidden"><div class="panel"><h2>라이선스</h2><p class="sub" style="margin-bottom:14px">각 라이선스의 두 시험을 통과하면 다음 라이선스가 해금됩니다.</p><div id="licenseCards" class="cards"></div><div class="menuBtns"><button class="btn secondary" id="licenseBack" type="button">메인으로</button></div></div></div>
+<div id="licenseTestScreen" class="screen hidden"><div class="panel"><h2 id="licenseTestTitle">라이선스 시험</h2><p id="licenseTestDesc" class="sub" style="margin-bottom:14px"></p><div id="licenseTestCards" class="cards"></div><div class="menuBtns"><button class="btn blue" id="licenseTestBack" type="button">라이선스로</button></div></div></div>
 <div id="howScreen" class="screen hidden"><div class="panel"><h2>조작 방법</h2><p><b>W</b> 전진 &nbsp; <b>S</b> 후진</p><p><b>A</b> 좌회전 &nbsp; <b>D</b> 우회전</p><p><b>Shift</b> : 드리프트 &nbsp; <b>Space</b> : 부스트 (게이지 100%)</p><button class="btn secondary" id="howBack">돌아가기</button></div></div>
 <div id="recordScreen" class="screen hidden"><div class="panel"><h2>기록 게시판</h2><p class="sub" style="margin-bottom:14px">맵별로 따로 순위가 집계됩니다.</p><div id="recordMapTabs" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 18px"></div><div id="recordTableWrap"></div><div class="menuBtns"><button class="btn secondary" id="recordBack">메인으로</button><button class="btn secondary" id="adminBtn">관리자</button><button class="btn danger hidden" id="clearRecordsBtn">전체 기록 초기화</button></div><div id="adminState" class="sub hidden" style="margin-top:10px">관리자 모드: 기록 삭제 가능</div></div></div>
 <div id="resultScreen" class="screen hidden"><div class="panel"><h2>레이스 종료!</h2><div class="result" id="resultText"></div><div class="menuBtns"><button class="btn" id="retryBtn">다시 하기</button><button class="btn secondary" id="resultMenu">메인 메뉴</button></div></div></div>
@@ -46,45 +46,13 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
     ['데저트 익스트림',3,4,2],['화산 링',3,5,2],['얼음 협곡',4,6,2],['카오스 캐니언',5,7,2],
     ['그린 숏서킷',1,8,1],['네온 숏루프',2,9,1],['사막 쇼트헤어핀',3,10,1],['빙하 쇼트코스',4,11,1],['카오스 쇼트락',5,12,1]
   ];
-  const licenseTests={
-    Rookie:{label:'루키',tests:[{map:0,limit:80},{map:1,limit:85}]},
-    L3:{label:'L3',tests:[{map:2,limit:95},{map:3,limit:100}]},
-    L2:{label:'L2',tests:[{map:4,limit:110},{map:6,limit:125}]},
-    L1:{label:'L1',tests:[{map:7,limit:150},{map:12,limit:75}]}
-  };
-  const LICENSE_PROGRESS_KEY='miniKartLicensesV1';
-  function getLicenseProgress(){try{return JSON.parse(localStorage.getItem(LICENSE_PROGRESS_KEY)||'{}')||{}}catch{return {}}}
-  function isLicenseUnlocked(id){
-    if(id==='Rookie')return true;
-    const order=['Rookie','L3','L2','L1'],i=order.indexOf(id); return i<=0?true:!!getLicenseProgress()[order[i-1]];
-  }
-  function isLicensePassed(id){return !!getLicenseProgress()[id]}
-  function renderLicenseCards(){
-    const box=q('licenseCards'); if(!box)return;
-    const order=['Rookie','L3','L2','L1'];
-    box.innerHTML=order.map(id=>{const v=licenseTests[id],unlocked=isLicenseUnlocked(id),passed=isLicensePassed(id);return `<button class="btn secondary card" data-license="${id}" ${unlocked?'':'disabled'} style="text-align:center;cursor:${unlocked?'pointer':'not-allowed'};min-height:205px;border:2px solid ${passed?'#65e35b':'transparent'};opacity:${unlocked?1:.5}"><div style="font-size:42px;font-weight:900;color:#ffd84d;margin:8px 0 12px">${v.label}</div><h3 style="margin:0 0 10px">${v.label} 라이선스</h3><p>시험 코스 2개</p><p style="color:${passed?'#65e35b':'#fff'};font-weight:800">${passed?'합격 완료':unlocked?'시험 가능':'🔒 이전 라이선스 합격 필요'}</p></button>`}).join('');
-    box.querySelectorAll('[data-license]').forEach(b=>b.onclick=()=>{if(b.disabled)return;const id=b.dataset.license;window.__selectedLicense=id;window.selectedLicense=id;renderLicenseTests(id);show('licenseTestScreen')});
-  }
-  function renderLicenseTests(id){
-    const info=licenseTests[id]; if(!info)return;
-    $('licenseTestTitle').textContent=`${info.label} 라이선스 시험`;
-    $('licenseTestDesc').textContent='두 시험 코스를 모두 제한시간 안에 완주하면 라이선스에 합격합니다.';
-    const progress=getLicenseProgress();
-    $('licenseTestCards').innerHTML=info.tests.map((t,i)=>{const m=maps[t.map],passed=!!progress[`${id}_${i}`];return `<div class="card" style="text-align:center"><div class="preview mapPreview" style="background:#${m.sky.toString(16).padStart(6,'0')}">🛣️</div><h3>${i+1}차 시험 · ${m.name}</h3><div class="stars">${'★'.repeat(m.stars)}${'☆'.repeat(5-m.stars)}</div><p>${m.laps||2} LAP</p><p><b>합격 조건: ${t.limit.toFixed(2)}초 이내 완주</b></p><p style="color:${passed?'#65e35b':'#fff'};font-weight:800">${passed?'✓ 합격':'미응시/도전 가능'}</p><button class="btn ${passed?'secondary':''}" data-license-test="${i}" style="margin-top:8px">${passed?'다시 시험':'시험 시작'}</button></div>`}).join('');
-    $('licenseTestCards').querySelectorAll('[data-license-test]').forEach(b=>b.onclick=()=>{const idx=Number(b.dataset.licenseTest),t=info.tests[idx];window.__licenseTest={license:id,index:idx,map:t.map,limit:t.limit};licenseTestMode=window.__licenseTest;selectedLicense=id;selectedMap=t.map;selectedDifficulty=maps[t.map].stars;selectedCar=0;startRaceNow(false)});
-  }
-  window.renderLicenseCardsPublic=renderLicenseCards;
-  window.renderLicenseTestsPublic=renderLicenseTests;
   function renderDifficultyFallback(){
     const box=q('difficultyCards'); if(!box)return;
-    const lic=licenseInfo[window.__selectedLicense||'Rookie'];
     box.innerHTML=[1,2,3,4,5].map(stars=>{
-      const locked=false;
       const filled='★'.repeat(stars), empty='☆'.repeat(5-stars);
-      return `<button class="btn secondary difficultyCard" data-fallback-stars="${stars}" ${locked?'disabled':''} style="min-height:160px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;align-items:stretch;gap:0;background:#202a43;opacity:${locked?.48:1};cursor:${locked?'not-allowed':'pointer'}"><div class="difficultyVisual" style="height:110px;display:flex;align-items:center;justify-content:center;background:${['#3d995e','#3c70b6','#a9682d','#7d2f94','#7d2f94'][stars-1]}"><span class="stars" style="font-size:52px;letter-spacing:5px;color:#ffd42a;white-space:nowrap">${filled}${empty}</span></div><div class="difficultyName" style="padding:17px;font-size:23px;font-weight:900">${stars}성 맵 선택${locked?' 🔒':''}</div></button>`;
+      return `<button class="btn secondary difficultyCard" data-fallback-stars="${stars}" style="min-height:160px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;align-items:stretch;gap:0;background:#202a43"><div class="difficultyVisual" style="height:110px;display:flex;align-items:center;justify-content:center;background:${['#3d995e','#3c70b6','#a9682d','#7d2f94','#7d2f94'][stars-1]}"><span class="stars" style="font-size:52px;letter-spacing:5px;color:#ffd42a;white-space:nowrap">${filled}${empty}</span></div><div class="difficultyName" style="padding:17px;font-size:23px;font-weight:900">${stars}성 맵 선택</div></button>`;
     }).join('');
     box.querySelectorAll('[data-fallback-stars]').forEach(b=>b.onclick=()=>{
-      if(b.disabled)return;
       const stars=Number(b.dataset.fallbackStars);
       window.__selectedDifficulty=stars;
       renderMapFallback(stars);
@@ -105,8 +73,6 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
     });
   }
   q('startBtn')?.addEventListener('click',()=>{renderDifficultyFallback();show('mapScreen');});
-  q('licenseBtn')?.addEventListener('click',()=>{renderLicenseCards();show('licenseScreen');});
-  q('licenseBack')?.addEventListener('click',()=>show('menu'));
   q('howBtn')?.addEventListener('click',()=>show('howScreen'));
   q('howBack')?.addEventListener('click',()=>show('menu'));
   q('mapBack')?.addEventListener('click',()=>show('menu'));
@@ -133,6 +99,43 @@ table th,table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.12)
 </script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/three@0.160.0/build/three.min.js'"></script>
 <script>
+const licenseTests={
+ rookie:{name:'Rookie 라이선스',color:'#22c55e',limit:70,tests:[0,1]},
+ l3:{name:'L3 라이선스',color:'#3b82f6',limit:80,tests:[2,3]},
+ l2:{name:'L2 라이선스',color:'#a855f7',limit:95,tests:[4,6]},
+ l1:{name:'L1 라이선스',color:'#ef4444',limit:120,tests:[7,12]}
+};
+const licenseOrder=['rookie','l3','l2','l1'];
+const licenseNames={rookie:'Rookie',l3:'L3',l2:'L2',l1:'L1'};
+function licensePassed(id){return localStorage.getItem('miniKartLicense_'+id)==='passed';}
+function licenseUnlocked(id){const n=licenseOrder.indexOf(id);return n<=0||licensePassed(licenseOrder[n-1]);}
+function renderLicenseCards(){
+ const el=$('licenseCards'); if(!el)return;
+ el.innerHTML=licenseOrder.map(id=>{const d=licenseTests[id],unlocked=licenseUnlocked(id),passed=licensePassed(id); return `<button class="card" data-license="${id}" style="cursor:${unlocked?'pointer':'not-allowed'};border-color:${passed?d.color:'transparent'};opacity:${unlocked?1:.48};background:#202a43;text-align:left"><h3 style="color:${d.color}">${d.name}</h3><p>${passed?'✓ 모든 시험 통과':'시험 2개 · 제한시간 '+d.limit+'초'}</p><p style="font-size:13px;opacity:.7">${unlocked?'시험 선택 가능':'이전 라이선스를 먼저 통과하세요.'}</p></button>`}).join('');
+ el.querySelectorAll('[data-license]').forEach(b=>b.onclick=()=>{const id=b.dataset.license;if(licenseUnlocked(id)){window.__selectedLicense=id;renderLicenseTests(id);show('licenseTestScreen');}});
+}
+function renderLicenseTests(id){
+ const d=licenseTests[id]; if(!d)return;
+ window.__selectedLicense=id; $('licenseTestTitle').textContent=d.name+' 시험'; $('licenseTestDesc').textContent=`각 시험 제한시간 ${d.limit}초 · 시간이 0이 되면 리타이어합니다.`;
+ $('licenseTestCards').innerHTML=d.tests.map((mi,i)=>{const m=maps[mi]; return `<button class="card" data-license-test="${i}" style="cursor:pointer"><h3>${i+1}차 시험</h3><p style="font-size:18px;font-weight:900">${m.name}</p><p>${'★'.repeat(m.stars)} · ${m.laps||2}랩</p><p style="font-size:13px;opacity:.7">제한시간 ${d.limit}초</p></button>`}).join('');
+ $('licenseTestCards').querySelectorAll('[data-license-test]').forEach(b=>b.onclick=()=>startLicenseTest(id,+b.dataset.licenseTest));
+}
+function startLicenseTest(id,testIndex){
+ const d=licenseTests[id]; if(!d||d.tests[testIndex]==null)return;
+ licenseTestMode={id,testIndex}; licenseTestDef=d; licenseTestLimit=d.limit; selectedMap=d.tests[testIndex]; selectedDifficulty=maps[selectedMap].stars; selectedCar=0; startRaceNow(false);
+}
+function fmtCountdown(sec){sec=Math.max(0,sec);const m=Math.floor(sec/60),s=Math.floor(sec%60),cs=Math.floor((sec-Math.floor(sec))*100);return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(cs).padStart(2,'0')}`;}
+function showLicenseRetire(){
+ hideRaceUI(); $('countdown').classList.add('hidden'); const id=licenseTestMode?.id||'rookie',d=licenseTests[id];
+ const toast=document.createElement('div'); toast.id='licenseRetireToast'; toast.className='screen';
+ toast.innerHTML=`<div class="panel"><h2 style="color:#ff5b5b">리타이어</h2><div class="result"><b>시간이 모두 지났습니다.</b><br><span style="opacity:.7">${escapeHtml(d.name)} 시험에 실패했습니다.</span></div><div class="menuBtns"><button class="btn" id="licenseRetryBtn">다시 이 시험</button><button class="btn blue" id="licenseSelectBtn">라이선스 선택</button><button class="btn secondary" id="licenseThisBtn">${escapeHtml(d.name)}로 돌아가기</button><button class="btn secondary" id="licenseMainBtn">메인 화면</button></div></div>`;
+ document.body.appendChild(toast);
+ $('licenseRetryBtn').onclick=()=>{toast.remove();startLicenseTest(id,licenseTestMode.testIndex);};
+ $('licenseSelectBtn').onclick=()=>{toast.remove();renderLicenseCards();show('licenseScreen');};
+ $('licenseThisBtn').onclick=()=>{toast.remove();renderLicenseTests(id);show('licenseTestScreen');};
+ $('licenseMainBtn').onclick=()=>{toast.remove();licenseTestMode=null;licenseTestDef=null;show('menu');};
+}
+
 const maps=[
  {name:'그린 밸리',stars:1,laps:2,desc:'넓고 완만한 초급 코스.',sky:0x92d9ff,ground:0x58a64f,road:0x50545a,wall:0xe9e9e9,points:[[1,150],[54,197],[107,150],[155,98],[159,10],[172,-42],[123,-60],[57,-96],[-11,-122],[-51,-158],[-91,-122],[-149,-82],[-161,0],[-176,46],[-131,66],[-65,114]]},
  {name:'시골 드라이브',stars:1,laps:2,desc:'더 넓고 느긋한 초급 연습 코스.',sky:0xb9e9ff,ground:0x65ad52,road:0x555960,wall:0xffffff,points:[[-142,112],[-68,219],[46,156],[146,112],[160,34],[150,-14],[102,-10],[152,-64],[112,-126],[46,-208],[-42,-152],[-148,-108],[-160,-38],[-149,12],[-98,6],[-142,50]]},
@@ -157,9 +160,9 @@ const cars=[
  {name:'그린 스프린터',color:0x31c76a,max:53,accel:27,turn:1.02,grip:.90,collision:38,desc:'가속형 카트'},
  {name:'블랙 가디언',color:0x20252c,max:47,accel:19,turn:.98,grip:.88,collision:88,desc:'충돌형 카트'}
 ];
-let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedLicense=window.__selectedLicense||'Rookie',selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
+let selectedMap=Number(window.__selectedMapIndex)||0,selectedCar=0,selectedDifficulty=Number(window.__selectedDifficulty)||1,selectedRecordMap=0,racing=false,finished=false;
 let raceStartTime=0,finalTime=0,lastResultTime=null;
-let licenseTestMode=null;
+let licenseTestMode=null, licenseTestDef=null, licenseTestLimit=0, licenseTestDeadline=0;
 // ========================================
 // 기록 저장 시스템
 // ========================================
@@ -385,16 +388,15 @@ function randomMapIndex(stars=null){
  return candidates[Math.floor(Math.random()*candidates.length)].i;
 }
 function renderDifficultyCards(){
- const lic={Rookie:{min:1,max:2},L3:{min:2,max:3},L2:{min:3,max:4},L1:{min:4,max:5}}[window.__selectedLicense||selectedLicense||'Rookie'];
  const groups=[
   {stars:1,title:'1성 맵 선택'},
   {stars:2,title:'2성 맵 선택'},
   {stars:3,title:'3성 맵 선택'},
   {stars:4,title:'4성 맵 선택'},
   {stars:5,title:'5성 맵 선택'}
- ].map(g=>({...g,locked:g.stars<lic.min||g.stars>lic.max}));
- const panelColors={1:'#3a9357',2:'#3d72b4',3:'#a7622b',4:'#7b3091',5:'#7b3091'};$('difficultyCards').innerHTML=groups.map(g=>{const stars='★'.repeat(g.stars); return `<button class="btn secondary difficultyCard" data-stars="${g.stars}" ${g.locked?'disabled':''} style="opacity:${g.locked?.48:1};cursor:${g.locked?'not-allowed':'pointer'}"><div class="difficultyVisual" style="background:${panelColors[g.stars]}"><div class="stars">${stars}</div></div><div class="difficultyName">${g.title}${g.locked?' 🔒':''}</div></button>`}).join('');
- document.querySelectorAll('#difficultyCards [data-stars]').forEach(c=>c.onclick=()=>{selectedLicense=window.__selectedLicense||selectedLicense;selectedDifficulty=+c.dataset.stars;renderMapCards(selectedDifficulty);$('mapListTitle').textContent=`${selectedDifficulty}성 맵 선택`;show('mapListScreen')});
+ ];
+ const panelColors={1:'#3a9357',2:'#3d72b4',3:'#a7622b',4:'#7b3091',5:'#7b3091'};$('difficultyCards').innerHTML=groups.map(g=>{const stars='★'.repeat(g.stars); return `<button class="btn secondary difficultyCard" data-stars="${g.stars}"><div class="difficultyVisual" style="background:${panelColors[g.stars]}"><div class="stars">${stars}</div></div><div class="difficultyName">${g.title}</div></button>`}).join('');
+ document.querySelectorAll('#difficultyCards [data-stars]').forEach(c=>c.onclick=()=>{selectedDifficulty=+c.dataset.stars;renderMapCards(selectedDifficulty);$('mapListTitle').textContent=`${selectedDifficulty}성 맵 선택`;show('mapListScreen')});
 }
 window.setSelectedMap=(i)=>{selectedMap=Number(i)||0;};
 function renderMapCards(stars=selectedDifficulty){
@@ -516,7 +518,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderCarCards();
 });
 $('startBtn').onclick=()=>{renderDifficultyCards();show('mapScreen')};
-$('licenseBtn').onclick=()=>{window.__selectedLicense=selectedLicense;window.renderLicenseCardsPublic?.();show('licenseScreen')};
 $('onlineBtn').onclick=()=>{show('onlineScreen');setOnlineStatus('');$('joinCodeBox').classList.add('hidden');connectWS()};
 $('onlineBack').onclick=()=>show('menu');
 $('createRoomBtn').onclick=createRoom;
@@ -527,7 +528,7 @@ $('hostMapSelect').onchange=()=>{const id=Number($('hostMapSelect').value);sendO
 $('onlineRandomAllBtn').onclick=()=>chooseRandomOnlineMap(null);
 document.querySelectorAll('.onlineRandomStarBtn').forEach(btn=>btn.onclick=()=>chooseRandomOnlineMap(Number(btn.dataset.stars)));
 $('onlineReadyBtn').onclick=()=>{onlineReady=!onlineReady;updateOnlineReadyButton();if(ws?.readyState===1)ws.send(JSON.stringify({type:'ready',ready:onlineReady,carId:selectedCar}));};
-$('licenseBack').onclick=()=>show('menu');$('licenseTestBack').onclick=()=>{renderLicenseCards();show('licenseScreen')};$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
+$('onlineStartRaceBtn').onclick=()=>{if(ws?.readyState===1)ws.send(JSON.stringify({type:'startRace',mapId:onlineMapId}));};$('recordBtn').onclick=()=>{renderRecordBoard();show('recordScreen')};$('licenseBtn').onclick=()=>{renderLicenseCards();show('licenseScreen')};$('licenseBack').onclick=()=>{licenseTestMode=null;licenseTestDef=null;show('menu')};$('licenseTestBack').onclick=()=>{licenseTestMode=null;licenseTestDef=null;renderLicenseCards();show('licenseScreen')};$('recordBack').onclick=()=>show('menu');$('mapBack').onclick=()=>show('menu');$('mapListBack').onclick=()=>{renderDifficultyCards();show('mapScreen')};$('carBack').onclick=()=>show('mapListScreen');$('howBtn').onclick=()=>show('howScreen');$('howBack').onclick=()=>show('menu');
 
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.1,700),renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=false;document.body.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x49634a,1.6));const sun=new THREE.DirectionalLight(0xffffff,1.4);sun.position.set(40,90,35);scene.add(sun);
@@ -1036,42 +1037,67 @@ $('resumeBtn').onclick=()=>setPauseUI(false);
 $('pauseRestartBtn').onclick=()=>{ if(window.__onlineSnapshot?.length && onlineRoomCode){ alert('온라인 레이스에서는 방장과 함께 다시 시작해야 합니다.'); return; } $('pauseOverlay').classList.add('hidden'); $('resultScreen').classList.add('hidden'); startRaceNow(false); };
 $('pauseMapBtn').onclick=()=>leaveRaceTo('mapScreen');
 $('pauseMenuBtn').onclick=()=>leaveRaceTo('menu');
-function startRaceNow(fromOnline=false){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;finished=false;onlineFinished=false;onlineFirstFinishDeadline=0;setPauseUI(false); if(fromOnline){onlineReady=false;}}
+function startRaceNow(fromOnline=false){document.querySelectorAll('.screen').forEach(e=>e.classList.add('hidden'));buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;finished=false;onlineFinished=false;onlineFirstFinishDeadline=0;licenseTestDeadline=0;setPauseUI(false); if(fromOnline){onlineReady=false;}}
 $('raceBtn').onclick=()=>startRaceNow(false);
 $('retryBtn').onclick=()=>{$('resultScreen').classList.add('hidden');buildMap();$('hud').classList.remove('hidden');$('minimap').classList.remove('hidden');$('countdown').classList.remove('hidden');countdownTimer=3;racing=false;paused=false;setPauseUI(false)};
 $('resultMenu').onclick=()=>{racing=false;hideRaceUI();show('menu')};
 async function finish(){
   if(finished) return;
-  racing=false; finished=true; finalTime=(performance.now()-raceStartTime)/1000;
+  racing=false;
+  finished=true;
+  finalTime=(performance.now()-raceStartTime)/1000;
+
   if(licenseTestMode){
-    const test=licenseTestMode, passed=finalTime<=test.limit, progress=getLicenseProgress(), key=`${test.license}_${test.index}`;
-    if(passed){
-      progress[key]=true;
-      const info=licenseTests[test.license];
-      if(info.tests.every((_,i)=>!!progress[`${test.license}_${i}`])) progress[test.license]=true;
-      localStorage.setItem(LICENSE_PROGRESS_KEY,JSON.stringify(progress));
-    }
-    hideRaceUI(); $('countdown').classList.add('hidden'); window.GameAudio?.stopAll?.();
-    const toast=document.createElement('div'); toast.className='screen'; toast.style.zIndex='30';
-    toast.innerHTML=`<div class="panel"><h2>${passed?'시험 합격!':'시험 불합격'}</h2><div class="result"><b>${escapeHtml(licenseTests[test.license].label)} ${test.index+1}차 시험</b><br>기록: <b>${fmtTime(finalTime)}</b><br>합격 기준: <b>${fmtTime(test.limit)}</b> 이내<br><span style="color:${passed?'#65e35b':'#ff6b6b'};font-weight:900">${passed?'합격 조건을 충족했습니다.':'제한시간을 초과했습니다.'}</span></div><div class="menuBtns"><button class="btn" id="licenseResultBack">라이선스 시험으로</button><button class="btn secondary" id="licenseResultMenu">메인 화면</button></div></div>`;
+    const cur=licenseTestMode, d=licenseTestDef||licenseTests[cur.id]; licenseTestDeadline=0;
+    hideRaceUI(); $('countdown').classList.add('hidden');
+    const passedNow=finalTime<=d.limit;
+    if(passedNow) localStorage.setItem('miniKartLicense_'+cur.id+'_test'+cur.testIndex,'passed');
+    const both=licenseTests[cur.id].tests.every((_,i)=>localStorage.getItem('miniKartLicense_'+cur.id+'_test'+i)==='passed');
+    if(both) localStorage.setItem('miniKartLicense_'+cur.id,'passed');
+    const toast=document.createElement('div'); toast.id='licensePassToast'; toast.className='screen';
+    toast.innerHTML=`<div class="panel"><h2 style="color:${passedNow?'#4ade80':'#ff5b5b'}">${passedNow?'시험 통과!':'시험 실패'}</h2><div class="result"><b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">제한시간 ${d.limit}초</span></div><div class="menuBtns"><button class="btn" id="licenseAgainBtn">다시 이 시험</button><button class="btn blue" id="licenseSelectAfterBtn">라이선스 선택</button><button class="btn secondary" id="licenseThisAfterBtn">${escapeHtml(d.name)}로 돌아가기</button><button class="btn secondary" id="licenseMainAfterBtn">메인 화면</button></div></div>`;
     document.body.appendChild(toast);
-    document.getElementById('licenseResultBack').onclick=()=>{toast.remove();licenseTestMode=null;window.__licenseTest=null;renderLicenseTests(test.license);show('licenseTestScreen');};
-    document.getElementById('licenseResultMenu').onclick=()=>{toast.remove();licenseTestMode=null;window.__licenseTest=null;show('menu');};
+    $('licenseAgainBtn').onclick=()=>{toast.remove();startLicenseTest(cur.id,cur.testIndex);};
+    $('licenseSelectAfterBtn').onclick=()=>{toast.remove();renderLicenseCards();show('licenseScreen');};
+    $('licenseThisAfterBtn').onclick=()=>{toast.remove();renderLicenseTests(cur.id);show('licenseTestScreen');};
+    $('licenseMainAfterBtn').onclick=()=>{toast.remove();licenseTestMode=null;licenseTestDef=null;show('menu');};
     return;
   }
-  if(onlineRoomCode && ws?.readyState===1){onlineFinished=true;ws.send(JSON.stringify({type:'finishRace',time:finalTime}));hideRaceUI();return;}
-  const nick=requestNickname(); hideRaceUI(); $('lastResultToast')?.remove();
-  const saved=nick!==null; if(saved) await addRecord(nick,finalTime);
-  const toast=document.createElement('div'); toast.id='lastResultToast'; toast.className='screen';
+
+  if(onlineRoomCode && ws?.readyState===1){
+    onlineFinished=true;
+    ws.send(JSON.stringify({type:'finishRace',time:finalTime}));
+    hideRaceUI();
+    return;
+  }
+
+  const nick=requestNickname();
+  hideRaceUI();
+  $('lastResultToast')?.remove();
+
+  const saved = nick !== null;
+  if(saved) await addRecord(nick,finalTime);
+
+  const toast=document.createElement('div');
+  toast.id='lastResultToast';
+  toast.className='screen';
   toast.innerHTML=`<div class="panel"><h2>완주!</h2><div class="result">${saved?`${escapeHtml(nick)}님의 기록<br><b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록 게시판에 등록되었습니다.</span>`:`<b>${fmtTime(finalTime)}</b><br><span style="opacity:.7">기록을 등록하지 않았습니다.</span>`}</div><div class="menuBtns"><button class="btn" id="toastBoard">기록 게시판 보기</button><button class="btn secondary" id="toastMenu">메인 화면</button></div></div>`;
   document.body.appendChild(toast);
-  document.getElementById('toastBoard').onclick=()=>{toast.remove();selectedRecordMap=selectedMap;renderRecordBoard();show('recordScreen');};
+
+  document.getElementById('toastBoard').onclick=()=>{
+    toast.remove();
+    selectedRecordMap=selectedMap;
+    renderRecordBoard();
+    show('recordScreen');
+  };
+
   document.getElementById('toastMenu').onclick=()=>{toast.remove();racing=false;finished=true;hideRaceUI();$('countdown').classList.add('hidden');window.GameAudio?.stopAll?.();show('menu');};
 }
 
 const clock=new THREE.Clock();
 function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05);
- if(!paused && countdownTimer>0){countdownTimer-=dt;const n=Math.ceil(countdownTimer);$('countdown').textContent=n>0?n:'GO!';if(countdownTimer<=0){$('countdown').classList.add('hidden');raceStartTime=performance.now();racing=true}}
+ if(!paused && countdownTimer>0){countdownTimer-=dt;const n=Math.ceil(countdownTimer);$('countdown').textContent=n>0?n:'GO!';if(countdownTimer<=0){$('countdown').classList.add('hidden');raceStartTime=performance.now();if(licenseTestMode){licenseTestDeadline=raceStartTime+licenseTestLimit*1000;}racing=true}}
+ if(racing&&!finished&&!paused&&licenseTestMode&&licenseTestDeadline&&performance.now()>=licenseTestDeadline){racing=false;finished=true;licenseTestDeadline=0;showLicenseRetire();}
  if(racing&&!finished&&!paused){
   const c=cars[selectedCar];const forward=!!keys.KeyW,reverse=!!keys.KeyS;let steer=0;if(keys.KeyA)steer+=1;if(keys.KeyD)steer-=1;
   // 속도는 목표 속도에 수렴. 부스트 때만 상한이 일시적으로 크게 올라감.
@@ -1086,7 +1112,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     const driftGain=boosting>0?128:92;
     if(boostCount<2) boost=Math.min(100,boost+driftGain*dt);
     const driftStat=THREE.MathUtils.clamp((1.2-c.grip)/.5,0,1);
-    const driftSpeedLoss=(1.50+1.15*driftTime+0.18*driftTime*driftTime)*(1-.42*driftStat);
+    const driftSpeedLoss=(1.15+0.90*driftTime+0.14*driftTime*driftTime)*(1-.42*driftStat);
     speed=Math.max(0,speed-driftSpeedLoss*dt);
     const driftSlip=THREE.MathUtils.clamp(driftTime/3.0,0,1);
     const slipStrength=(1.0+2.0*driftSlip)*(boosting>0?1.35:1.0);
@@ -1114,6 +1140,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     if(canBoost){
       boosting=1.45;
       boostCount--;
+      boost=0;
       createBoostEffect();
     }
   }
@@ -1126,7 +1153,7 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   resolveObstacleCollisions();
   resolveRemoteKartCollisions();
   const n=nearestProgress(player.position);progress=n.t;if(lastProgress>.82&&progress<.18){lap++;if(lap>(maps[selectedMap].laps||2)){finish();} }lastProgress=progress;
-  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;$('timer').textContent=fmtTime((performance.now()-raceStartTime)/1000);$('boostPct').textContent=boosting>1.20?'BOOST!':(Math.round(boost)+'% · '+boostCount+'/2');$('boostInner').style.width=boostCount>=2?'100%':Math.min(100,boost)+'%';$('boostInner').style.background=boostCount>0||boost>=100?'#ffe600':'#22d3ee';
+  $('speed').textContent=Math.round(Math.abs(speed)*2.45);$('lap').textContent=lap;$('lapTotal').textContent=maps[selectedMap].laps||2;const elapsedNow=(performance.now()-raceStartTime)/1000;const licenseLeft=licenseTestMode&&licenseTestDeadline?Math.max(0,(licenseTestDeadline-performance.now())/1000):null;$('timer').textContent=licenseLeft!==null?fmtCountdown(licenseLeft):fmtTime(elapsedNow);$('boostPct').textContent=boosting>1.20?'BOOST!':(Math.round(boost)+'% · '+boostCount+'/2');$('boostInner').style.width=boostCount>=2?'100%':Math.min(100,boost)+'%';$('boostInner').style.background=boostCount>0||boost>=100?'#ffe600':'#22d3ee';
   const behind=new THREE.Vector3(-Math.sin(player.rotation.y)*10,6.3,-Math.cos(player.rotation.y)*10).add(player.position);updateRaceCamera(dt,true);drawMinimap();
   if(ws?.readyState===1 && !startRaceNow._lastNet){startRaceNow._lastNet=0;}
   if(ws?.readyState===1 && performance.now()-startRaceNow._lastNet>100){startRaceNow._lastNet=performance.now(); ws.send(JSON.stringify({type:'state',x:player.position.x,y:player.position.y,z:player.position.z,rot:player.rotation.y,color:cars[selectedCar].color,lap,speed}));}
