@@ -1139,8 +1139,8 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
     spacePressed=false;
     if(canBoost){
       boosting=1.45;
+      // 저장해 둔 부스터 1개만 소모하고, 현재 충전 중인 게이지는 그대로 유지한다.
       boostCount--;
-      boost=0;
       createBoostEffect();
     }
   }
